@@ -92,7 +92,7 @@
           :value-from="0"
           animation
         >
-          <template #suffix> % <icon-caret-up class="up-icon" /> </template>
+          <template #suffix>  <icon-caret-up class="up-icon" /> </template>
         </a-statistic>
       </a-space>
     </a-grid-item>

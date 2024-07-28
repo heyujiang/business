@@ -8,7 +8,8 @@
       }"
     >
       <template #title>
-        {{ $t('workplace.categoriesPercent') }}
+          负责人项目
+<!--        {{ $t('workplace.categoriesPercent') }}-->
       </template>
       <Chart height="310px" :option="chartOption" />
     </a-card>
@@ -26,7 +27,7 @@
     return {
       legend: {
         left: 'center',
-        data: ['纯文本', '图文类', '视频类'],
+        data: ['负责人一', '负责人二', '负责人三'],
         bottom: 0,
         icon: 'circle',
         itemWidth: 8,
@@ -48,7 +49,7 @@
             left: 'center',
             top: '40%',
             style: {
-              text: '内容量',
+              text: '总容量',
               textAlign: 'center',
               fill: isDark ? '#ffffffb3' : '#4E5969',
               fontSize: 14,
@@ -85,21 +86,21 @@
           data: [
             {
               value: [148564],
-              name: '纯文本',
+              name: '负责人一',
               itemStyle: {
                 color: isDark ? '#3D72F6' : '#249EFF',
               },
             },
             {
               value: [334271],
-              name: '图文类',
+              name: '负责人二',
               itemStyle: {
                 color: isDark ? '#A079DC' : '#313CA9',
               },
             },
             {
               value: [445694],
-              name: '视频类',
+              name: '负责人三',
               itemStyle: {
                 color: isDark ? '#6CAAF5' : '#21CCFF',
               },
