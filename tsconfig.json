@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "suppressImplicitAnyIndexErrors":true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "/@/*": ["src/*"],
+      "/#/*": ["types/*"]
+    },
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*","src/**/*.ts", "src/**/*.d.ts", "types/**/*.d.ts","types/**/*.ts","src/**/*.tsx", "src/**/*.vue","typing.d.ts"],
+  "exclude": ["node_modules"]
+}

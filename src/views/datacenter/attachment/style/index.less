@@ -1,0 +1,205 @@
+.funcard{
+    width: 100%;
+    height: 100%;
+    //基本信息
+    .baseinfo{
+      .raw{
+        display: flex;
+        align-items: center;
+        .lf{
+          padding: 10px;
+        }
+        .md{
+          padding: 10px;
+          display: flex;
+          .text{
+  
+          }
+          .pree{
+            width:200px;
+          }
+        }
+        .rt{
+          padding: 10px;
+          flex:1;
+          padding-left: 50px;
+          .use{
+             padding-left: 10px;
+          }
+        }
+      }
+    }
+    //内容
+    .listbox{
+        height: 100%;
+      .tablebox{
+        margin: 0px 10px 10px 10px;
+        border:var(--color-neutral-4) solid 1px;
+        border-radius: 2px;
+        .header{
+          padding: 10px 0px 10px 10px;
+          border-bottom:var(--color-neutral-4) solid 1px;
+          .tool{
+            display: flex;
+            align-items: center;
+            .check{
+              
+            }
+            .del{
+              padding-right: 15px;
+              padding-left: 8px;
+            }
+            .updata{
+  
+            }
+          }
+        }
+        .filecontext{
+          padding: 10px 10px 20px 10px;
+          //图片预览
+          .filePreview{
+            .file_list_box{
+              padding: 0;
+              margin: 0;
+              overflow: hidden;
+              min-height: 500px;
+              .file_item{
+                float: left;
+                width: 100px;
+                list-style: none;
+                margin-top: 20px;
+                margin-right: 24px;
+                //图片
+                .imgbox{
+                  cursor: pointer;
+                  position: relative;
+                  height: 100%;
+                  .img_raw{
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100px;
+                    background-color: #f3f3f3;
+                    overflow: hidden;
+                    .img_preview{
+                      box-sizing: border-box;
+                      border: 1px solid #e7e7eb;
+                      text-align: center;
+                      font-size: 0;
+                      line-height: 0;
+                      width: 100%;
+                      .img_item{
+                        display: inline-block;
+                        width: auto;
+                        height: auto;
+                        max-width: 100%;
+                        max-height: 100%;
+                        vertical-align: middle;
+                      }
+                    }
+                     //视频
+                     .video_preview{
+                        position: relative;
+                        .folder_video{
+                          position: absolute;
+                          top: 15px;
+                          left: 28px;
+                        }
+                      }
+  
+                  }
+                  .edit_layer{
+                    display: none;
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    border: 1px solid #5874d8;
+                    left: 0;
+                    top: 0;
+                    box-sizing: border-box;
+                    .colse{
+                      width: 14px;
+                      height: 14px;
+                      position: absolute;
+                      right: -5px;
+                      top: -5px;
+                      cursor: pointer;
+                    }
+                    .choose{
+                      display: none;
+                      position: absolute;
+                      right: 0;
+                      bottom: 0;
+                      content: "";
+                      width: 28px;
+                      height: 24px;
+                    }
+                  }
+                  //选中
+                  .l_active{
+                    display: block;
+                    .colse{
+                      display: none;
+                    }
+                    .choose{
+                        display: block;
+                      }
+                  }
+                    //浮框
+                  &:hover{
+                      .edit_layer{
+                        display: block;
+                        .colse{
+                            display: block;
+                        }
+                      }
+                    }
+                }
+                //名称
+                .titlebox{
+                  height: 24px;
+                  margin-top: 5px;
+                  font-size: 13px;
+                  color: #333;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  text-align: center;
+                  .edit_title{
+                    display: inline-block;
+                    position: relative;
+                    vertical-align: middle;
+                    pointer-events: auto;
+                    &:hover{
+                      border: 1px solid #5874d8;
+                    }
+                    :deep(.arco-input-wrapper .arco-input.arco-input-size-medium){
+                      width: 100%;
+                      height: 100%;
+                      padding: 0;
+                      border-color: #fff;
+                      text-align: center;
+                    }
+                  }
+                }
+              }
+              //内容空
+              .empty{
+                min-height: 500px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+            }
+          }
+        }
+      }
+      .pagination{
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        padding-bottom: 15px;
+      }
+    }
+  }
