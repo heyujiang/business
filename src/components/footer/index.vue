@@ -1,6 +1,6 @@
 <template>
   <a-layout-footer class="footer">
-     <span>{{ Address }} &amp; <a href="//goflys.cn/" target="_blank">{{ Team }} </a> </span>
+     <span>{{ Address }} &amp; <a href="" target="_blank">{{ Team }} </a> </span>
      <span class="copyright"> ⓒ Copyright {{Company}} 2018-{{nowyear}}</span>
     </a-layout-footer>
 </template>

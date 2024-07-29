@@ -35,4 +35,10 @@ export default {
   'workplace.popularContent.video': 'video',
   'workplace.categoriesPercent': 'Categories Percent',
   'workplace.pecs': 'pecs',
+  'workplace.accessibility':'accessibility',
+  'workplace.accessibility.daily': 'Personal Daily',
+  'workplace.accessibility.weekly': 'Personal Weekly Report',
+  'workplace.accessibility.docs': 'Docs',
+  'workplace.accessibility.creatuser': 'Create User',
+  'workplace.distribution': 'Project Distribution',
 };

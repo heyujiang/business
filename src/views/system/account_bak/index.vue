@@ -110,7 +110,7 @@
 <script lang="ts" setup>
   import { computed, ref, reactive, watch, nextTick } from 'vue';
   import useLoading from '@/hooks/loading';
-  import { getList,upStatus,del} from '@/api/system/account';
+  import { getList,upStatus,del} from '@/api/system/account_bak';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
   import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
   import cloneDeep from 'lodash/cloneDeep';
