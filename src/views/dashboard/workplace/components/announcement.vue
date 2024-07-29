@@ -23,28 +23,28 @@
   const list = [
     {
       type: 'orangered',
-      label: '活动',
-      content: '内容最新优惠活动',
+      label: '尹冲',
+      content: '获得开工许可/银行资金证明',
     },
     {
       type: 'cyan',
-      label: '消息',
-      content: '新增内容尚未通过审核，详情请点击查看。',
+      label: '尹冲',
+      content: '获得开工许可/银行资金证明',
     },
     {
       type: 'blue',
-      label: '通知',
-      content: '当前产品试用期即将结束，如需续费请点击查看。',
+      label: '尹冲',
+      content: '获得开工许可/银行资金证明',
     },
     {
       type: 'blue',
-      label: '通知',
-      content: '1月新系统升级计划通知',
+      label: '尹冲',
+      content: '获得开工许可/银行资金证明',
     },
     {
       type: 'cyan',
-      label: '消息',
-      content: '新增内容已经通过审核，详情请点击查看。',
+      label: '尹冲',
+      content: '获得开工许可/银行资金证明',
     },
   ];
 </script>

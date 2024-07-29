@@ -14,8 +14,8 @@
       <div class="layout-right-side">
         <a-space :size="16" direction="vertical" fill>
           <StudioStatus />
-          <QuickOperation />
           <StudioInformation />
+          <QuickOperation />
         </a-space>
       </div>
     </div>

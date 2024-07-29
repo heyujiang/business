@@ -13,14 +13,13 @@
         </a-avatar>
         <a-statistic
           :title="$t('workplace.onlineContent')"
-          :value="373.5"
-          :precision="1"
+          :value="49"
           :value-from="0"
           animation
           show-group-separator
         >
           <template #suffix>
-            W+ <span class="unit">{{ $t('workplace.pecs') }}</span>
+             <span class="unit">{{ $t('workplace.pecs') }}</span>
           </template>
         </a-statistic>
       </a-space>
@@ -38,13 +37,14 @@
         </a-avatar>
         <a-statistic
           :title="$t('workplace.putIn')"
-          :value="368"
+          :value="8935"
           :value-from="0"
+          :precision="1"
           animation
           show-group-separator
         >
-          <template #suffix>
-            <span class="unit">{{ $t('workplace.pecs') }}</span>
+          <template #suffix>MW
+<!--            <span class="unit">{{ $t('workplace.pecs') }}</span>-->
           </template>
         </a-statistic>
       </a-space>
@@ -62,7 +62,7 @@
         </a-avatar>
         <a-statistic
           :title="$t('workplace.newDay')"
-          :value="8874"
+          :value="4"
           :value-from="0"
           animation
           show-group-separator
@@ -87,10 +87,10 @@
         </a-avatar>
         <a-statistic
           :title="$t('workplace.newFromYesterday')"
-          :value="2.8"
-          :precision="1"
+          :value="2"
+
           :value-from="0"
-          animation
+
         >
           <template #suffix>  <icon-caret-up class="up-icon" /> </template>
         </a-statistic>
@@ -102,7 +102,8 @@
   </a-grid>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+</script>
 
 <style lang="less" scoped>
   .arco-grid.panel {
