@@ -9,6 +9,24 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       fixed: 'left',
     },
     {
+      title: '负责人',
+      dataIndex: 'attr',
+      slotName: 'attr',
+      align:"center"
+    },
+    {
+      title: '节点名称',
+      dataIndex: 'attr',
+      slotName: 'attr',
+      align:"center"
+    },
+    {
+      title: '完成状态',
+      dataIndex: 'attr',
+      slotName: 'attr',
+      align:"center"
+    },
+    {
       title: '属性',
       dataIndex: 'attr',
       slotName: 'attr',
@@ -20,12 +38,7 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       slotName: 'type',
       align:"center"
     },
-    {
-      title: '状态',
-      dataIndex: 'state',
-      slotName: 'state',
-      align:"center"
-    },
+
     {
       title: '容量大小',
       dataIndex: 'capacity',

@@ -41,7 +41,7 @@ import { ref} from 'vue';
     height: 100vh;
 
     .banner {
-      width: 550px;
+      width: 650px;
       background: linear-gradient(163.85deg, #1d2129 0%, #00308f 100%);
     }
 
