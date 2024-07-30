@@ -1,15 +1,30 @@
 <template>
-  <div class="container">
-    <Breadcrumb :items="['menu.system', 'menu.system.node']" />
+  <div class="container" >
+    <Breadcrumb :items="['menu.schedule', 'menu.project.schedule']" />
     <a-card class="general-card onelineCard" style="height: calc(100% - 50px);">
       <a-row style="margin-bottom: 10px">
-        <a-col :span="16"></a-col>
+        <a-col :span="16">
+          <a-space>
+            <a-input :style="{width:'220px'}"  v-model="formModel.username" placeholder="用户名" allow-clear />
+            <a-input :style="{width:'220px'}"  v-model="formModel.phoneNumber" placeholder="手机号" allow-clear />
+            <a-select v-model="formModel.state"  :options="statusOptions" placeholder="状态" :style="{width:'120px'}" />
+            <a-button type="primary" @click="search">
+              <template #icon>
+                <icon-search />
+              </template>
+              查询
+            </a-button>
+            <a-button @click="reset">
+              {{ $t('searchTable.form.reset') }}
+            </a-button>
+          </a-space>
+        </a-col>
         <a-col
           :span="8"
            style="text-align: right;"
         >
-         <a-space>
-          <a-button type="primary" @click="createNode">
+        <a-space>
+          <a-button type="primary" @click="createRule">
             <template #icon>
               <icon-plus />
             </template>
@@ -41,21 +56,30 @@
       <a-table
          row-key="id"
         :loading="loading"
-        :pagination="false"
+        :pagination="pagination"
         :columns="(cloneColumns as TableColumnData[])"
         :data="renderData"
         :bordered="{wrapper:true,cell:true}"
         :size="size"
         :default-expand-all-rows="true"
+         :scroll="{ x: 2000 }"
         ref="artable"
-        @change="handleChange"
+        @page-change="handlePaageChange"
+        @page-size-change="handlePaageSizeChange"
       >
-        <template #name="{ record }">
-          <span v-html="record.spacer" style="padding-right: 5px;color: var(--color-neutral-4);"></span>{{ record.name }}
+        <template #avatar="{ record }">
+          <a-avatar trigger-type="mask">
+            <img
+              alt="avatar"
+              :src="record.avatar"
+            />
+          </a-avatar>
         </template>
+        <template #name="{ record }">
+          {{ record.name }}<span v-if="record.nickName" style="padding-left: 5px;color: var(--color-neutral-4);">{{ record.nickName }}</span>
+        </template>
+
         <template #operations="{ record }">
-<!--          <Icon icon="icon-drag-dot-vertical" class="iconbtn dragIcon" :size="18" color="#0960bd"></Icon>-->
-<!--          <a-divider direction="vertical" />-->
           <Icon icon="svgfont-bianji1" class="iconbtn" @click="handleEdit(record)" :size="18" color="#0960bd"></Icon>
           <a-divider direction="vertical" />
           <a-popconfirm content="您确定要删除吗?" @ok="handleDel(record)">
@@ -70,10 +94,11 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, ref, onMounted, watch, nextTick } from 'vue';
+  import { computed, ref, reactive, watch, nextTick } from 'vue';
   import useLoading from '@/hooks/loading';
-  import { getList,upStatus,del} from '@/api/system/node';
+  import { getList,del} from '@/api/project/project';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
+  import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
   import cloneDeep from 'lodash/cloneDeep';
   import dayjs from 'dayjs';
   //数据
@@ -84,10 +109,7 @@
   import { useI18n } from 'vue-i18n';
   import {Icon} from '@/components/Icon';
   import { Message } from '@arco-design/web-vue';
-  //排序
-  import Sortable from 'sortablejs'
-  import { tableWeigh } from '@/api/common';
-
+  import { Pagination } from '@/types/global';
   const { t } = useI18n();
   const [registerModal, { openModal }] = useModal();
   const densityList = computed(() => [
@@ -108,6 +130,17 @@
       value: 'large',
     },
   ]);
+  //分页
+  const basePagination: Pagination = {
+    current: 1,
+    pageSize: 10,
+  };
+  const pagination = reactive({
+    ...basePagination,
+    showTotal:true,
+    showPageSize:true,
+  });
+  const boxheight=document.documentElement.clientHeight;//页面高度
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
   type Column = TableColumnData & { checked?: true };
   const { loading, setLoading } = useLoading(true);
@@ -115,15 +148,22 @@
   const cloneColumns = ref<Column[]>([]);
   const showColumns = ref<Column[]>([]);
   const size = ref<SizeProps>('large');
-  const artable=ref()
+    //查询字段
+    const generateFormModel = () => {
+    return {
+      phoneNumber: '',
+      username: '',
+      state: 0,
+    };
+  };
+  const formModel = ref(generateFormModel());
   const fetchData = async () => {
     setLoading(true);
     try {
-      const data= await getList({});
-      renderData.value = data;
-      nextTick(()=>{
-        artable.value.expandAll()
-      })
+      const data= await getList({page:pagination.current,size:pagination.pageSize,...formModel.value});
+      renderData.value = data.list;
+      pagination.current = data.page;
+      pagination.total = data.count;
     } catch (err) {
       // you can report use errorHandler or other
     } finally {
@@ -134,7 +174,10 @@
   const search = () => {
     fetchData();
   };
-
+  const reset = () => {
+    formModel.value = generateFormModel();
+    fetchData();
+  };
   fetchData();
   const handleSelectDensity = (
     val: string | number | Record<string, any> | undefined,
@@ -155,7 +198,7 @@
     { deep: true, immediate: true }
   );
   //添加菜单
-  const createNode=()=>{
+  const createRule=()=>{
     openModal(true, {
       isUpdate: false,
       record:null
@@ -172,23 +215,17 @@
   const handleData=async()=>{
     fetchData();
   }
-  //排序拖拽
-  const handleChange = (_data:any) => {
-    console.log(_data);
-    renderData.value = _data
+  //分页
+  const handlePaageChange = (page:any) => {
+    pagination.current=page
+    fetchData();
   }
-  //更新状态
-  const handleStatus=async(record:any)=>{
-    try {
-        Message.loading({content:"更新状态中",id:"upStatus"})
-       const res= await upStatus({id:record.id,status:record.status});
-       if(res){
-         Message.success({content:"更新状态成功",id:"upStatus"})
-       }
-    }catch (error) {
-      Message.clear("top")
-    }
+  //分页总数
+  const handlePaageSizeChange = (pageSize:any) => {
+    pagination.pageSize=pageSize
+    fetchData();
   }
+
   //删除数据
   const handleDel=async(record:any)=>{
     try {
@@ -202,76 +239,21 @@
       Message.clear("top")
     }
   }
-    //排序
-    const initDropTable = () => {
-      const el = artable.value.$el.querySelector('.arco-table-element tbody') as HTMLElement
-       Sortable.create(el, {
-        handle: '.dragIcon', //设置指定列作为拖拽
-        dataIdAttr: 'data-id',//指定获取拖动后排序的属性
-        onEnd(event: any) {
-          const { newIndex, oldIndex } = event
-          let ids=ref<number []>([])
-          for(var i=0;i<renderData.value.length;i++){
-            ids.value.push(renderData.value[i]["id"]);
-          }
-         let numids= getTreeId(renderData.value)
-         let draid = numids[oldIndex];
-         numids[oldIndex] = numids[newIndex];
-         numids[newIndex] = draid;
-         let pids= getPIdArr(renderData.value)
-          orrdersave(numids,draid,pids[oldIndex])
-        }
-      })
-    }
-    //获取id
-    const getTreeId=(renderData:any)=>{
-        let midleArr=<number []>[];
-        renderData.forEach((item:any) => {
-          if(item.children){
-           let cdata= getTreeId(item.children)
-            midleArr.push(item.id)
-            midleArr.push(...cdata)
-          }else{
-            midleArr.push(item.id)
-          }
-        })
-      return midleArr
-    }
-    //获取pid
-    const getPIdArr=(renderData:any)=>{
-        let pidArr=<number []>[];
-        renderData.forEach((item:any) => {
-          if(item.children){
-           let cdata= getPIdArr(item.children)
-           pidArr.push(item.pid)
-           pidArr.push(...cdata)
-          }else{
-            pidArr.push(item.pid)
-          }
-        })
-      return pidArr
-    }
-    //排序
-    const orrdersave=async(ids:number[],id:any,pid:any)=>{
-      if(!ids||!id){
-         return
-      }
-      try {
-        Message.loading({content:"更新排序中",id:"tableWeigh"})
-        const res= await tableWeigh({ids:ids,changeid:id,field:'orderNo',table:"business_auth_rule",prikey:'id',pid:pid,orderway:"asc"});
-        if(res){
-          Message.success({content:"更新排序成功",id:"tableWeigh"})
-        }
-      }catch (error) {
-        Message.clear("top")
-      }
-    }
-  //初始化排序
-  onMounted(() => {
-    nextTick(() => {
-      // initDropTable()
-    })
-  })
+    //状态
+    const statusOptions = computed<SelectOptionData[]>(() => [
+    {
+      label: "全部",
+      value: 0,
+    },
+    {
+      label: "正常",
+      value: 1,
+    },
+    {
+      label: "禁用",
+      value: 2,
+    },
+  ]);
 </script>
 
 <script lang="ts">
@@ -319,8 +301,5 @@
     &:hover{
       opacity: 1;
     }
-  }
-  .dragIcon{
-    cursor: move;
   }
 </style>

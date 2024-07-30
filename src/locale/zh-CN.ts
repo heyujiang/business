@@ -28,6 +28,7 @@ export default {
   'menu.arcoWebsite': 'Arco Design',
   'menu.faq': '常见问题',
   'menu.system':"系统管理",
+  'menu.project':"项目管理",
   'navbar.docs': '文档中心',
   'navbar.action.locale': '切换为中文',
   'searchTable.operation.create': '新建',

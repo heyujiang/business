@@ -1,5 +1,6 @@
 export default {
-  'menu.system.rule': '菜单管理',
+  'menu.system.rule': '',
+  'menu.system.node': '节点管理',
   // columns
   'searchTable.columns.index': '#',
   'searchTable.columns.number': '集合编号',

@@ -1,3 +1,3 @@
 export default {
-  'menu.system.account': '账号管理',
+  'menu.system.account': '用户管理',
 };
