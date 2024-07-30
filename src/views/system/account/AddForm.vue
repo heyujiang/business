@@ -3,12 +3,12 @@
     <a-form ref="formRef" :model="formData" auto-label-width>
       <a-row :gutter="16">
         <a-col :span="12">
-          <a-form-item field="username" label="用户名" validate-trigger="input" :rules="[{required:true,message:'请填写用户名'}]" style="margin-bottom:15px;">
+          <a-form-item field="username" label="姓名" validate-trigger="input" :rules="[{required:true,message:'请填写姓名'}]" style="margin-bottom:15px;">
             <a-input  v-model="formData.username" :disabled="isUpdate" placeholder="请填用户名" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item field="password" label="登录密码" style="margin-bottom:15px;">
+          <a-form-item field="password" label="登录密码" :rules="[{required:true,message:'请填写手机号'}]" style="margin-bottom:15px;">
             <a-input v-model="formData.password" :disabled="isUpdate"  placeholder="登录密码(默认密码123456)" />
           </a-form-item>
         </a-col>
@@ -18,16 +18,16 @@
           </a-form-item>
         </a-col>
 
-        <a-col :span="12">
-          <a-form-item field="name" label="姓名" validate-trigger="input" style="margin-bottom:15px;">
-            <a-input v-model="formData.name" placeholder="请填写姓名" />
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item field="nickName" label="昵称" validate-trigger="input" style="margin-bottom:15px;">
-            <a-input v-model="formData.nickName" placeholder="请填写昵称" />
-          </a-form-item>
-        </a-col>
+<!--        <a-col :span="12">-->
+<!--          <a-form-item field="name" label="姓名" validate-trigger="input" style="margin-bottom:15px;">-->
+<!--            <a-input v-model="formData.name" placeholder="请填写姓名" />-->
+<!--          </a-form-item>-->
+<!--        </a-col>-->
+<!--        <a-col :span="12">-->
+<!--          <a-form-item field="nickName" label="昵称" validate-trigger="input" style="margin-bottom:15px;">-->
+<!--            <a-input v-model="formData.nickName" placeholder="请填写昵称" />-->
+<!--          </a-form-item>-->
+<!--        </a-col>-->
         <a-col :span="12">
           <a-form-item field="email" label="邮箱" validate-trigger="input" style="margin-bottom:15px;">
             <a-input v-model="formData.email" placeholder="请填写邮箱" />
@@ -97,8 +97,8 @@
       const basedata={
           username: "",
           phoneNumber:"",//手机
-          name: '',
-          nickName: '',
+          // name: '',
+          // nickName: '',
           password: '',
           email:"",//邮箱
           avatar:"",
@@ -115,7 +115,7 @@
             formData.value=basedata
           }
       });
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增用户账号' : '编辑用户账号'));
+      const getTitle = computed(() => (!unref(isUpdate) ? '新增用户' : '编辑用户'));
      //点击确认
      const { loading, setLoading } = useLoading();
      const handleSubmit = async () => {
