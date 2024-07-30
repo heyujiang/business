@@ -5,9 +5,9 @@
       <a-row style="margin-bottom: 10px">
         <a-col :span="16">
           <a-space>
-            <a-input :style="{width:'220px'}"  v-model="formModel.username" placeholder="用户名" allow-clear />
-            <a-input :style="{width:'220px'}"  v-model="formModel.phoneNumber" placeholder="手机号" allow-clear />
-            <a-select v-model="formModel.state"  :options="statusOptions" placeholder="状态" :style="{width:'120px'}" />
+            <a-input :style="{width:'220px'}"  v-model="formModel.projectName" placeholder="项目名称" allow-clear />
+            <a-input :style="{width:'220px'}"  v-model="formModel.username" placeholder="负责人" allow-clear />
+            <a-input :style="{width:'220px'}"  v-model="formModel.phoneNumber" placeholder="节点名称" allow-clear />
             <a-button type="primary" @click="search">
               <template #icon>
                 <icon-search />
@@ -24,12 +24,12 @@
            style="text-align: right;"
         >
         <a-space>
-          <a-button type="primary" @click="createRule">
-            <template #icon>
-              <icon-plus />
-            </template>
-            {{ $t('searchTable.operation.create') }}
-          </a-button>
+<!--          <a-button type="primary" @click="createRule">-->
+<!--            <template #icon>-->
+<!--              <icon-plus />-->
+<!--            </template>-->
+<!--            {{ $t('searchTable.operation.create') }}-->
+<!--          </a-button>-->
           <a-tooltip :content="$t('searchTable.actions.refresh')">
             <div class="action-icon" @click="search"
               ><icon-refresh size="18"
@@ -151,6 +151,7 @@
     //查询字段
     const generateFormModel = () => {
     return {
+      projectName:'',
       phoneNumber: '',
       username: '',
       state: 0,

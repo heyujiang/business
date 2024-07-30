@@ -23,15 +23,18 @@
 <script lang="ts" setup>
   const links = [
     {
-      text: 'workplace.contentManagement',
+      // 新增项目
+      text: 'project.addProject',
       icon: 'icon-storage',
     },
     {
-      text: 'workplace.contentStatistical',
+      //项目进度
+      text: 'project_ing.projectSchedule',
       icon: 'icon-file',
     },
     {
-      text: 'workplace.advanced',
+      //我的项目
+      text: 'workplace.myProject',
       icon: 'icon-settings',
     },
   ];

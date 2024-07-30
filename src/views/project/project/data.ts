@@ -27,6 +27,11 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       align:"center"
     },
     {
+      title: '节点进度',
+      dataIndex: 'schedule',
+      slotName: 'schedule',
+    },
+    {
       title: '容量大小',
       dataIndex: 'capacity',
       slotName: 'capacity',
