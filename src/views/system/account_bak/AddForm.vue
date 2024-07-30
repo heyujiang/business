@@ -125,7 +125,7 @@
   import { useI18n } from 'vue-i18n';
   import { cloneDeep } from 'lodash-es';
   //api
-  import { getRole, save,DataItem,isAccountexist} from '@/api/system/account';
+  import { save,DataItem,isAccountexist} from '@/api/system/account';
   import { getParent } from '@/api/system/dept';
   import { IconPicker ,Icon} from '@/components/Icon';
   import { Message } from '@arco-design/web-vue';

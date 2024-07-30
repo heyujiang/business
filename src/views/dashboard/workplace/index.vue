@@ -21,19 +21,18 @@
     </div>
     <div class="right-side">
       <a-grid :cols="24" :row-gap="16">
-        <a-grid-item class="panel" :span="24">
-          <Announcement />
-        </a-grid-item>
         <a-grid-item :span="24">
           <div class="panel moduler-wrap">
-<!--            <QuickOperation />-->
+            <QuickOperation />
             <RecentlyVisited />
           </div>
         </a-grid-item>
         <a-grid-item class="panel" :span="24">
           <Carousel />
         </a-grid-item>
-
+        <a-grid-item class="panel" :span="24">
+          <Announcement />
+        </a-grid-item>
         <a-grid-item class="panel" :span="24">
           <Docs />
         </a-grid-item>

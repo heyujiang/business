@@ -12,12 +12,12 @@ window.globalConfig = {
     Upinfile_url_dev:`${domain}/business`,//业务专用上传附件-开发环境
 	AppTitle:"京杭能源开发管理后台",
     AppVersion:"1.1.0",
-    Company:"JHEN",
+    Company:"JYU",
     Address:"中国·杭州",
-    Team:"工程开发部技术团队",
+    Team:"开发工程事业部",
     loginTitle:"登录京杭能源开发管理后台",
-    loginSubTitle:"管理账号",
-    Copyright:"工程开发部支持",
+    loginSubTitle:"",
+    Copyright:"开发工程事业部",
     MaxSizeImage:5,//最大上传图片大小,单位M
 	MaxSizeVideo:150,//最大上传视频大小,单位M
 };

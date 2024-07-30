@@ -7,7 +7,7 @@
           <a-space>
             <a-input :style="{width:'220px'}"  v-model="formModel.username" placeholder="用户名" allow-clear />
             <a-input :style="{width:'220px'}"  v-model="formModel.phoneNumber" placeholder="手机号" allow-clear />
-            <a-select v-model="formModel.state"  :options="statusOptions" placeholder="状态" :style="{width:'120px'}" allow-clear/>
+            <a-select v-model="formModel.state"  :options="statusOptions" placeholder="状态" :style="{width:'120px'}" />
             <a-button type="primary" @click="search">
               <template #icon>
                 <icon-search />
@@ -62,6 +62,7 @@
         :bordered="{wrapper:true,cell:true}"
         :size="size"
         :default-expand-all-rows="true"
+         :scroll="{ x: 2000 }"
         ref="artable"
         @page-change="handlePaageChange"
         @page-size-change="handlePaageSizeChange"
@@ -77,16 +78,7 @@
         <template #name="{ record }">
           {{ record.name }}<span v-if="record.nickName" style="padding-left: 5px;color: var(--color-neutral-4);">{{ record.nickName }}</span>
         </template>
-        <template #state="{ record }">
-          <a-switch type="round" v-model="record.state" :checked-value="1" :unchecked-value="2" @change="handleStatus(record)">
-              <template #checked>
-                正常
-              </template>
-              <template #unchecked>
-                禁用
-              </template>
-            </a-switch>
-        </template>
+
         <template #operations="{ record }">
           <Icon icon="svgfont-bianji1" class="iconbtn" @click="handleEdit(record)" :size="18" color="#0960bd"></Icon>
           <a-divider direction="vertical" />
@@ -104,7 +96,7 @@
 <script lang="ts" setup>
   import { computed, ref, reactive, watch, nextTick } from 'vue';
   import useLoading from '@/hooks/loading';
-  import { getList,enable,disable,del} from '@/api/system/account';
+  import { getList,del} from '@/api/project/project';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
   import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
   import cloneDeep from 'lodash/cloneDeep';
@@ -161,7 +153,7 @@
     return {
       phoneNumber: '',
       username: '',
-      state: '',
+      state: 0,
     };
   };
   const formModel = ref(generateFormModel());
@@ -232,38 +224,6 @@
   const handlePaageSizeChange = (pageSize:any) => {
     pagination.pageSize=pageSize
     fetchData();
-  }
-  //更新状态
-  const handleStatus=async(record:any)=>{
-    if(record.state == 1) {
-        enableUser(record)
-    }else{
-        disableUser(record)
-    }
-  }
-
-  const enableUser=async(record:any)=>{
-    try {
-      Message.loading({content:"启用中",id:"upStatus"})
-      const res= await enable(record.id);
-      if(res){
-        Message.success({content:"启用成功",id:"upStatus"})
-      }
-    }catch (error) {
-      Message.clear("top")
-    }
-  }
-
-  const disableUser=async(record:any)=>{
-    try {
-      Message.loading({content:"禁用中",id:"upStatus"})
-      const res= await disable(record.id);
-      if(res){
-        Message.success({content:"禁用成功",id:"upStatus"})
-      }
-    }catch (error) {
-      Message.clear("top")
-    }
   }
 
   //删除数据
