@@ -7,7 +7,7 @@
           <a-space>
             <a-input :style="{width:'220px'}"  v-model="formModel.projectName" placeholder="项目名称" allow-clear />
             <a-input :style="{width:'220px'}"  v-model="formModel.username" placeholder="负责人" allow-clear />
-<!--            <a-input :style="{width:'220px'}"  v-model="formModel.phoneNumber" placeholder="节点名称" allow-clear />-->
+            <a-input :style="{width:'220px'}"  v-model="formModel.phoneNumber" placeholder="节点名称" allow-clear />
 <!--            <a-select v-model="formModel.state"  :options="statusOptions" placeholder="状态" :style="{width:'120px'}" />-->
             <a-button type="primary" @click="search">
               <template #icon>

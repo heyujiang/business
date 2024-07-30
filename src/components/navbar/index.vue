@@ -156,14 +156,14 @@
           </a-tooltip>
           </a-avatar>
           <template #content>
-            <a-doption>
-              <a-space @click="$router.push({ path: '/user/info' })">
-                <icon-user />
-                <span>
-                  {{ $t('messageBox.userCenter') }}
-                </span>
-              </a-space>
-            </a-doption>
+<!--            <a-doption>-->
+<!--              <a-space @click="$router.push({ path: '/user/info' })">-->
+<!--                <icon-user />-->
+<!--                <span>-->
+<!--                  {{ $t('messageBox.userCenter') }}-->
+<!--                </span>-->
+<!--              </a-space>-->
+<!--            </a-doption>-->
             <a-doption>
               <a-space @click="$router.push({ path: '/user/setting' })">
                 <icon-settings />
