@@ -40,4 +40,22 @@ export interface DataItem {
     pid:number,
     locale: string;
     title: string;
-  }
+}
+
+export interface ProjectPersonItem {
+    id?: number,
+    userId?: number,
+    projectId?: number,
+    name?: string,
+    phoneNumber?: string,
+    type?: number,
+}
+
+export interface ProjectContactItem {
+    id?: number,
+    projectId?: number,
+    name?: string,
+    phoneNumber?: string,
+    type?: number,
+    description?: string,
+}
