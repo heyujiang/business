@@ -20,17 +20,17 @@
                 </a-form-item>
               </a-col>
               <a-col :span="12">
-                <a-form-item field="attr" label="属性" validate-trigger="input" :rules="[{required:true,message:'请选择属性'}]" style="margin-bottom:15px;">
+                <a-form-item field="attr" label="属性" validate-trigger="blur" :rules="[{required:true,message:'请选择属性'}]" style="margin-bottom:15px;">
                   <a-select v-model="formData.attr"  :options="attrOptions" placeholder="请选择属性" allow-clear/>
                 </a-form-item>
               </a-col>
               <a-col :span="12">
-                <a-form-item field="attr" label="类型" validate-trigger="input" :rules="[{required:true,message:'请选择类型'}]" style="margin-bottom:15px;">
+                <a-form-item field="type" label="类型" validate-trigger="blur" :rules="[{required:true,message:'请选择类型'}]" style="margin-bottom:15px;">
                   <a-select v-model="formData.type"  :options="typeOptions" placeholder="请选择类型" allow-clear/>
                 </a-form-item>
               </a-col>
               <a-col :span="12">
-                <a-form-item field="attr" label="状态" validate-trigger="input" :rules="[{required:true,message:'请选择状态'}]" style="margin-bottom:15px;">
+                <a-form-item field="state" label="状态" validate-trigger="blur" :rules="[{required:true,message:'请选择状态'}]" style="margin-bottom:15px;">
                   <a-select v-model="formData.state"  :options="stateOptions" placeholder="请选择状态" allow-clear/>
                 </a-form-item>
               </a-col>
