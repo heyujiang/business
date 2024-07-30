@@ -20,7 +20,7 @@ export function getList(params: object) {
 //新增用户
 export function save(params: any) {
   if (params.beginTime > 100000000){
-      params=Object.assign({},params,{beginTime:params.beginTime/1000})//加密推送
+      params=Object.assign({},params,{beginTime:parseInt(params.beginTime/1000)})
   }
   return defHttp.post({ url: Api.save, params:params}, { errorMessageMode: 'message' });
 }
