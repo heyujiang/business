@@ -1,305 +1,258 @@
 <template>
-  <div class="container" >
-    <Breadcrumb :items="['menu.project', 'menu.project.add']" />
-    <a-card class="general-card onelineCard" style="height: calc(100% - 50px);">
-      <a-row style="margin-bottom: 10px">
-        <a-col :span="16">
-          <a-space>
-            <a-input :style="{width:'220px'}"  v-model="formModel.username" placeholder="用户名" allow-clear />
-            <a-input :style="{width:'220px'}"  v-model="formModel.phoneNumber" placeholder="手机号" allow-clear />
-            <a-select v-model="formModel.state"  :options="statusOptions" placeholder="状态" :style="{width:'120px'}" />
-            <a-button type="primary" @click="search">
-              <template #icon>
-                <icon-search />
-              </template>
-              查询
-            </a-button>
-            <a-button @click="reset">
-              {{ $t('searchTable.form.reset') }}
-            </a-button>
-          </a-space>
+  <div class="containers"  >
+    <Breadcrumb :items="['menu.schedule', 'menu.project.add']" />
+    <a-card class="general-card onelineCard" style="height: calc(100% - 200px);">
+    <a-form ref="formRef" :model="formData" auto-label-width>
+      <a-row :gutter="16">
+        <a-col :span="12">
+          <a-form-item field="name" label="项目名" validate-trigger="input" :rules="[{required:true,message:'请填写项目名'}]" style="margin-bottom:15px;">
+            <a-input  v-model="formData.name" placeholder="请填写项目名" allow-clear/>
+          </a-form-item>
         </a-col>
-        <a-col
-          :span="8"
-           style="text-align: right;"
-        >
-        <a-space>
-          <a-button type="primary" @click="createRule">
-            <template #icon>
-              <icon-plus />
-            </template>
-            {{ $t('searchTable.operation.create') }}
-          </a-button>
-          <a-tooltip :content="$t('searchTable.actions.refresh')">
-            <div class="action-icon" @click="search"
-              ><icon-refresh size="18"
-            /></div>
-          </a-tooltip>
-          <a-dropdown @select="handleSelectDensity">
-            <a-tooltip :content="$t('searchTable.actions.density')">
-              <div class="action-icon"><icon-line-height size="18" /></div>
-            </a-tooltip>
-            <template #content>
-              <a-doption
-                v-for="item in densityList"
-                :key="item.value"
-                :value="item.value"
-                :class="{ active: item.value === size }"
-              >
-                <span>{{ item.name }}</span>
-              </a-doption>
-            </template>
-          </a-dropdown>
-          </a-space>
+        <a-col :span="12">
+          <a-form-item field="attr" label="属性" validate-trigger="input" :rules="[{required:true,message:'请选择属性'}]" style="margin-bottom:15px;">
+            <a-select v-model="formData.attr"  :options="attrOptions" placeholder="请选择属性" allow-clear/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item field="attr" label="类型" validate-trigger="input" :rules="[{required:true,message:'请选择类型'}]" style="margin-bottom:15px;">
+            <a-select v-model="formData.type"  :options="typeOptions" placeholder="请选择类型" allow-clear/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item field="attr" label="状态" validate-trigger="input" :rules="[{required:true,message:'请选择状态'}]" style="margin-bottom:15px;">
+            <a-select v-model="formData.state"  :options="stateOptions" placeholder="请选择状态" allow-clear/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item field="capacity" label="容量：MW" validate-trigger="input" :rules="[{required:true,message:'请填写容量大小'}]" style="margin-bottom:15px;">
+            <a-input-number v-model="formData.capacity" :step="10.00" placeholder="请填写容量大小:单位MW" class="input-demo" allow-clear/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item field="area" label="土地:亩" validate-trigger="input" :rules="[{required:true,message:'请填写土地面积'}]" style="margin-bottom:15px;">
+            <a-input-number v-model="formData.area" :step="10.00" placeholder="请填写土地面积:单位亩" class="input-demo" allow-clear/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item field="properties" label="土地性质" validate-trigger="input" :rules="[{required:true,message:'请填写土地性质'}]" style="margin-bottom:15px;">
+            <a-input v-model="formData.properties"  placeholder="请填写土地性质" allow-clear/>
+          </a-form-item>
+        </a-col>
+
+        <a-col :span="24">
+          <a-form-item field="address" label="项目地址" validate-trigger="input" :rules="[{required:true,message:'请填写项目地址'}]" style="margin-bottom:15px;">
+            <a-input v-model="formData.address"  placeholder="请填写项目地址" allow-clear/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item field="connect" label="电网接入情况" validate-trigger="input" style="margin-bottom:15px;">
+            <a-textarea v-model="formData.connect"  placeholder="请填写电网接入情况" allow-clear/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item field="investmentAgreement" label="投资协议" validate-trigger="input" style="margin-bottom:15px;">
+            <a-textarea v-model="formData.investmentAgreement"  placeholder="请填写投资协议" allow-clear/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item field="businessCondition" label="商务条件" validate-trigger="input" style="margin-bottom:15px;">
+            <a-textarea v-model="formData.businessCondition"  placeholder="请填写商务条件" allow-clear/>
+          </a-form-item>
+        </a-col>
+
+        <a-col :span="24">
+          <a-form-item field="description" label="简介"  style="margin-bottom:15px;">
+            <a-textarea v-model="formData.description"  :options="attrOptions" placeholder="请填写简介" allow-clear/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item field="beginTime" label="开始时间" validate-trigger="blur" :rules="[{required:true,message:'请选择开始时间'}]" style="margin-bottom:15px;">
+            <a-date-picker
+                show-time
+                v-model="formData.beginTime"
+                placeholder="请选择开始时间"
+                value-format="timestamp"
+                style="width: 100%"
+            />
+          </a-form-item>
         </a-col>
       </a-row>
-      <a-table
-         row-key="id"
-        :loading="loading"
-        :pagination="pagination"
-        :columns="(cloneColumns as TableColumnData[])"
-        :data="renderData"
-        :bordered="{wrapper:true,cell:true}"
-        :size="size"
-        :default-expand-all-rows="true"
-         :scroll="{ x: 2000 }"
-        ref="artable"
-        @page-change="handlePaageChange"
-        @page-size-change="handlePaageSizeChange"
-      >
-        <template #avatar="{ record }">
-          <a-avatar trigger-type="mask">
-            <img
-              alt="avatar"
-              :src="record.avatar"
-            />
-          </a-avatar>
-        </template>
-        <template #name="{ record }">
-          {{ record.name }}<span v-if="record.nickName" style="padding-left: 5px;color: var(--color-neutral-4);">{{ record.nickName }}</span>
-        </template>
-
-        <template #operations="{ record }">
-          <Icon icon="svgfont-bianji1" class="iconbtn" @click="handleEdit(record)" :size="18" color="#0960bd"></Icon>
-          <a-divider direction="vertical" />
-          <a-popconfirm content="您确定要删除吗?" @ok="handleDel(record)">
-            <Icon icon="svgfont-icon7" class="iconbtn" :size="18" color="#ed6f6f"></Icon>
-          </a-popconfirm>
-        </template>
-      </a-table>
+    </a-form>
     </a-card>
-    <!--表单-->
-    <AddForm @register="registerModal"  @success="handleData"/>
   </div>
 </template>
-
-<script lang="ts" setup>
-  import { computed, ref, reactive, watch, nextTick } from 'vue';
-  import useLoading from '@/hooks/loading';
-  import { getList,del} from '@/api/project/project';
-  import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
-  import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
-  import cloneDeep from 'lodash/cloneDeep';
-  import dayjs from 'dayjs';
-  //数据
-  import { columns} from './data';
-  //表单
-  import { useModal } from '/@/components/Modal';
-  import AddForm from './AddForm.vue';
-  import { useI18n } from 'vue-i18n';
-  import {Icon} from '@/components/Icon';
-  import { Message } from '@arco-design/web-vue';
-  import { Pagination } from '@/types/global';
-  const { t } = useI18n();
-  const [registerModal, { openModal }] = useModal();
-  const densityList = computed(() => [
-    {
-      name: t('searchTable.size.mini'),
-      value: 'mini',
-    },
-    {
-      name: t('searchTable.size.small'),
-      value: 'small',
-    },
-    {
-      name: t('searchTable.size.medium'),
-      value: 'medium',
-    },
-    {
-      name: t('searchTable.size.large'),
-      value: 'large',
-    },
-  ]);
-  //分页
-  const basePagination: Pagination = {
-    current: 1,
-    pageSize: 10,
-  };
-  const pagination = reactive({
-    ...basePagination,
-    showTotal:true,
-    showPageSize:true,
-  });
-  const boxheight=document.documentElement.clientHeight;//页面高度
-  type SizeProps = 'mini' | 'small' | 'medium' | 'large';
-  type Column = TableColumnData & { checked?: true };
-  const { loading, setLoading } = useLoading(true);
-  const renderData = ref([]);
-  const cloneColumns = ref<Column[]>([]);
-  const showColumns = ref<Column[]>([]);
-  const size = ref<SizeProps>('large');
-    //查询字段
-    const generateFormModel = () => {
-    return {
-      phoneNumber: '',
-      username: '',
-      state: 0,
-    };
-  };
-  const formModel = ref(generateFormModel());
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const data= await getList({page:pagination.current,size:pagination.pageSize,...formModel.value});
-      renderData.value = data.list;
-      pagination.current = data.page;
-      pagination.total = data.count;
-    } catch (err) {
-      // you can report use errorHandler or other
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const search = () => {
-    fetchData();
-  };
-  const reset = () => {
-    formModel.value = generateFormModel();
-    fetchData();
-  };
-  fetchData();
-  const handleSelectDensity = (
-    val: string | number | Record<string, any> | undefined,
-    e: Event
-  ) => {
-    size.value = val as SizeProps;
-  };
-
-  watch(
-    () => columns.value,
-    (val) => {
-      cloneColumns.value = cloneDeep(val);
-      cloneColumns.value.forEach((item, index) => {
-        item.checked = true;
-      });
-      showColumns.value = cloneDeep(cloneColumns.value);
-    },
-    { deep: true, immediate: true }
-  );
-  //添加菜单
-  const createRule=()=>{
-    openModal(true, {
-      isUpdate: false,
-      record:null
-    });
-  }
-  //编辑数据
-  const handleEdit=async(record:any)=>{
-    openModal(true, {
-      isUpdate: true,
-      record:record
-    });
-  }
-  //更新数据
-  const handleData=async()=>{
-    fetchData();
-  }
-  //分页
-  const handlePaageChange = (page:any) => {
-    pagination.current=page
-    fetchData();
-  }
-  //分页总数
-  const handlePaageSizeChange = (pageSize:any) => {
-    pagination.pageSize=pageSize
-    fetchData();
-  }
-
-  //删除数据
-  const handleDel=async(record:any)=>{
-    try {
-        Message.loading({content:"删除中",id:"upStatus"})
-       const res= await del(record.id);
-       if(res){
-        fetchData();
-         Message.success({content:"删除成功",id:"upStatus"})
-       }
-    }catch (error) {
-      Message.clear("top")
-    }
-  }
-    //状态
-    const statusOptions = computed<SelectOptionData[]>(() => [
-    {
-      label: "全部",
-      value: 0,
-    },
-    {
-      label: "正常",
-      value: 1,
-    },
-    {
-      label: "禁用",
-      value: 2,
-    },
-  ]);
-</script>
-
 <script lang="ts">
-  export default {
-    name: 'Rule',
-  };
+import { defineComponent, ref, computed, unref} from 'vue';
+import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
+import { BasicModal, useModalInner } from '/@/components/Modal';
+import { FormInstance } from '@arco-design/web-vue/es/form';
+import useLoading from '@/hooks/loading';
+import { useI18n } from 'vue-i18n';
+import { cloneDeep } from 'lodash-es';
+//api
+import { save,update} from '@/api/project/project';
+import { IconPicker ,Icon} from '@/components/Icon';
+import { Message } from '@arco-design/web-vue';
+import dayjs from 'dayjs';
+import type { RequestOption} from '@arco-design/web-vue/es/upload/interfaces';
+import { userUploadApi } from '@/api/common';
+export default defineComponent({
+  name: 'AddBook',
+  components: { BasicModal,IconPicker,Icon },
+  emits: ['success'],
+  setup(_, { emit }) {
+    const { t } = useI18n();
+    const isUpdate = ref(false);
+    //表单
+    const formRef = ref<FormInstance>();
+    //ID
+    const projectId = ref(0);
+    //表单字段
+    const basedata={
+      name: '',
+      description: '',
+      attr: '',
+      type: '',
+      state: '',
+      capacity: 0,
+      properties: '',
+      area:0,
+      address:'',
+      connect:'',
+      investmentAgreement:'',
+      businessCondition:'',
+      beginTime:0,
+    }
+    const formData = ref(basedata)
+    const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
+      formRef.value?.resetFields()
+      setModalProps({ confirmLoading: false });
+      isUpdate.value = !!data?.isUpdate;
+      if (unref(isUpdate)) {
+        projectId.value = data.record.id
+        formData.value=cloneDeep(data.record)
+      }else{
+        formData.value=basedata
+      }
+    });
+    const getTitle = computed(() => (!unref(isUpdate) ? '新增项目' : '编辑项目'));
+    //点击确认
+    const { loading, setLoading } = useLoading();
+    const handleSubmit = async () => {
+      try {
+        const res = await formRef.value?.validate();
+        if (!res) {
+          setLoading(true);
+
+          if(!unref(isUpdate)){
+            Message.loading({content:"新增中",id:"upStatus"})
+            await save(unref(formData));
+            Message.success({content:"新增成功",id:"upStatus"})
+          }else{
+            Message.loading({content:"更新中",id:"upStatus"})
+            await update(unref(projectId),unref(formData));
+            Message.success({content:"更新成功",id:"upStatus"})
+          }
+
+          closeModal()
+          emit('success');
+          setLoading(false);
+        }
+      } catch (error) {
+        setLoading(false);
+        Message.clear("top")
+      }
+    };
+
+    //属性
+    const attrOptions = computed<SelectOptionData[]>(() => [
+      {
+        label: "集中式",
+        value: 1,
+      },
+      {
+        label: "分布式",
+        value: 2,
+      },
+      {
+        label: "分散式",
+        value: 3,
+      },
+    ]);
+    // 1-风电，2-光伏，3-储能，4-风电+光伏，5-风电+储能，6-光伏+储能，7-风光储一体
+    const typeOptions = computed<SelectOptionData[]>(() => [
+      {
+        label: "风电",
+        value: 1,
+      },
+      {
+        label: "光伏",
+        value: 2,
+      },
+      {
+        label: "储能",
+        value: 3,
+      },
+      // {
+      //   label: "风电+光伏",
+      //   value: 4,
+      // },
+      // {
+      //   label: "风电+储能",
+      //   value: 5,
+      // },
+      // {
+      //   label: "光伏+储能",
+      //   value: 6,
+      // },
+      // {
+      //   label: "风光储一体",
+      //   value: 7,
+      // },
+    ]);
+
+    // 1-待定，2-推荐，3-终止，4-已完成
+    const stateOptions = computed<SelectOptionData[]>(() => [
+      {
+        label: "待定",
+        value: 1,
+      },
+      {
+        label: "进行中",
+        value: 2,
+      },
+      {
+        label: "已完成",
+        value: 3,
+      },
+      {
+        label: "中止",
+        value: 4,
+      },
+    ]);
+
+    return {
+      registerModal,
+      getTitle,
+      handleSubmit,
+      formRef,
+      loading,
+      formData,
+      isUpdate,
+      t,
+      attrOptions,
+      typeOptions,
+      stateOptions,
+      dayjs,
+    };
+  },
+});
 </script>
 
 <style scoped lang="less">
-  .container {
-    padding: 0 20px 20px 20px;
-    height: 100%;
-  }
-  :deep(.arco-table-th) {
-    &:last-child {
-      .arco-table-th-item-title {
-        margin-left: 16px;
-      }
-    }
-  }
-  .action-icon {
-    margin-left: 12px;
-    cursor: pointer;
-  }
-  .active {
-    color: #0960bd;
-    background-color: #e3f4fc;
-  }
-  .setting {
-    display: flex;
-    align-items: center;
-    width: 200px;
-    .title {
-      margin-left: 12px;
-      cursor: pointer;
-    }
-  }
-  :deep(.general-card > .arco-card-header){
-    padding: 10px 16px;
-  }
-  .iconbtn{
-    user-select: none;
-    cursor: pointer;
-    opacity: .8;
-    &:hover{
-      opacity: 1;
-    }
-  }
+.containers {
+  padding: 0 20px 20px 20px;
+  height: 100%;
+}
 </style>
