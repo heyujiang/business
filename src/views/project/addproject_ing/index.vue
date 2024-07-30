@@ -3,7 +3,7 @@
     <Breadcrumb :items="['menu.schedule', 'menu.project.add']" />
     <a-card class="general-card onelineCard" style="height: calc(100% - 200px);">
     <a-form ref="formRef" :model="formData" auto-label-width>
-      <a-row :gutter="14">
+      <a-row :gutter="16">
         <a-col :span="10">
           <a-form-item field="name" label="项目名" validate-trigger="input" :rules="[{required:true,message:'请选择项目名'}]" style="margin-bottom:15px;">
             <a-select  v-model="formData.name"  placeholder="请选择项目名" allow-clear/>
@@ -16,11 +16,6 @@
           </a-form-item>
         </a-col>
 
-        <a-col :span="20">
-          <a-form-item field="description" label="备注"  style="margin-bottom:15px;">
-            <a-textarea v-model="formData.description" placeholder="备注：" allow-clear/>
-          </a-form-item>
-        </a-col>
         <a-col :span="10">
           <a-form-item field="beginTime" label="开始时间" validate-trigger="blur" :rules="[{required:true,message:'请选择开始时间'}]" style="margin-bottom:15px;">
             <a-date-picker
@@ -46,6 +41,17 @@
         <a-col :span="10">
           <a-form-item field="attr" label="完成情况" validate-trigger="input" :rules="[{required:true,message:'请选择完成情况'}]" style="margin-bottom:15px;">
             <a-select v-model="formData.type"  :options="ScheduleStatus" placeholder="请选择请选择完成情况" allow-clear/>
+          </a-form-item>
+        </a-col>
+        <br>
+        <a-col :span="10">
+          <a-form-item field="properties" label="添加附件" validate-trigger="input" style="margin-bottom:15px;">
+            <a-upload v-model="formData.properties"  placeholder="点击添加附件" allow-clear/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="20" >
+          <a-form-item field="description" label="备注"  style="margin-bottom:15px; height: 60px">
+            <a-textarea  class="description" v-model="formData.description" placeholder="备注：" allow-clear/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -162,3 +168,13 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="less">
+.container {
+  padding: 0 20px 20px 20px;
+  height: 100%;
+}
+.description{
+  height: 100px;
+}
+</style>
