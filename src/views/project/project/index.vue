@@ -197,7 +197,7 @@
   const showColumns = ref<Column[]>([]);
   const size = ref<SizeProps>('large');
     //查询字段
-    const generateFormModel = () => {
+  const generateFormModel = () => {
     return {
       projectName:'',
       phoneNumber: '',

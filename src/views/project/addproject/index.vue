@@ -94,17 +94,17 @@
                 <IconDelete v-if="formData.contact.length > 1" @click="delContact(index)"/>
               </template>
               <a-col :span="20">
-                <a-form-item  label="姓名"  style="margin-bottom:15px;">
+                <a-form-item  label="姓名" :field="`contact[${index}].name`"  validate-trigger="input" :rules="[{required:true,message:'请填写联系人姓名'}]" :key="index" style="margin-bottom:15px;">
                   <a-input v-model="contactItem.name" placeholder="请填写联系人姓名"  allow-clear/>
                 </a-form-item>
               </a-col>
               <a-col :span="20">
-                <a-form-item  label="电话"  style="margin-bottom:15px;">
+                <a-form-item  label="电话" :field="`contact[${index}].phoneNumber`"  validate-trigger="input" :rules="[{required:true,message:'请填写联系人电话'}]" :key="index" style="margin-bottom:15px;">
                   <a-input v-model="contactItem.phoneNumber" placeholder="请填写联系人电话"  allow-clear/>
                 </a-form-item>
               </a-col>
               <a-col :span="20">
-                <a-form-item  label="类型"  style="margin-bottom:15px;">
+                <a-form-item  label="类型" :field="`contact[${index}].type`"  validate-trigger="blur" :rules="[{required:true,message:'请选择类型'}]" :key="index"  style="margin-bottom:15px;">
                   <a-select v-model="contactItem.type"  :options="contactTypeOptions" placeholder="请选择类型" allow-clear/>
                 </a-form-item>
               </a-col>
@@ -121,17 +121,17 @@
             </a-space>
           </div>
           <div v-if="current==3">
-              <a-card :style="{ marginBottom: '20px' }" title="联系人：" v-for="(personItem,index) in formData.person">
+              <a-card :style="{ marginBottom: '20px' }" title="项目成员：" v-for="(personItem,index) in formData.person">
                 <template #extra>
                   <IconDelete v-if="formData.person.length > 1" @click="delPerson(index)"/>
                 </template>
                 <a-col :span="20">
-                  <a-form-item  label="姓名"  style="margin-bottom:15px;">
-                    <a-select v-model="personItem.userId"  :options="personTypeOptions" placeholder="请选择姓名" allow-clear/>
+                  <a-form-item  label="项目成员" :field="`person[${index}].userId`"  validate-trigger="input" :rules="[{required:true,message:'请选择项目成员'}]" :key="index" style="margin-bottom:15px;">
+                    <a-select v-model="personItem.userId" allow-search :options="userOptions" placeholder="请选择项目成员" allow-clear/>
                   </a-form-item>
                 </a-col>
                 <a-col :span="20">
-                  <a-form-item  label="类型"  style="margin-bottom:15px;">
+                  <a-form-item  label="类型" :field="`person[${index}].type`"  validate-trigger="input" :rules="[{required:true,message:'请选择类型'}]" :key="index"  style="margin-bottom:15px;">
                     <a-select v-model="personItem.type"  :options="personTypeOptions" placeholder="请选择类型" allow-clear/>
                   </a-form-item>
                 </a-col>
@@ -145,18 +145,13 @@
           <div v-if="current==4">
             <a-col :span="24">
               <a-form-item field="nodeIds" label="已完成节点" style="margin-bottom:15px;">
-                <a-tree-select
+                <a-cascader
                     placeholder="选择已完成节点（多选）"
                     :multiple="true"
                     :allow-clear="true"
-                    :data="nodeList"
-                    :fieldNames="{
-                      key: 'id',
-                      title: 'name',
-                      children: 'children'
-                    }"
+                    :options="nodeOptions"
                     v-model="formData.nodeIds">
-                </a-tree-select>
+                </a-cascader>
               </a-form-item>
             </a-col>
           </div>
@@ -186,7 +181,9 @@ import { FormInstance } from '@arco-design/web-vue/es/form';
 import useLoading from '@/hooks/loading';
 import { cloneDeep } from 'lodash-es';
 //api
-import { save,update , ProjectContactItem, ProjectPersonItem } from '@/api/project/project';
+import {save, update, ProjectContactItem, ProjectPersonItem} from '@/api/project/project';
+import { getUserOptions } from '@/api/user';
+import { getNodeOptions } from '@/api/system/node';
 import { Message } from '@arco-design/web-vue';
 
 
@@ -201,17 +198,6 @@ const projectId = ref(0);
 const contact:ProjectContactItem[] = [{}];
 const person:ProjectPersonItem[] = [{}];
 
-const nodeList = ref([]);
-nodeList.value = [
-  {id: 1,name: "节点A", children : [
-      {id: 2,name: "节点AA"},
-      {id: 3,name: "节点AB"}]
-  },
-  {id: 4,name: "节点B", children : [
-      {id: 5,name: "节点BA"},
-      {id: 6,name: "节点BB"}]
-  },
-];
 
 //表单字段
 const basedata={
@@ -235,6 +221,30 @@ const basedata={
 
 console.log(basedata);
 const formData = ref(basedata)
+
+const userOptions = ref([]);
+const fetchUserOptions = async () => {
+  try {
+    userOptions.value = await getUserOptions();
+  } catch (err) {
+    // you can report use errorHandler or other
+  } finally {
+
+  }
+};
+fetchUserOptions();
+
+const nodeOptions = ref([]);
+const fetchNodeOptions = async () => {
+  try {
+    nodeOptions.value = await getNodeOptions();
+  } catch (err) {
+    // you can report use errorHandler or other
+  } finally {
+  }
+};
+fetchNodeOptions();
+
 const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
   formRef.value?.resetFields()
   setModalProps({ confirmLoading: false });
@@ -246,7 +256,6 @@ const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data
     formData.value=basedata
   }
 });
-const getTitle = computed(() => (!unref(isUpdate) ? '新增项目' : '编辑项目'));
 //点击确认
 const { loading, setLoading } = useLoading();
 const handleSubmit = async () => {
@@ -255,15 +264,19 @@ const handleSubmit = async () => {
     if (!res) {
       setLoading(true);
 
-      if(!unref(isUpdate)){
-        Message.loading({content:"新增中",id:"upStatus"})
-        await save(unref(formData));
-        Message.success({content:"新增成功",id:"upStatus"})
-      }else{
-        Message.loading({content:"更新中",id:"upStatus"})
-        await update(unref(projectId),unref(formData));
-        Message.success({content:"更新成功",id:"upStatus"})
-      }
+      Message.loading({content:"新增中",id:"upStatus"})
+      await save(unref(formData));
+      Message.success({content:"新增成功",id:"upStatus"})
+
+      // if(!unref(isUpdate)){
+      //   Message.loading({content:"新增中",id:"upStatus"})
+      //   await save(unref(formData));
+      //   Message.success({content:"新增成功",id:"upStatus"})
+      // }else{
+      //   Message.loading({content:"更新中",id:"upStatus"})
+      //   await update(unref(projectId),unref(formData));
+      //   Message.success({content:"更新成功",id:"upStatus"})
+      // }
 
       closeModal()
       setLoading(false);
@@ -303,6 +316,16 @@ const delContact = (index: number) => {
 
 const addContact = () => {
   formData.value.contact.push({})
+}
+
+const delPerson = (index: number) => {
+  if(formData.value.person.length > 1) {
+    formData.value.person.splice(index,1)
+  }
+}
+
+const addPerson = () => {
+  formData.value.person.push({})
 }
 
 //属性

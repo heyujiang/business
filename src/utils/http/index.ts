@@ -51,9 +51,9 @@ const transform: AxiosTransform = {
     console.log(hasSuccess)
     if (hasSuccess) {
         if (options.successMessageMode === 'modal') {
-          Modal.error({ title: "提交提示", content: resdata.message });
+          Modal.success({ title: "操作结果", content: resdata.msg });
         } else if (options.successMessageMode === 'message') {
-          Message.success(resdata.message);
+          Message.success(resdata.msg);
         }
         //请求成功后更新token
         if(token){

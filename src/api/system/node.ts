@@ -11,6 +11,7 @@ enum Api {
     update = '/api/node/',
     upStatus = '/system/rule/upStatus',
     del = '/api/node/',
+    nodeOptions = '/api/node/options'
 }
 
 //菜单选择菜单
@@ -38,6 +39,12 @@ export function upStatus(params: object) {
 export function del(id: number) {
     return defHttp.delete({ url: Api.del + id}, { errorMessageMode: 'message' });
 }
+
+//OPTIONS
+export function getNodeOptions() {
+    return defHttp.get({ url: Api.nodeOptions}, { errorMessageMode: 'message' });
+}
+
 /**数据类型 */
 export interface RuleItem {
     id:number,

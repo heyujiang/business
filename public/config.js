@@ -10,7 +10,8 @@ window.globalConfig = {
     Root_wxurl_dev:`${localhost}`,//接口测试-微信小程序-开发环境
     Upinfile_url:`${domain}/business`,//业务专用上传附件
     Upinfile_url_dev:`${domain}/business`,//业务专用上传附件-开发环境
-	AppTitle:"京杭能源开发管理后台",
+	// AppTitle:"京杭能源开发管理后台",
+	AppTitle:"-",
     AppVersion:"1.1.0",
     Company:"",
     Address:"中国·杭州",

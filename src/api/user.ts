@@ -14,6 +14,7 @@ enum Api {
    resetPassword = '/user/resetPassword',
    GetUserInfo = '/api/user/getUserInfo',
    GetMenu = '/api/user/menus',
+   UserOptions = '/api/user/options',
    getlogininfo = '/user/get_logininfo',
 }
 //登录
@@ -53,3 +54,9 @@ export function getMenuList() {
 export function getlogininfo(params:object) {
   return defHttp.get({ url: Api.getlogininfo, params:params }, { errorMessageMode: 'message' });
 }
+
+//获取登录信息
+export function getUserOptions() {
+    return defHttp.get({ url: Api.UserOptions }, { errorMessageMode: 'message' });
+}
+

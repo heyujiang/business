@@ -22,7 +22,7 @@ export function save(params: any) {
   if (params.beginTime > 100000000){
       params=Object.assign({},params,{beginTime:parseInt(params.beginTime/1000)})
   }
-  return defHttp.post({ url: Api.save, params:params}, { errorMessageMode: 'message' });
+  return defHttp.post({ url: Api.save, params:params}, { successMessageMode:'modal',errorMessageMode: 'message' });
 }
 
 //新增用户
