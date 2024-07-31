@@ -10,22 +10,17 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
     },
     {
       title: '负责人',
-      dataIndex: 'attr',
-      slotName: 'attr',
+      dataIndex: 'username',
+      slotName: 'username',
       align:"center"
     },
     {
       title: '节点名称',
-      dataIndex: 'attr',
-      slotName: 'attr',
+      dataIndex: 'node_name',
+      slotName: 'node_name',
       align:"center"
     },
-    {
-      title: '完成状态',
-      dataIndex: 'attr',
-      slotName: 'attr',
-      align:"center"
-    },
+
     {
       title: '属性',
       dataIndex: 'attr',
@@ -45,33 +40,11 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       slotName: 'capacity',
       align:"center"
     },
+
     {
-      title: '土地性质',
-      dataIndex: 'properties',
-      slotName: 'properties',
-    },
-    {
-      title: '土地面积',
-      dataIndex: 'area',
-      slotName: 'area',
-      align:"center"
-    },
-    {
-      title: '电网接入情况',
-      dataIndex: 'connect',
-      slotName: 'connect',
-      align:"center"
-    },
-    {
-      title: '投资协议',
-      dataIndex: 'investmentAgreement',
-      slotName: 'investmentAgreement',
-      align:"center"
-    },
-    {
-      title: '商务条件',
-      dataIndex: 'businessCondition',
-      slotName: 'businessCondition',
+      title: '完成状态',
+      dataIndex: 'state',
+      slotName: 'state',
       align:"center"
     },
     {

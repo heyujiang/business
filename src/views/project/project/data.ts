@@ -21,31 +21,15 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       align:"center"
     },
     {
-      title: '状态',
-      dataIndex: 'state',
-      slotName: 'state',
-      align:"center"
-    },
-    {
       title: '节点进度',
       dataIndex: 'schedule',
       slotName: 'schedule',
     },
+
     {
       title: '容量大小',
       dataIndex: 'capacity',
       slotName: 'capacity',
-      align:"center"
-    },
-    {
-      title: '土地性质',
-      dataIndex: 'properties',
-      slotName: 'properties',
-    },
-    {
-      title: '土地面积',
-      dataIndex: 'area',
-      slotName: 'area',
       align:"center"
     },
     {
@@ -64,6 +48,23 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       title: '商务条件',
       dataIndex: 'businessCondition',
       slotName: 'businessCondition',
+      align:"center"
+    },
+    {
+      title: '土地性质',
+      dataIndex: 'properties',
+      slotName: 'properties',
+    },
+    {
+      title: '土地面积',
+      dataIndex: 'area',
+      slotName: 'area',
+      align:"center"
+    },
+    {
+      title: '状态',
+      dataIndex: 'state',
+      slotName: 'state',
       align:"center"
     },
     {

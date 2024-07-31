@@ -46,7 +46,6 @@
                 :value="item.value"
                 :class="{ active: item.value === size }"
               >
-                <span>{{ item.name }}</span>
               </a-doption>
             </template>
           </a-dropdown>
@@ -75,6 +74,54 @@
             />
           </a-avatar>
         </template>
+        <template #attr="{ record }">
+          <span v-if="record.attr == '1'">
+              {{'集中式'}}
+          </span>
+          <span v-else-if ="record.attr == '2'">
+              {{'分布式'}}
+          </span>
+          <span v-else-if ="record.attr == '3'">
+              {{'分散式'}}
+          </span>
+        </template>
+
+        <template #type="{ record }">
+          <span v-if="record.type == '1'" style="background-color: #30a4e4;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
+              {{'风电'}}
+          </span>
+          <span v-else-if ="record.type == '2'" style="background-color: #1fbb6a;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
+              {{'光伏'}}
+          </span>
+          <span v-else-if ="record.type == '3'" style="background-color: #00bbbb;  padding: 2px 10px;  border-radius: 20px;color: #FFFFFF ">
+              {{'储能'}}
+          </span>
+        </template>
+
+        <template #state="{ record }">
+          <span v-if="record.state == '1'" style="color: #0055d1; ">
+              {{'待定'}}
+          </span>
+          <span v-else-if ="record.state == '2'" style="color: #00bb00; " >
+              {{'进行中'}}
+          </span>
+          <span v-else-if ="record.state == '3'" style="color: #ff0000; ">
+              {{'已完成'}}
+          </span>
+          <span v-else-if ="record.state == '4'" style="color: #8590A6; ">
+              {{'中止'}}
+          </span>
+        </template>
+
+        <template #capacity="{ record }">
+          <span v-if="record.type == 1||record.type == 2">
+            {{record.capacity +'MW'}}
+          </span>
+          <span v-else-if="record.type == 3">
+            {{record.capacity +'Mwh'}}
+          </span>
+        </template>
+
         <template #name="{ record }">
           {{ record.name }}<span v-if="record.nickName" style="padding-left: 5px;color: var(--color-neutral-4);">{{ record.nickName }}</span>
         </template>
@@ -110,6 +157,7 @@
   import {Icon} from '@/components/Icon';
   import { Message } from '@arco-design/web-vue';
   import { Pagination } from '@/types/global';
+  import backcolor from "@/components/gfeditor/plugin/backcolor";
   const { t } = useI18n();
   const [registerModal, { openModal }] = useModal();
   const densityList = computed(() => [

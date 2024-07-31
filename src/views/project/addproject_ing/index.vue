@@ -1,7 +1,7 @@
 <template>
   <div class="container"  >
     <Breadcrumb :items="['menu.schedule', 'menu.project.add']" />
-    <a-card class="general-card onelineCard" style="height: calc(100% - 200px);">
+    <a-card class="general-card onelineCard" style="height: calc(100% - 50px);">
     <a-form ref="formRef" :model="formData" auto-label-width>
       <a-row :gutter="16">
         <a-col :span="10">

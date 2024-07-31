@@ -89,7 +89,7 @@
             </a-row>
           </div>
           <div v-else-if="current==2">
-            <a-card :style="{ marginBottom: '20px' }" title="联系人：" v-for="(contactItem,index) in formData.contact">
+            <a-card :style="{ marginBottom: '20px' }" title="对接联系人：" v-for="(contactItem,index) in formData.contact">
               <template #extra>
                 <IconDelete v-if="formData.contact.length > 1" @click="delContact(index)"/>
               </template>
@@ -358,12 +358,28 @@ const stateOptions = computed<SelectOptionData[]>(() => [
 
 const contactTypeOptions = computed<SelectOptionData[]>(() => [
   {
-    label: "政府",
+    label: "同行公司",
     value: 1,
   },
   {
-    label: "公益",
+    label: "分包方",
     value: 2,
+  },
+  {
+    label: "总包方",
+    value: 3,
+  },
+  {
+    label: "小E",
+    value: 4,
+  },
+  {
+    label: "劳务",
+    value: 5,
+  },
+  {
+    label: "政府单位",
+    value: 6,
   },
 ]);
 
