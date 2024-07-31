@@ -19,8 +19,8 @@ export function getList(params: object) {
   return defHttp.get({ url: Api.getList, params:params }, { errorMessageMode: 'none' });
 }
 //菜单选择菜单
-export function getParent(params: object) {
-  return defHttp.get({ url: Api.getParent, params:params  }, { errorMessageMode: 'none' });
+export function getParent() {
+  return defHttp.get({ url: Api.getParent }, { errorMessageMode: 'none' });
 }
 //提交菜单
 export function save(params: object) {
@@ -46,9 +46,13 @@ export function getNodeOptions() {
 }
 
 /**数据类型 */
-export interface RuleItem {
-    id:number,
+export interface NodeOption {
+    value:number,
+    label:string,
+}
+
+export interface NodeSaveItem {
+    name:string,
     pid:number,
-    locale: string;
-    title: string;
-  }
+    sort:number,
+}
