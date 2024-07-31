@@ -1,8 +1,8 @@
 <template>
   <div class="container"  >
     <Breadcrumb :items="['menu.schedule', 'menu.project.add']" />
-    <a-card class="general-card onelineCard" style="height: calc(100% - 50px);">
-    <a-form ref="formRef" :model="formData" auto-label-width>
+    <a-card class="general-card onelineCard" style="height: calc(100% - 50px); ">
+    <a-form ref="formRef" :model="formData" auto-label-width style="margin: 40px auto;width: 80%;">
       <a-row :gutter="16">
         <a-col :span="10">
           <a-form-item field="name" label="项目名" validate-trigger="input" :rules="[{required:true,message:'请选择项目名'}]" style="margin-bottom:15px;">
@@ -176,5 +176,8 @@ export default defineComponent({
 }
 .description{
   height: 100px;
+
+
 }
+
 </style>

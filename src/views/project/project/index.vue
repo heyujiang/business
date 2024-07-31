@@ -75,13 +75,13 @@
           </a-avatar>
         </template>
         <template #attr="{ record }">
-          <span v-if="record.attr == '1'">
+          <span v-if="record.attr == '1'" style="background-color: #f09200;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
               {{'集中式'}}
           </span>
-          <span v-else-if ="record.attr == '2'">
+          <span v-else-if ="record.attr == '2'" style="background-color: #e9552d;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
               {{'分布式'}}
           </span>
-          <span v-else-if ="record.attr == '3'">
+          <span v-else-if ="record.attr == '3'"  style="background-color: #9568fe;  padding: 2px 10px;  border-radius: 20px;color: #FFFFFF ">
               {{'分散式'}}
           </span>
         </template>

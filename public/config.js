@@ -12,9 +12,9 @@ window.globalConfig = {
     Upinfile_url_dev:`${domain}/business`,//业务专用上传附件-开发环境
 	AppTitle:"京杭能源开发管理后台",
     AppVersion:"1.1.0",
-    Company:"JYU",
+    Company:"",
     Address:"中国·杭州",
-    Team:"开发工程事业部",
+    Team:"工程事业部提供支持",
     loginTitle:"登录京杭能源开发管理后台",
     loginSubTitle:"",
     Copyright:"开发工程事业部",
