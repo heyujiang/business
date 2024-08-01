@@ -1,9 +1,9 @@
 {
-  "name": "goflyadmin",
-  "description": "GoFly系统中台企业版",
+  "name": "jhmanage",
+  "description": "京杭项目管理系统",
   "version": "1.2.5",
   "private": true,
-  "author": "GoFly Team",
+  "author": "京杭 IT Team",
   "license": "MIT",
   "scripts": {
     "serve": "vite --config ./config/vite.config.dev.ts",

@@ -1,5 +1,5 @@
-const domain="https://ent.goflys.cn";//您的域名//独立部署需要填写Go服务api接口域名(部署在Go目录下可以留空)
-// const localhost="http://localhost:8108";//访问本地的域名和端口，如果您改变Go服务端口，请自行修改
+// const domain="https://ent.goflys.cn";//您的域名//独立部署需要填写Go服务api接口域名(部署在Go目录下可以留空)
+const domain="http://127.0.0.1:1995";//您的域名//独立部署需要填写Go服务api接口域名(部署在Go目录下可以留空)
 const localhost="http://127.0.0.1:1995";//访问本地的域名和端口，如果您改变Go服务端口，请自行修改
 window.globalConfig = {
 	Main_url:`${domain}`,//域名
