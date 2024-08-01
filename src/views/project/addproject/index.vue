@@ -288,10 +288,7 @@ const handleSubmit = async () => {
 };
 
 const onPrev = async () => {
-  const res = await formRef.value?.validate();
-  if (!res) {
     current.value = Math.max(1, current.value - 1)
-  }
 };
 
 const onNext = async () => {
@@ -311,6 +308,7 @@ const setCurrent = async (cur:number) => {
 const delContact = (index: number) => {
   if(formData.value.contact.length > 1) {
     formData.value.contact.splice(index,1)
+    formRef.value?.validate();
   }
 }
 
@@ -321,6 +319,7 @@ const addContact = () => {
 const delPerson = (index: number) => {
   if(formData.value.person.length > 1) {
     formData.value.person.splice(index,1)
+    formRef.value?.validate()
   }
 }
 
