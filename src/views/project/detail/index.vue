@@ -3,7 +3,7 @@
     <Breadcrumb :items="['menu.user', 'menu.user.info']" />
     <ProjectProcess/>
     <ProjectBase/>
-
+    <ProjectNode/>
     <a-grid :cols="24" :colGap="20" :rowGap="20">
       <a-grid-item :span="12">
         <ProjectPerson/>
@@ -12,8 +12,6 @@
         <ProjectContact/>
       </a-grid-item>
     </a-grid>
-
-    <ProjectNode/>
   </div>
 </template>
 

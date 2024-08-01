@@ -5,11 +5,11 @@
       :header-style="{ paddingBottom: '18px' }"
       :body-style="{ paddingBottom: '12px' }"
   >
-    <a-steps class="project-step" :current="3"  label-placement="vertical">
-      <a-step description="项目还未开始">待开始</a-step>
-      <a-step description="项目正在进行中">进行中</a-step>
-      <a-step description="项目已结束：完成">已完成</a-step>
-    </a-steps>
+<!--    <a-steps class="project-step" :current="3"  label-placement="vertical">-->
+<!--      <a-step description="项目还未开始">待开始</a-step>-->
+<!--      <a-step description="项目正在进行中">进行中</a-step>-->
+<!--      <a-step description="项目已结束：完成">已完成</a-step>-->
+<!--    </a-steps>-->
 
     <a-steps class="project-step" :current="3" label-placement="vertical">
       <a-step description="项目还未开始">待开始</a-step>
@@ -32,6 +32,8 @@ const { loading, response: teamList } = useRequest<MyTeamRecord[]>(
 <style scoped lang="less">
 .general-card {
   margin-bottom: 20px;
+  padding: 0 20px;
+
   .project-step {
     height: 100px;
     padding: 20px 50px;

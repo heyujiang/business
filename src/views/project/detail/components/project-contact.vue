@@ -21,6 +21,7 @@ const { loading, response: teamList } = useRequest<MyTeamRecord[]>(
 </script>
 <style scoped lang="less">
 .general-card {
-  height: 390px;
+  margin-bottom: 20px;
+  padding: 0 20px;
 }
 </style>

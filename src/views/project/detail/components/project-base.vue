@@ -1,13 +1,13 @@
 <template>
-  <a-card
-      class="general-card"
-      title=" "
-      :header-style="{ paddingBottom: '18px' }"
-      :body-style="{ paddingBottom: '12px' }"
-  >
-
+  <a-card class="general-card" title="基础信息">
     <a-space direction="vertical">
-      <a-descriptions :data="data" title="基础信息" :align="{ label: 'right' }" table-layout="fixed" :column="2"/>
+      <a-descriptions :data="data" :align="{ label: 'right' }" table-layout="fixed" :column="3" bordered>
+        <template #value="{value , index , data}">
+          <a-rate v-if="data.label == '星级'" :count="3" :default-value="value" readonly/>
+          <div v-else>{{value}}</div>
+        </template>
+        <template #title></template>
+      </a-descriptions>
     </a-space>
   </a-card>
 </template>
@@ -19,7 +19,7 @@ const data = [{
     value: '萧山电厂储能项目',
   },{
     label: '星级',
-    value: '3星',
+    value: 1,
   }, {
     label: '属性',
     value: '集中式',
@@ -40,7 +40,7 @@ const data = [{
     value: '商业'
   }, {
     label: '开始时间',
-    value: '2024-8-20 00:00:00',
+    value: '2024-8-20',
   }, {
     label: '电网接入情况',
     value: '已经接入'
@@ -52,7 +52,10 @@ const data = [{
   value: '无'
 }, {
   label: '简介',
-  value: '简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介'
+  value: '简介简介简'
+}, {
+  label: '简介',
+  value: '简介简介简'
 }];
 
 
@@ -60,5 +63,5 @@ const data = [{
 <style scoped lang="less">
 .general-card {
   margin-bottom: 20px;
-}
+  padding: 0 20px;}
 </style>
