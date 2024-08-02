@@ -5,9 +5,9 @@
       <a-row style="margin-bottom: 10px">
         <a-col :span="16">
           <a-space>
-            <a-input :style="{width:'220px'}"  v-model="formModel.projectName" placeholder="项目名称" allow-clear />
-            <a-input :style="{width:'220px'}"  v-model="formModel.username" placeholder="负责人" allow-clear />
-<!--            <a-input :style="{width:'220px'}"  v-model="formModel.phoneNumber" placeholder="节点名称" allow-clear />-->
+            <a-input :style="{width:'220px'}"  v-model="formModel.name" placeholder="项目名称" allow-clear />
+            <a-select :style="{width:'220px'}"  v-model="formModel.userId" :options="userOptions" placeholder="负责人" allow-clear />
+            <a-range-picker style="width: 220px" value-format="timestamp" v-model="formModel.createdAt" allow-clear/>
             <a-button type="primary" @click="search">
               <template #icon>
                 <icon-search />
@@ -23,32 +23,12 @@
           :span="8"
            style="text-align: right;"
         >
-        <a-space>
-<!--          <a-button type="primary" @click="createRule">-->
-<!--            <template #icon>-->
-<!--              <icon-plus />-->
-<!--            </template>-->
-<!--            {{ $t('searchTable.operation.create') }}-->
-<!--          </a-button>-->
-          <a-tooltip :content="$t('searchTable.actions.refresh')">
-            <div class="action-icon" @click="search"
-              ><icon-refresh size="18"
-            /></div>
-          </a-tooltip>
-          <a-dropdown @select="handleSelectDensity">
-            <a-tooltip :content="$t('searchTable.actions.density')">
-              <div class="action-icon"><icon-line-height size="18" /></div>
+          <a-space>
+            <a-tooltip :content="$t('searchTable.actions.refresh')">
+              <div class="action-icon" @click="search"
+                ><icon-refresh size="18"
+              /></div>
             </a-tooltip>
-            <template #content>
-              <a-doption
-                v-for="item in densityList"
-                :key="item.value"
-                :value="item.value"
-                :class="{ active: item.value === size }"
-              >
-              </a-doption>
-            </template>
-          </a-dropdown>
           </a-space>
         </a-col>
       </a-row>
@@ -66,14 +46,20 @@
         @page-change="handlePaageChange"
         @page-size-change="handlePaageSizeChange"
       >
-        <template #avatar="{ record }">
-          <a-avatar trigger-type="mask">
-            <img
-              alt="avatar"
-              :src="record.avatar"
-            />
-          </a-avatar>
+        <template #name="{ record }">
+          <a-link :hoverable="false" @click="detail(record.id)">
+            {{ record.name}}
+          </a-link>
         </template>
+        <template #star="{ record }">
+          <a-rate :default-value="record.star" :count="record.star"  readonly/>
+        </template>
+
+        <template #schedule="{ record }">
+          <a-progress type="circle" :percent="record.schedule"
+          />
+        </template>
+
         <template #attr="{ record }">
           <span v-if="record.attr == '1'" style="background-color: #f09200;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
               {{'集中式'}}
@@ -115,15 +101,15 @@
 
         <template #capacity="{ record }">
           <span v-if="record.type == 1||record.type == 2">
-            {{record.capacity +'MW'}}
+            {{record.capacity +' MW'}}
           </span>
           <span v-else-if="record.type == 3">
-            {{record.capacity +'Mwh'}}
+            {{record.capacity +' Mwh'}}
           </span>
         </template>
 
-        <template #name="{ record }">
-          {{ record.name }}<span v-if="record.nickName" style="padding-left: 5px;color: var(--color-neutral-4);">{{ record.nickName }}</span>
+        <template #area="{ record }">
+          {{record.capacity +' 亩'}}
         </template>
 
         <template #operations="{ record }">
@@ -157,27 +143,11 @@
   import {Icon} from '@/components/Icon';
   import { Message } from '@arco-design/web-vue';
   import { Pagination } from '@/types/global';
-  import backcolor from "@/components/gfeditor/plugin/backcolor";
+  import { getUserOptions } from '@/api/user';
+  import router from "@/router";
+
   const { t } = useI18n();
   const [registerModal, { openModal }] = useModal();
-  const densityList = computed(() => [
-    {
-      name: t('searchTable.size.mini'),
-      value: 'mini',
-    },
-    {
-      name: t('searchTable.size.small'),
-      value: 'small',
-    },
-    {
-      name: t('searchTable.size.medium'),
-      value: 'medium',
-    },
-    {
-      name: t('searchTable.size.large'),
-      value: 'large',
-    },
-  ]);
   //分页
   const basePagination: Pagination = {
     current: 1,
@@ -199,10 +169,9 @@
     //查询字段
   const generateFormModel = () => {
     return {
-      projectName:'',
-      phoneNumber: '',
-      username: '',
-      state: 0,
+      name:'',
+      userId: '',
+      createdAt: [],
     };
   };
   const formModel = ref(generateFormModel());
@@ -220,6 +189,15 @@
     }
   };
 
+  const detail = (id:number) => {
+    router.push({
+      name: "detail",
+      query: {
+        id:id,
+      }
+    });
+  }
+
   const search = () => {
     fetchData();
   };
@@ -228,12 +206,18 @@
     fetchData();
   };
   fetchData();
-  const handleSelectDensity = (
-    val: string | number | Record<string, any> | undefined,
-    e: Event
-  ) => {
-    size.value = val as SizeProps;
+
+  const userOptions = ref([]);
+  const fetchUserOptions = async () => {
+    try {
+      userOptions.value = await getUserOptions();
+    } catch (err) {
+      // you can report use errorHandler or other
+    } finally {
+
+    }
   };
+  fetchUserOptions();
 
   watch(
     () => columns.value,

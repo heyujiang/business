@@ -20,14 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { queryMyTeamList, MyTeamRecord } from '@/api/user-center';
-import useRequest from '@/hooks/request';
 
-const defaultValue: MyTeamRecord[] = new Array(4).fill({});
-const { loading, response: teamList } = useRequest<MyTeamRecord[]>(
-    queryMyTeamList,
-    defaultValue
-);
 </script>
 <style scoped lang="less">
 .general-card {

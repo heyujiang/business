@@ -9,6 +9,12 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       fixed: 'left',
     },
     {
+      title: '星级',
+      dataIndex: 'star',
+      slotName: 'star',
+      align:"center",
+    },
+    {
       title: '属性',
       dataIndex: 'attr',
       slotName: 'attr',
@@ -21,11 +27,18 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       align:"center"
     },
     {
-      title: '节点进度',
+      title: '进度',
       dataIndex: 'schedule',
       slotName: 'schedule',
+      align:"center",
     },
-
+    {
+      title: '当前节点',
+      dataIndex: 'nodeName',
+      slotName: 'nodeName',
+      align:"center",
+      width:150,
+    },
     {
       title: '容量大小',
       dataIndex: 'capacity',
@@ -54,6 +67,7 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       title: '土地性质',
       dataIndex: 'properties',
       slotName: 'properties',
+      align:"center",
     },
     {
       title: '土地面积',
@@ -84,6 +98,7 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       dataIndex: 'operations',
       slotName: 'operations',
       fixed: 'right',
-      align:"center"
+      align:"center",
+      width:180,
     },
   ]);

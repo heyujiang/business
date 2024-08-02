@@ -8,15 +8,21 @@
         <a-step >联系人</a-step>
         <a-step >负责人</a-step>
         <a-step >节点</a-step>
+        <a-step >完成创建</a-step>
       </a-steps>
 
       <a-card class="add-project-card">
         <a-form ref="formRef" :model="formData" auto-label-width>
           <div v-if="current==1">
             <a-row :gutter="16">
-              <a-col :span="12">
+              <a-col :span="24">
                 <a-form-item field="name" label="项目名" validate-trigger="input" :rules="[{required:true,message:'请填写项目名'}]" style="margin-bottom:15px;">
                   <a-input  v-model="formData.name" placeholder="请填写项目名" allow-clear/>
+                </a-form-item>
+              </a-col>
+              <a-col :span="12">
+                <a-form-item field="attr" label="星级" style="margin-bottom:15px;">
+                  <a-select v-model="formData.star"  :options="starOptions" placeholder="请选择星级" allow-clear/>
                 </a-form-item>
               </a-col>
               <a-col :span="12">
@@ -52,7 +58,6 @@
               <a-col :span="12">
                 <a-form-item field="beginTime" label="开始时间" validate-trigger="blur" :rules="[{required:true,message:'请选择开始时间'}]" style="margin-bottom:15px;">
                   <a-date-picker
-                      show-time
                       v-model="formData.beginTime"
                       placeholder="请选择开始时间"
                       value-format="timestamp"
@@ -83,7 +88,7 @@
 
               <a-col :span="24">
                 <a-form-item field="description" label="简介"  style="margin-bottom:15px;">
-                  <a-textarea v-model="formData.description"  :options="attrOptions" placeholder="请填写简介" allow-clear/>
+                  <a-textarea v-model="formData.description" placeholder="请填写简介" allow-clear/>
                 </a-form-item>
               </a-col>
             </a-row>
@@ -159,7 +164,7 @@
       </a-card>
 
       <a-space size="large" class="add-project-buts">
-        <a-button type="secondary" v-if="current > 1"  @click="onPrev">
+        <a-button type="secondary" v-if="current > 1 && current < 4"  @click="onPrev">
           <IconLeft/> 上一步
         </a-button>
         <a-button type="primary" v-if="current < 4 && current >= 1 " @click="onNext">
@@ -214,6 +219,7 @@ const basedata={
   investmentAgreement:'',
   businessCondition:'',
   beginTime:0,
+  star:0,
   contact:contact,
   person:person,
   nodeIds:[],
@@ -327,6 +333,25 @@ const addPerson = () => {
   formData.value.person.push({})
 }
 
+//属性
+const starOptions = computed<SelectOptionData[]>(() => [
+  {
+    label: "无",
+    value: 0,
+  },
+  {
+    label: "一星",
+    value: 1,
+  },
+  {
+    label: "二星",
+    value: 2,
+  },
+  {
+    label: "三星",
+    value: 3,
+  },
+]);
 //属性
 const attrOptions = computed<SelectOptionData[]>(() => [
   {

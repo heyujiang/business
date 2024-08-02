@@ -16,11 +16,17 @@
 </template>
 
 <script lang="ts" setup>
+  import {ref} from 'vue';
   import ProjectProcess from './components/project-progress.vue';
   import ProjectBase from './components/project-base.vue';
   import ProjectNode from './components/project-node.vue';
   import ProjectPerson from './components/project-person.vue';
   import ProjectContact from './components/project-contact.vue';
+  import { useRoute } from 'vue-router'
+  const route = useRoute()
+  const projectId = route.query.id
+
+
 </script>
 
 <script lang="ts">

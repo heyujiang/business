@@ -13,8 +13,11 @@ enum Api {
 }
 
 //数据列表
-export function getList(params: object) {
-  return defHttp.get({ url: Api.getList, params:params }, { errorMessageMode: 'none' });
+export function getList(params: any) {
+    if (params.createdAt[0] > 100000000){
+        params=Object.assign({},params,{createdAt:[Math.floor(params.createdAt[0] / 1000),Math.floor(params.createdAt[1] / 1000)]})
+    }
+   return defHttp.get({ url: Api.getList, params:params }, { errorMessageMode: 'none' });
 }
 
 //新增用户

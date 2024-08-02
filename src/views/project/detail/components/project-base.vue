@@ -2,8 +2,8 @@
   <a-card class="general-card" title="基础信息">
     <a-space direction="vertical">
       <a-descriptions :data="data" :align="{ label: 'right' }" table-layout="fixed" :column="3" bordered>
-        <template #value="{value , index , data}">
-          <a-rate v-if="data.label == '星级'" :count="3" :default-value="value" readonly/>
+        <template #value="{value  , data}">
+          <a-rate v-if="data.label == '星级'" :count="value" :default-value="value" readonly/>
           <div v-else>{{value}}</div>
         </template>
         <template #title></template>
