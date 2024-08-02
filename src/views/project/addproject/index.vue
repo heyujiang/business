@@ -11,7 +11,7 @@
         <a-step >完成创建</a-step>
       </a-steps>
 
-      <a-card class="add-project-card">
+      <a-card class="add-project-card" :bordered="current<5">
         <a-form ref="formRef" :model="formData" auto-label-width>
           <div v-if="current==1">
             <a-row :gutter="16">
@@ -99,17 +99,17 @@
                 <IconDelete v-if="formData.contact.length > 1" @click="delContact(index)"/>
               </template>
               <a-col :span="20">
-                <a-form-item  label="姓名" :field="`contact[${index}].name`"  validate-trigger="input" :rules="[{required:true,message:'请填写联系人姓名'}]" :key="index" style="margin-bottom:15px;">
+                <a-form-item  label="姓名" :field="`contact.${index}.name`"  validate-trigger="input" :rules="[{required:true,message:'请填写联系人姓名'}]" :key="index" style="margin-bottom:15px;">
                   <a-input v-model="contactItem.name" placeholder="请填写联系人姓名"  allow-clear/>
                 </a-form-item>
               </a-col>
               <a-col :span="20">
-                <a-form-item  label="电话" :field="`contact[${index}].phoneNumber`"  validate-trigger="input" :rules="[{required:true,message:'请填写联系人电话'}]" :key="index" style="margin-bottom:15px;">
+                <a-form-item  label="电话" :field="`contact.${index}.phoneNumber`"  validate-trigger="input" :rules="[{required:true,message:'请填写联系人电话'}]" :key="index" style="margin-bottom:15px;">
                   <a-input v-model="contactItem.phoneNumber" placeholder="请填写联系人电话"  allow-clear/>
                 </a-form-item>
               </a-col>
               <a-col :span="20">
-                <a-form-item  label="类型" :field="`contact[${index}].type`"  validate-trigger="blur" :rules="[{required:true,message:'请选择类型'}]" :key="index"  style="margin-bottom:15px;">
+                <a-form-item  label="类型" :field="`contact.${index}.type`"  validate-trigger="blur" :rules="[{required:true,message:'请选择类型'}]" :key="index"  style="margin-bottom:15px;">
                   <a-select v-model="contactItem.type"  :options="contactTypeOptions" placeholder="请选择类型" allow-clear/>
                 </a-form-item>
               </a-col>
@@ -125,18 +125,18 @@
               </a-button>
             </a-space>
           </div>
-          <div v-if="current==3">
+          <div v-else-if="current==3">
               <a-card :style="{ marginBottom: '20px' }" title="项目成员：" v-for="(personItem,index) in formData.person">
                 <template #extra>
                   <IconDelete v-if="formData.person.length > 1" @click="delPerson(index)"/>
                 </template>
                 <a-col :span="20">
-                  <a-form-item  label="项目成员" :field="`person[${index}].userId`"  validate-trigger="input" :rules="[{required:true,message:'请选择项目成员'}]" :key="index" style="margin-bottom:15px;">
+                  <a-form-item  label="项目成员" :field="`person.${index}.userId`"  validate-trigger="input" :rules="[{required:true,message:'请选择项目成员'}]" :key="index" style="margin-bottom:15px;">
                     <a-select v-model="personItem.userId" allow-search :options="userOptions" placeholder="请选择项目成员" allow-clear/>
                   </a-form-item>
                 </a-col>
                 <a-col :span="20">
-                  <a-form-item  label="类型" :field="`person[${index}].type`"  validate-trigger="input" :rules="[{required:true,message:'请选择类型'}]" :key="index"  style="margin-bottom:15px;">
+                  <a-form-item  label="类型" :field="`person.${index}.type`"  validate-trigger="input" :rules="[{required:true,message:'请选择类型'}]" :key="index"  style="margin-bottom:15px;">
                     <a-select v-model="personItem.type"  :options="personTypeOptions" placeholder="请选择类型" allow-clear/>
                   </a-form-item>
                 </a-col>
@@ -147,7 +147,7 @@
                 </a-button>
               </a-space>
           </div>
-          <div v-if="current==4">
+          <div v-else-if="current==4">
             <a-col :span="24">
               <a-form-item field="nodeIds" label="已完成节点" style="margin-bottom:15px;">
                 <a-cascader
@@ -160,11 +160,24 @@
               </a-form-item>
             </a-col>
           </div>
+          <div v-else-if="current==5">
+            <a-col :span="24" style="text-align: center;padding-top: 30px">
+              <a-space direction="vertical" size="large">
+                <icon-check-circle :style="{fontSize:'40px',color:'green'}" :stroke-width="2" />
+                <span>新建项目成功</span>
+                <a-space>
+                  <a-button @click="keepCreate">继续创建</a-button>
+                  <a-button type="primary" @click="viewDetail">查看详情</a-button>
+                </a-space>
+              </a-space>
+
+            </a-col>
+          </div>
         </a-form>
       </a-card>
 
       <a-space size="large" class="add-project-buts">
-        <a-button type="secondary" v-if="current > 1 && current < 4"  @click="onPrev">
+        <a-button type="secondary" v-if="current > 1 && current <= 4"  @click="onPrev">
           <IconLeft/> 上一步
         </a-button>
         <a-button type="primary" v-if="current < 4 && current >= 1 " @click="onNext">
@@ -190,22 +203,15 @@ import {save, update, ProjectContactItem, ProjectPersonItem} from '@/api/project
 import { getUserOptions } from '@/api/user';
 import { getNodeOptions } from '@/api/system/node';
 import { Message } from '@arco-design/web-vue';
+import router from "@/router";
 
-
-const isUpdate = ref(false);
+const projectId = ref(0)
 const current = ref(1);
 //表单
 const formRef = ref<FormInstance>();
 
-//ID
-const projectId = ref(0);
-
-const contact:ProjectContactItem[] = [{}];
-const person:ProjectPersonItem[] = [{}];
-
-
 //表单字段
-const basedata={
+const baseData={
   name: '',
   description: '',
   attr: '',
@@ -220,13 +226,12 @@ const basedata={
   businessCondition:'',
   beginTime:0,
   star:0,
-  contact:contact,
-  person:person,
+  contact:[{}],
+  person:[{}],
   nodeIds:[],
 }
 
-console.log(basedata);
-const formData = ref(basedata)
+const formData = ref(baseData)
 
 const userOptions = ref([]);
 const fetchUserOptions = async () => {
@@ -251,44 +256,24 @@ const fetchNodeOptions = async () => {
 };
 fetchNodeOptions();
 
-const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
-  formRef.value?.resetFields()
-  setModalProps({ confirmLoading: false });
-  isUpdate.value = !!data?.isUpdate;
-  if (unref(isUpdate)) {
-    projectId.value = data.record.id
-    formData.value=cloneDeep(data.record)
-  }else{
-    formData.value=basedata
-  }
-});
+
 //点击确认
-const { loading, setLoading } = useLoading();
 const handleSubmit = async () => {
   try {
     const res = await formRef.value?.validate();
+    // console.log(res)
     if (!res) {
-      setLoading(true);
-
       Message.loading({content:"新增中",id:"upStatus"})
-      await save(unref(formData));
-      Message.success({content:"新增成功",id:"upStatus"})
+      await save(unref(formData)).then((res)=>{
+        Message.clear("top")
+        current.value = 5
+        projectId.value = res.id
+      }).catch(()=>{
+        Message.error({content:"新增成功",id:"upStatus"})
+      });
 
-      // if(!unref(isUpdate)){
-      //   Message.loading({content:"新增中",id:"upStatus"})
-      //   await save(unref(formData));
-      //   Message.success({content:"新增成功",id:"upStatus"})
-      // }else{
-      //   Message.loading({content:"更新中",id:"upStatus"})
-      //   await update(unref(projectId),unref(formData));
-      //   Message.success({content:"更新成功",id:"upStatus"})
-      // }
-
-      closeModal()
-      setLoading(false);
     }
   } catch (error) {
-    setLoading(false);
     Message.clear("top")
   }
 };
@@ -305,9 +290,15 @@ const onNext = async () => {
 };
 
 const setCurrent = async (cur:number) => {
-  const res = await formRef.value?.validate();
-  if (!res) {
-    current.value = cur
+  if(current.value < 5 ){
+    if(current.value > cur) {
+      current.value = cur
+    } else{
+      const res = await formRef.value?.validate();
+      if (!res) {
+        current.value = cur
+      }
+    }
   }
 }
 
@@ -331,6 +322,20 @@ const delPerson = (index: number) => {
 
 const addPerson = () => {
   formData.value.person.push({})
+}
+
+const keepCreate = () => {
+  formData.value =  ref(baseData)
+  current.value = 1
+}
+
+const viewDetail = () => {
+  router.push({
+    name: "detail",
+    query: {
+      id:projectId.value,
+    }
+  });
 }
 
 //属性

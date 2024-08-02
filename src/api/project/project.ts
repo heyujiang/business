@@ -10,6 +10,7 @@ enum Api {
     save = '/api/project',
     update = '/api/project/',
     del = '/api/project/',
+    getProjectInfo = '/api/project/'
 }
 
 //数据列表
@@ -25,7 +26,7 @@ export function save(params: any) {
   if (params.beginTime > 100000000){
       params=Object.assign({},params,{beginTime:Math.floor(params.beginTime / 1000)})
   }
-  return defHttp.post({ url: Api.save, params:params}, { successMessageMode:'modal',errorMessageMode: 'message' });
+  return defHttp.post({ url: Api.save, params:params}, { errorMessageMode: 'message' });
 }
 
 //新增用户
@@ -37,6 +38,11 @@ export function update(id:number,params: any) {
 export function del(id: number) {
     return defHttp.delete({ url: Api.del + id}, { errorMessageMode: 'message' });
 }
+
+export function getProjectInfo(id: number) {
+    return defHttp.get({ url: Api.getProjectInfo + id}, { errorMessageMode: 'message' });
+}
+
 /**数据类型 */
 export interface DataItem {
     id:number,

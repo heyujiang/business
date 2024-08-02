@@ -229,7 +229,6 @@ export class VAxios {
         .then((res: AxiosResponse<Result>) => {
           if (transformResponseHook && isFunction(transformResponseHook)) {
             try {
-              console.log(res)
               const ret = transformResponseHook(res, opt);
               resolve(ret);
             } catch (err) {
