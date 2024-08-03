@@ -7,6 +7,8 @@
           <a-space>
             <a-input :style="{width:'220px'}"  v-model="formModel.name" placeholder="项目名称" allow-clear />
             <a-select :style="{width:'220px'}"  v-model="formModel.userId" :options="userOptions" placeholder="负责人" allow-clear />
+            <a-select :style="{width:'220px'}"  v-model="formModel.star" :options="starOptions" placeholder="星级" allow-clear />
+            <a-select :style="{width:'220px'}"  v-model="formModel.type" :options="typeOptions" placeholder="类型" allow-clear />
             <a-range-picker style="width: 220px" value-format="timestamp" v-model="formModel.createdAt" allow-clear/>
             <a-button type="primary" @click="search">
               <template #icon>
@@ -29,6 +31,23 @@
                 ><icon-refresh size="18"
               /></div>
             </a-tooltip>
+            <a-dropdown @select="handleSelectDensity">
+            <a-tooltip :content="$t('searchTable.actions.density')">
+              <div class="action-icon">
+                <icon-line-height size="18"/>
+              </div>
+            </a-tooltip>
+              <template #content>
+                <a-doption
+                    v-for="item in densityList"
+                    :key="item.value"
+                    :value="item.value"
+                    :class="{ active: item.value === size }"
+                >
+                  <span>{{ item.name }}</span>
+                </a-doption>
+              </template>
+            </a-dropdown>
           </a-space>
         </a-col>
       </a-row>
@@ -166,11 +185,31 @@
   const cloneColumns = ref<Column[]>([]);
   const showColumns = ref<Column[]>([]);
   const size = ref<SizeProps>('large');
+  const densityList = computed(() => [
+    {
+      name: t('searchTable.size.mini'),
+      value: 'mini',
+    },
+    {
+      name: t('searchTable.size.small'),
+      value: 'small',
+    },
+    {
+      name: t('searchTable.size.medium'),
+      value: 'medium',
+    },
+    {
+      name: t('searchTable.size.large'),
+      value: 'large',
+    },
+  ]);
     //查询字段
   const generateFormModel = () => {
     return {
       name:'',
       userId: '',
+      star:'',
+      type:'',
       createdAt: [],
     };
   };
@@ -206,8 +245,47 @@
     fetchData();
   };
   fetchData();
+  const handleSelectDensity = (
+      val: string | number | Record<string, any> | undefined,
+      e: Event
+  ) => {
+    size.value = val as SizeProps;
+  };
 
   const userOptions = ref([]);
+  const typeOptions = computed<SelectOptionData[]>(() => [
+    {
+      label: "风电",
+      value: 1,
+    },
+    {
+      label: "光伏",
+      value: 2,
+    },
+    {
+      label: "储能",
+      value: 3,
+    },
+  ]);
+
+  const starOptions = computed<SelectOptionData[]>(() => [
+    {
+      label: "无",
+      value: 0,
+    },
+    {
+      label: "一星",
+      value: 1,
+    },
+    {
+      label: "二星",
+      value: 2,
+    },
+    {
+      label: "三星",
+      value: 3,
+    },
+  ]);
   const fetchUserOptions = async () => {
     try {
       userOptions.value = await getUserOptions();

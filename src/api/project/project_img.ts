@@ -6,10 +6,10 @@ export interface LoginData {
   password: string;
 }
 enum Api {
-    getList = '/api/project_img',
-    save = '/api/project_img',
-    update = '/api/project_img/',
-    del = '/api/project_img/',
+    getList = '/api/project/record',
+    save = '/api/project/record',
+    update = '/api/project/record',
+    del = '/api/project/record',
 }
 
 //数据列表

@@ -149,7 +149,7 @@
 <script lang="ts" setup>
 import {computed, reactive, ref, watch} from 'vue';
 import useLoading from '@/hooks/loading';
-import {del, getList} from '@/api/project/project';
+import { getList,del} from '@/api/project/project_img';
 import type {TableColumnData} from '@arco-design/web-vue/es/table/interface';
 import type {SelectOptionData} from '@arco-design/web-vue/es/select/interface';
 import cloneDeep from 'lodash/cloneDeep';
