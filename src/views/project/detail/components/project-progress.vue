@@ -62,7 +62,6 @@ console.log("state:",props.state)
 .general-card {
   margin-bottom: 20px;
   padding: 0 20px;
-
   .project-step {
     height: 100px;
     padding: 20px 50px;

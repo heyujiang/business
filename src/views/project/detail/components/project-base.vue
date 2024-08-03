@@ -34,7 +34,7 @@ const data = [{
     value: '389.92'
   }, {
   label: '项目地址',
-  value: 'Yingdu Building, Zhichun Road, Beijing'
+  value: 'Yingdu Building,'
 },{
     label: '土地性质',
     value: '商业'
@@ -53,10 +53,7 @@ const data = [{
 }, {
   label: '简介',
   value: '简介简介简'
-}, {
-  label: '简介',
-  value: '简介简介简'
-}];
+}, ];
 
 
 </script>

@@ -81,47 +81,41 @@
           </a-avatar>
         </template>
         <template #attr="{ record }">
-          <span v-if="record.attr == '1'"
-                style="background-color: #f09200;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
-              {{ '集中式' }}
+          <span v-if="record.attr == '1'" style="color: #f09200 ">
+              {{'集中式'}}
           </span>
-          <span v-else-if="record.attr == '2'"
-                style="background-color: #e9552d;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
-              {{ '分布式' }}
+          <span v-else-if ="record.attr == '2'" style="color: #e9552d ">
+              {{'分布式'}}
           </span>
-          <span v-else-if="record.attr == '3'"
-                style="background-color: #9568fe;  padding: 2px 10px;  border-radius: 20px;color: #FFFFFF ">
-              {{ '分散式' }}
+          <span v-else-if ="record.attr == '3'"  style="color: #9568fe ">
+              {{'分散式'}}
           </span>
         </template>
 
         <template #type="{ record }">
-          <span v-if="record.type == '1'"
-                style="background-color: #30a4e4;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
-              {{ '风电' }}
+          <span v-if="record.type == '1'" style="background-color: #30a4e4;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
+              {{'风电'}}
           </span>
-          <span v-else-if="record.type == '2'"
-                style="background-color: #1fbb6a;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
-              {{ '光伏' }}
+          <span v-else-if ="record.type == '2'" style="background-color: #e9552d;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
+              {{'光伏'}}
           </span>
-          <span v-else-if="record.type == '3'"
-                style="background-color: #00bbbb;  padding: 2px 10px;  border-radius: 20px;color: #FFFFFF ">
-              {{ '储能' }}
+          <span v-else-if ="record.type == '3'" style="background-color: #00bbbb;  padding: 2px 10px;  border-radius: 20px;color: #FFFFFF ">
+              {{'储能'}}
           </span>
         </template>
 
         <template #state="{ record }">
-          <span v-if="record.state == '1'" style="color: #0055d1; ">
-              {{ '待定' }}
+          <span v-if="record.state == '1'"  style="background-color: #7d7d7f;  padding: 2px 10px; border-radius: 20px;color:#FFFFFF ">
+              {{'待定'}}
           </span>
-          <span v-else-if="record.state == '2'" style="color: #00bb00; ">
-              {{ '进行中' }}
+          <span v-else-if ="record.state == '2'" style="background-color: #00bb00;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF " >
+              {{'进行中'}}
           </span>
-          <span v-else-if="record.state == '3'" style="color: #ff0000; ">
-              {{ '已完成' }}
+          <span v-else-if ="record.state == '3'" style="background-color: #ff0000;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
+              {{'已完成'}}
           </span>
-          <span v-else-if="record.state == '4'" style="color: #8590A6; ">
-              {{ '中止' }}
+          <span v-else-if ="record.state == '4'" style="color: #8590A6; ">
+              {{'中止'}}
           </span>
         </template>
         <template #capacity="{ record }">

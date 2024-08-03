@@ -8,18 +8,7 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       align:"center",
       fixed: 'left',
     },
-    {
-      title: '星级',
-      dataIndex: 'star',
-      slotName: 'star',
-      align:"center",
-    },
-    {
-      title: '属性',
-      dataIndex: 'attr',
-      slotName: 'attr',
-      align:"center"
-    },
+
     {
       title: '类型',
       dataIndex: 'type',
@@ -27,22 +16,44 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       align:"center"
     },
     {
-      title: '进度',
+      title: '当前节点',
       dataIndex: 'schedule',
       slotName: 'schedule',
-      align:"center",
     },
     {
-      title: '当前节点',
-      dataIndex: 'nodeName',
-      slotName: 'nodeName',
-      align:"center",
-      width:150,
+      title: '节点完成进度',
+      dataIndex: 'schedule',
+      slotName: 'schedule',
+    },
+    {
+      title: '项目负责人',
+      dataIndex: 'userName',
+      slotName: 'userName',
+      align:"userName"
+    },
+
+    {
+      title: '项目等级',
+      dataIndex: 'start',
+      slotName: 'start',
+      align:"start"
     },
     {
       title: '容量大小',
       dataIndex: 'capacity',
       slotName: 'capacity',
+      align:"center"
+    },
+    {
+      title: '状态',
+      dataIndex: 'state',
+      slotName: 'state',
+      align:"center"
+    },
+    {
+      title: '属性',
+      dataIndex: 'attr',
+      slotName: 'attr',
       align:"center"
     },
     {
@@ -67,20 +78,14 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       title: '土地性质',
       dataIndex: 'properties',
       slotName: 'properties',
-      align:"center",
     },
     {
-      title: '土地面积',
+      title: '土地面积(亩)',
       dataIndex: 'area',
       slotName: 'area',
       align:"center"
     },
-    {
-      title: '状态',
-      dataIndex: 'state',
-      slotName: 'state',
-      align:"center"
-    },
+
     {
       title: '开始时间',
       dataIndex: 'beginTime',
@@ -98,7 +103,6 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       dataIndex: 'operations',
       slotName: 'operations',
       fixed: 'right',
-      align:"center",
-      width:180,
+      align:"center"
     },
   ]);
