@@ -2,7 +2,7 @@
   <a-card class="general-card" title="基础信息">
     <a-space direction="vertical">
       <a-descriptions :data="data" :align="{ label: 'right' }" table-layout="fixed" :column="3" bordered>
-        <template #value="{value  , data}">
+        <template #value="{value , data}">
           <a-rate v-if="data.label == '星级'" :count="value" :default-value="value" readonly/>
           <div v-else>{{value}}</div>
         </template>
@@ -13,48 +13,61 @@
 </template>
 
 <script lang="ts" setup>
+import {computed, ref , unref} from "vue"
 
-const data = [{
+const props = defineProps({
+  detail: {
+    type: Object,
+    default() {
+      return 0;
+    },
+  },
+});
+
+const data = computed(() => {
+  return  [{
     label: '项目名',
-    value: '萧山电厂储能项目',
+    value: props.detail.name,
   },{
     label: '星级',
-    value: 1,
+    value: props.detail.star,
   }, {
     label: '属性',
-    value: '集中式',
+    value: props.detail.attr,
   }, {
     label: '类型',
-    value: '储能'
+    value: props.detail.type,
   }, {
     label: '容量-MW',
-    value: '9888.90',
+    value: props.detail.capacity,
   }, {
     label: '面积-亩',
-    value: '389.92'
+    value: props.detail.area
   }, {
-  label: '项目地址',
-  value: 'Yingdu Building,'
-},{
+    label: '项目地址',
+    value: props.detail.address
+  },{
     label: '土地性质',
-    value: '商业'
+    value: props.detail.properties
   }, {
     label: '开始时间',
-    value: '2024-8-20',
+    value: props.detail.beginTime,
   }, {
     label: '电网接入情况',
-    value: '已经接入'
+    value: props.detail.connect,
   }, {
-  label: '投资协议',
-  value: '自有资金'
-}, {
-  label: '商务条件',
-  value: '无'
-}, {
-  label: '简介',
-  value: '简介简介简'
-}, ];
+    label: '投资协议',
+    value: props.detail.investment_agreement,
+  }, {
+    label: '商务条件',
+    value: props.detail.business_condition,
+  }, {
+    label: '简介',
+    value: props.detail.description,
+  }];
+});
 
+console.log(data);
 
 </script>
 <style scoped lang="less">

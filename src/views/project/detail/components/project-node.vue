@@ -3,83 +3,74 @@
       class="general-card"
       title="项目节点进度"
       :header-style="{ paddingBottom: '18px' }"
-      :body-style="{ paddingBottom: '12px' }"
+      :body-style="{ paddingBottom: '12px' , backgroundColor:'#edeef0' }"
   >
-    <a-steps class="project-step-top" type="arrow"  style="margin-bottom: 30px">
-      <a-step status="finish" >踏勘前准备工作</a-step>
-      <a-step status="wait">踏勘时准备工作</a-step>
-      <a-step status="process">踏勘后测算工作</a-step>
-      <a-step status="wait">项目备案工作</a-step>
-      <a-step >项目批复文件</a-step>
-      <a-step >获得开工许可</a-step>
 
-    </a-steps>
+    <a-grid :cols="4" :colGap="10" :wrap="false">
+     <a-grid-item v-for="i in 4" style="padding: 20px 0">
+         <a-card :bordered="false" style="margin-bottom: 10px ;border-radius: 3px ; border-top: 2px solid red" :header-style="{ paddingBottom: '18px', borderTop:'1px solid red' , border:'none' }">
+            <template #title>
+              Top Node : {{i}}
+            </template>
+           <a-progress :percent="0.2"/>
+         </a-card>
 
-    <a-grid cols="6">
-      <a-grid-item v-for=" i in 6" style="padding-left: 20px; ">
-        <a-steps class="project-step-second"  direction="vertical" >
-            <a-step status="finish">
-              基本信息收集
-              <template #description>
-                <a-space direction="vertical" >
-                  <a-link type="text" style="color: #92a4b5">
-                    查看更多>>
-                  </a-link>
-                </a-space>
-              </template>
-            </a-step>
-            <a-step status="finish">与资源/政府等沟通
-              <template #description>
-                <a-space direction="vertical">
-                  <a-link type="text" style="color: #92a4b5">查看更多>>
-                  </a-link>
-                </a-space>
-              </template>
-            </a-step>
-            <a-step status="process">宏观选址
-              <template #description>
-                <a-space direction="vertical">
-                  <a-link type="text" style="color: #92a4b5">查看更多>>
-                  </a-link>
-                </a-space>
-              </template>
-            </a-step>
-            <a-step status="wait">场站地形地貌
-              <template #description>
-                <a-space direction="vertical">
-                  <a-link type="text" style="color: #92a4b5">查看更多>>
-                  </a-link>
-                </a-space>
-              </template>
-            </a-step>
-            <a-step>场站坐标
-              <template #description>
-                <a-space direction="vertical">
-                  <a-link type="text" style="color: #92a4b5">查看更多>>
-                  </a-link>
-                </a-space>
-              </template>
-            </a-step>
-            <a-step>项目已结束：终止
-              <template #description>
-                <a-space direction="vertical">
-                  <a-link type="text" style="color: #92a4b5">查看更多>>
-                  </a-link>
-                </a-space>
-              </template>
-            </a-step>
-        </a-steps>
-      </a-grid-item>
+         <a-card :bordered="false" class="son-node-card"  v-for="ii in 6" style="margin-bottom: 10px ; border-radius: 3px ;" :header-style="{ paddingBottom: '18px',border:'none' }">
+           <template #title>
+             <a-tag>
+               <template #icon>
+                 <icon-tag size="14"/>
+                 <icon-clock-circle size="14"/>
+                 <icon-check-circle size="14"/>
+               </template>
+               未开始
+             </a-tag>
+           </template>
+           son node : {{ii}}
+           <template #actions>
+             <span class="icon-hover"> <icon-computer /> 23 </span>
+             <span class="icon-hover"> <icon-file /> 26 </span>
+           </template>
+         </a-card>
+     </a-grid-item>
     </a-grid>
   </a-card>
 </template>
 
 <script lang="ts" setup>
+import {computed, ref , unref} from "vue"
+import {getProjectNodes} from '@/api/project/project';
+
+const props = defineProps({
+  projectId: {
+    type: Number,
+    default() {
+      return 0;
+    },
+  },
+});
+
+const projectId = computed(() => {
+  return props.projectId
+});
+
+const fetchNodes = async () => {
+  try {
+    const data = await getProjectNodes(projectId.value);
+    console.log(data)
+  } catch (err) {
+    // you can report use errorHandler or other
+  }
+};
+fetchNodes();
 
 </script>
 <style scoped lang="less">
 .general-card {
   margin-bottom: 20px;
   padding: 0 20px;
+}
+.son-node-card:hover{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 </style>

@@ -5,27 +5,19 @@
       :header-style="{ paddingBottom: '18px' }"
       :body-style="{ paddingBottom: '12px' }"
   >
-<!--    <a-steps class="project-step" :current="3"  label-placement="vertical">-->
-<!--      <a-step description="项目还未开始">待开始</a-step>-->
-<!--      <a-step description="项目正在进行中">进行中</a-step>-->
-<!--      <a-step description="项目已结束：完成">已完成</a-step>-->
-<!--    </a-steps>-->
 
-    <a-steps class="project-step" :current="current" label-placement="vertical">
-      <a-step description="项目还未开始">待开始</a-step>
-      <a-step description="项目正在进行中">进行中</a-step>
-      <a-step :status="state == 4 ? 'error' : ''">
-        项目终止
-        <template #description>
-          项目已结束：{{ }}
-        </template>
-      </a-step>
+    <a-steps class="project-step" :current="unref(cur)" label-placement="vertical">
+      <a-step>待开始</a-step>
+      <a-step>进行中</a-step>
+      <a-step v-if="unref(state)==4" status="error">项目终止</a-step>
+      <a-step v-else >项目结束</a-step>
     </a-steps>
   </a-card>
 </template>
 
 <script lang="ts" setup>
-import {computed, ref} from "vue"
+  import {computed, ref , unref} from "vue"
+
   const props = defineProps({
    state: {
      type: Number,
@@ -33,29 +25,27 @@ import {computed, ref} from "vue"
        return 0;
      },
    },
-  })
+  });
 
-console.log("state:",props.state)
-  const current = ref(1);
-  const curVal = (state:number)=>{
-    switch (state) {
+  const state = computed(() => {
+    return props.state
+  });
+
+  const cur = computed(() => {
+    switch(props.state){
       case 1:
-        current.value = 1
-        break;
+        return 1
       case 2:
-        current.value = 2
-        break;
+        return 2
       case 3:
-        current.value = 3
-        break;
+        return 3
       case 4:
-        current.value = 3
-        break;
+        return 3
     }
-    console.log(current.value)
-  }
+  });
 
-  curVal(props.state)
+  console.log(cur.value);
+  console.log(state.value);
 
 </script>
 <style scoped lang="less">

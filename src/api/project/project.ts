@@ -10,7 +10,8 @@ enum Api {
     save = '/api/project',
     update = '/api/project/',
     del = '/api/project/',
-    getProjectInfo = '/api/project/'
+    getProjectInfo = '/api/project/',
+    getProjectNodes = '/api/project/nodes/'
 }
 
 //数据列表
@@ -42,6 +43,12 @@ export function del(id: number) {
 export function getProjectInfo(id: number) {
     return defHttp.get({ url: Api.getProjectInfo + id}, { errorMessageMode: 'message' });
 }
+
+
+export function getProjectNodes(id: number) {
+    return defHttp.get({ url: Api.getProjectNodes + id}, { errorMessageMode: 'message' });
+}
+
 
 /**数据类型 */
 export interface DataItem {
