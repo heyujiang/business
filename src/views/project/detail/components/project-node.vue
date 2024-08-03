@@ -24,7 +24,7 @@
                未开始
              </a-tag>
            </template>
-           son node : {{ii}}
+           son node : {{ii}} son node : {{ii}} son node : {{ii}}
            <template #actions>
              <span class="icon-hover"> <icon-computer /> 23 </span>
              <span class="icon-hover"> <icon-file /> 26 </span>
