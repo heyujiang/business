@@ -21,8 +21,8 @@
   import ProjectProcess from './components/project-progress.vue';
   import ProjectBase from './components/project-base.vue';
   import ProjectNode from './components/project-node.vue';
-  import ProjectPerson from './components/project-person.vue';
-  import ProjectContact from './components/project-contact.vue';
+  import ProjectPerson from './components/project_person/index.vue';
+  import ProjectContact from './components/project_contact/index.vue';
   import { useRoute } from 'vue-router'
   import useLoading from "@/hooks/loading";
   import { Message } from '@arco-design/web-vue';
