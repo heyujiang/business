@@ -3,8 +3,8 @@
     <Breadcrumb :items="['menu.project', 'menu.project.list']" />
     <a-card class="general-card onelineCard" style="height: calc(100% - 50px);">
       <a-row style="margin-bottom: 10px">
-        <a-col :span="16">
-          <a-space>
+        <a-col :span="20">
+          <a-space wrap>
             <a-input :style="{width:'220px'}"  v-model="formModel.name" placeholder="项目名称" allow-clear />
             <a-select :style="{width:'220px'}"  v-model="formModel.userId" :options="userOptions" placeholder="负责人" allow-clear />
             <a-select :style="{width:'220px'}"  v-model="formModel.star" :options="starOptions" placeholder="星级" allow-clear />
@@ -22,7 +22,7 @@
           </a-space>
         </a-col>
         <a-col
-          :span="8"
+          :span="4"
            style="text-align: right;"
         >
           <a-space>
@@ -269,10 +269,6 @@
   ]);
 
   const starOptions = computed<SelectOptionData[]>(() => [
-    {
-      label: "无",
-      value: 0,
-    },
     {
       label: "一星",
       value: 1,

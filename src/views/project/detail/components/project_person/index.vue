@@ -1,29 +1,36 @@
 <template>
-  <a-card
-      class="general-card"
-      title="项目联系人"
-      :header-style="{ paddingBottom: '18px' }"
-      :body-style="{ paddingBottom: '12px' }"
-  >
-    <a-table :columns="columns" :data="renderData" :pagination="false">
-      <template #type="{ record }">
-        <span v-if="record.type == 1">第一负责人</span>
-        <span v-else-if="record.type == 2">第二负责人</span>
-        <span v-else-if="record.type == 3">项目成员</span>
+  <div>
+    <a-card
+        class="general-card"
+        title="成员"
+        :header-style="{ paddingBottom: '18px' }"
+        :body-style="{ paddingBottom: '12px' }"
+    >
+      <a-table :columns="columns" :data="renderData" :pagination="false">
+        <template #type="{ record }">
+          <span v-if="record.type == 1">第一负责人</span>
+          <span v-else-if="record.type == 2">第二负责人</span>
+          <span v-else-if="record.type == 3">项目成员</span>
+        </template>
+        <template #operations="{ record }">
+          <a-popconfirm v-if="record.type != 1" content="您确定要删除吗?" @ok="handleDel(record)">
+            <Icon icon="svgfont-icon7" class="iconbtn" :size="18" color="#ed6f6f"></Icon>
+          </a-popconfirm>
+        </template>
+      </a-table>
+
+      <template #extra>
+        <IconPlusCircle :size="20" @click="viewAddPerson"/>
       </template>
-      <template #operations="{ record }">
-        <a-popconfirm v-if="record.type != 1" content="您确定要删除吗?" @ok="handleDel(record)">
-          <Icon icon="svgfont-icon7" class="iconbtn" :size="18" color="#ed6f6f"></Icon>
-        </a-popconfirm>
-      </template>
-    </a-table>
-  </a-card>
+    </a-card>
+    <AddForm @register="registerModal"  @success="handleData"/>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref, reactive, watch, nextTick } from 'vue';
 import useLoading from '@/hooks/loading';
-import { getProjectPersons,del } from '@/api/project/project';
+import { getProjectPersons,delProjectPerson } from '@/api/project/project';
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
 import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
 import cloneDeep from 'lodash/cloneDeep';
@@ -33,6 +40,10 @@ import { columns} from './data';
 import {Icon} from '@/components/Icon';
 import { Message } from '@arco-design/web-vue';
 import { getUserOptions } from '@/api/user';
+import {useModal} from "@/components/Modal";
+import AddForm from "./AddForm.vue";
+const [registerModal, { openModal }] = useModal();
+
 
 const props = defineProps({
   projectId: {
@@ -59,8 +70,6 @@ type SizeProps = 'mini' | 'small' | 'medium' | 'large';
 type Column = TableColumnData & { checked?: true };
 const { loading, setLoading } = useLoading(true);
 const renderData = ref([]);
-// const cloneColumns = ref<Column[]>([]);
-// const showColumns = ref<Column[]>([]);
 
 const fetchData = async () => {
   setLoading(true);
@@ -76,11 +85,14 @@ const fetchData = async () => {
 
 fetchData();
 
+const handleData=async()=>{
+  fetchData();
+}
 //删除数据
 const handleDel=async(record:any)=>{
   try {
     Message.loading({content:"删除中",id:"upStatus"})
-    const res= await del(record.id);
+    const res= await delProjectPerson(record.id);
     if(res){
       fetchData();
       Message.success({content:"删除成功",id:"upStatus"})
@@ -90,6 +102,12 @@ const handleDel=async(record:any)=>{
   }
 }
 
+const viewAddPerson = async () => {
+  openModal(true, {
+    isUpdate: true,
+    projectId:projectId.value
+  });
+}
 
 </script>
 <style scoped lang="less">

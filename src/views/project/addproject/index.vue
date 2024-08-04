@@ -225,7 +225,7 @@ const baseData={
   investmentAgreement:'',
   businessCondition:'',
   beginTime:0,
-  star:0,
+  star:1,
   contact:[{}],
   person:[{}],
   nodeIds:[],
@@ -338,12 +338,8 @@ const viewDetail = () => {
   });
 }
 
-//属性
+//星级
 const starOptions = computed<SelectOptionData[]>(() => [
-  {
-    label: "无",
-    value: 0,
-  },
   {
     label: "一星",
     value: 1,

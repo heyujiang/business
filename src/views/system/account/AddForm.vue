@@ -8,7 +8,7 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item field="password" label="登录密码" :rules="[{required:true,message:'请填写手机号'}]" style="margin-bottom:15px;">
+          <a-form-item field="password" label="登录密码" style="margin-bottom:15px;">
             <a-input v-model="formData.password" :disabled="isUpdate"  placeholder="登录密码(默认密码123456)" />
           </a-form-item>
         </a-col>

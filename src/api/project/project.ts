@@ -1,5 +1,7 @@
 import { defHttp } from '@/utils/http';
+
 import md5 from 'md5'
+import dayjs from "dayjs";
 //类型
 export interface LoginData {
   username: string;
@@ -16,6 +18,8 @@ enum Api {
     getProjectPersons = '/api/project/person/',
     delProjectContact = '/api/project/contact/',
     delProjectPerson = '/api/project/person/',
+    saveProjectPerson = '/api/project/person',
+    saveProjectContact = '/api/project/contact',
 }
 
 //数据列表
@@ -36,6 +40,11 @@ export function save(params: any) {
 
 //新增用户
 export function update(id:number,params: any) {
+    if ( typeof params.beginTime != 'number') {
+        params=Object.assign({},params,{beginTime:dayjs(params.beginTime).unix()})
+    }else if ( params.beginTime > 100000000){
+        params=Object.assign({},params,{beginTime:Math.floor(params.beginTime / 1000)})
+    }
     return defHttp.post({ url: Api.update + id, params:params}, { errorMessageMode: 'message' });
 }
 
@@ -67,6 +76,14 @@ export function delProjectPerson(id: number) {
 
 export function delProjectContact(id: number) {
     return defHttp.delete({ url: Api.delProjectContact + id}, { errorMessageMode: 'message' });
+}
+
+export function saveProjectPerson(params: any) {
+    return defHttp.post({ url: Api.saveProjectPerson , params: params}, { errorMessageMode: 'message' });
+}
+
+export function saveProjectContact(params: any) {
+    return defHttp.post({ url: Api.saveProjectContact, params: params}, { errorMessageMode: 'message' });
 }
 
 
