@@ -5,10 +5,20 @@
       <a-row style="margin-bottom: 10px">
         <a-col :span="16">
           <a-space>
-            <a-input :style="{width:'220px'}" v-model="formModel.projectName" placeholder="项目名称" allow-clear/>
-            <a-input :style="{width:'220px'}" v-model="formModel.username" placeholder="负责人" allow-clear/>
-            <a-input :style="{width:'220px'}" v-model="formModel.phoneNumber" placeholder="节点名称" allow-clear/>
-            <!--            <a-select v-model="formModel.state"  :options="statusOptions" placeholder="状态" :style="{width:'120px'}" />-->
+            <a-select :style="{width:'220px'}" v-model="formModel.projectId" :options="projectOption" @change="projectChange" placeholder="请选择项目" allow-clear/>
+            <a-tree-select
+                :style="{width:'220px'}"
+                v-model="formModel.nodeId"
+                :data="projectNodeOption"
+                placeholder="请选择节点"
+                :fieldNames="{
+                  key: 'value',
+                  title: 'label',
+                }"
+                allow-clear
+            ></a-tree-select>
+            <a-select :style="{width:'220px'}" v-model="formModel.userId" :options="userOptions"  placeholder="请选择用户" allow-clear/>
+
             <a-button type="primary" @click="search">
               <template #icon>
                 <icon-search/>
@@ -72,72 +82,17 @@
           @page-change="handlePaageChange"
           @page-size-change="handlePaageSizeChange"
       >
-        <template #avatar="{ record }">
-          <a-avatar trigger-type="mask">
-            <img
-                alt="avatar"
-                :src="record.avatar"
-            />
-          </a-avatar>
-        </template>
-        <template #attr="{ record }">
-          <span v-if="record.attr == '1'" style="color: #f09200 ">
-              {{'集中式'}}
-          </span>
-          <span v-else-if ="record.attr == '2'" style="color: #e9552d ">
-              {{'分布式'}}
-          </span>
-          <span v-else-if ="record.attr == '3'"  style="color: #9568fe ">
-              {{'分散式'}}
-          </span>
-        </template>
-
-        <template #type="{ record }">
-          <span v-if="record.type == '1'" style="background-color: #30a4e4;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
-              {{'风电'}}
-          </span>
-          <span v-else-if ="record.type == '2'" style="background-color: #e9552d;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
-              {{'光伏'}}
-          </span>
-          <span v-else-if ="record.type == '3'" style="background-color: #00bbbb;  padding: 2px 10px;  border-radius: 20px;color: #FFFFFF ">
-              {{'储能'}}
-          </span>
-        </template>
-
-        <template #state="{ record }">
-          <span v-if="record.state == '1'"  style="background-color: #7d7d7f;  padding: 2px 10px; border-radius: 20px;color:#FFFFFF ">
-              {{'待定'}}
-          </span>
-          <span v-else-if ="record.state == '2'" style="background-color: #00bb00;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF " >
-              {{'进行中'}}
-          </span>
-          <span v-else-if ="record.state == '3'" style="background-color: #ff0000;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
-              {{'已完成'}}
-          </span>
-          <span v-else-if ="record.state == '4'" style="color: #8590A6; ">
-              {{'中止'}}
-          </span>
-        </template>
-        <template #capacity="{ record }">
-          <span v-if="record.type == 1||record.type == 2">
-            {{ record.capacity + 'MW' }}
-          </span>
-          <span v-else-if="record.type == 3">
-            {{ record.capacity + 'Mwh' }}
-          </span>
-        </template>
-
-        <template #name="{ record }">
-          {{ record.name }}<span v-if="record.nickName"
-                                 style="padding-left: 5px;color: var(--color-neutral-4);">{{ record.nickName }}</span>
+        <template #overview="{ record }">
+          <a-popover title="概览" trigger="click" :content-style="{width:'500px' }">
+            <a-button>查看</a-button>
+            <template #content>
+             {{record.overview}}
+            </template>
+          </a-popover>
         </template>
 
         <template #operations="{ record }">
           <Icon icon="svgfont-bianji1" class="iconbtn" @click="handleEdit(record)" :size="18" color="#0960bd"></Icon>
-          <a-divider direction="vertical"/>
-          <a-popconfirm content="您确定要删除吗?" @ok="handleDel(record)">
-            <Icon icon="svgfont-icon7" class="iconbtn" :size="18" color="#ed6f6f"></Icon>
-          </a-popconfirm>
         </template>
       </a-table>
     </a-card>
@@ -149,9 +104,11 @@
 <script lang="ts" setup>
 import {computed, reactive, ref, watch} from 'vue';
 import useLoading from '@/hooks/loading';
-import { getList,del} from '@/api/project/project_img';
+import { getList,del} from '@/api/project/project_ing';
 import type {TableColumnData} from '@arco-design/web-vue/es/table/interface';
 import type {SelectOptionData} from '@arco-design/web-vue/es/select/interface';
+import {  getProjectOption , getProjectNodeOption} from '@/api/project/project';
+
 import cloneDeep from 'lodash/cloneDeep';
 //数据
 import {columns} from './data';
@@ -162,6 +119,7 @@ import {useI18n} from 'vue-i18n';
 import {Icon} from '@/components/Icon';
 import {Message} from '@arco-design/web-vue';
 import {Pagination} from '@/types/global';
+import {getUserOptions} from "@/api/user";
 
 const {t} = useI18n();
 const [registerModal, {openModal}] = useModal();
@@ -204,10 +162,9 @@ const size = ref<SizeProps>('large');
 //查询字段
 const generateFormModel = () => {
   return {
-    projectName: '',
-    phoneNumber: '',
-    username: '',
-    state: 0,
+    projectId: '',
+    nodeId: '',
+    userId: '',
   };
 };
 const formModel = ref(generateFormModel());
@@ -308,6 +265,32 @@ const statusOptions = computed<SelectOptionData[]>(() => [
     value: 2,
   },
 ]);
+
+const projectOption = ref([]);
+const projectNodeOption = ref([]);
+
+const fatchProjectOption = async () => {
+  projectOption.value = await getProjectOption();
+}
+fatchProjectOption()
+
+const projectChange = async (projectId) => {
+  projectNodeOption.value =  await getProjectNodeOption(projectId);
+}
+
+
+const userOptions = ref([]);
+const fetchUserOptions = async () => {
+  try {
+    userOptions.value = await getUserOptions();
+  } catch (err) {
+    // you can report use errorHandler or other
+  } finally {
+
+  }
+};
+fetchUserOptions();
+
 </script>
 
 <script lang="ts">

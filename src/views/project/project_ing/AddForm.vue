@@ -1,55 +1,40 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerModal" :loading="loading" helpMessage="编辑和修改用户" width="800px" :minHeight="420" :title="getTitle" @ok="handleSubmit">
+  <BasicModal v-bind="$attrs" @register="registerModal" :loading="loading" helpMessage="编辑和修改项目进度" width="800px" :minHeight="420" :title="getTitle" @ok="handleSubmit" @close="handleClose">
     <a-form ref="formRef" :model="formData" auto-label-width >
       <a-row :gutter="16">
-        <a-col :span="10">
-          <a-form-item field="name" label="项目名" validate-trigger="input" :rules="[{required:true,message:'请选择项目名'}]" style="margin-bottom:15px;">
-            <a-select  v-model="formData.name"  placeholder="请选择项目名" allow-clear/>
+        <a-col :span="12">
+          <a-form-item field="projectId" label="项目" validate-trigger="change" :rules="[{required:true,message:'请选择项目'}]" style="margin-bottom:15px;">
+            <a-select  v-model="formData.projectId" :options="projectOption" @change="projectChange" placeholder="请选择项目" allow-clear/>
           </a-form-item>
         </a-col>
 
-        <a-col :span="10">
-          <a-form-item field="properties" label="项目节点" validate-trigger="input" :rules="[{required:true,message:'请选择项目节点'}]" style="margin-bottom:15px;">
-            <a-select v-model="formData.properties"  placeholder="请选择项目节点" allow-clear/>
+        <a-col :span="12">
+          <a-form-item field="nodeId" label="节点" validate-trigger="change" :rules="[{required:true,message:'请选择节点'}]" style="margin-bottom:15px;">
+            <a-tree-select
+                v-model="formData.nodeId"
+                :data="projectNodeOption"
+                placeholder="请选择节点"
+                :fieldNames="{
+                  key: 'value',
+                  title: 'label',
+                }"
+                allow-clear
+            ></a-tree-select>
           </a-form-item>
         </a-col>
-
-        <a-col :span="10">
-          <a-form-item field="beginTime" label="开始时间" validate-trigger="blur" :rules="[{required:true,message:'请选择开始时间'}]" style="margin-bottom:15px;">
-            <a-date-picker
-                show-time
-                v-model="formData.beginTime"
-                placeholder="请选择开始时间"
-                value-format="timestamp"
-                style="width: 100%"
-            />
+        <a-col :span="12">
+          <a-form-item field="state" label="完成情况" validate-trigger="change" :rules="[{required:true,message:'请选择完成情况'}]" style="margin-bottom:15px;">
+            <a-select v-model="formData.state"  :options="ScheduleStatus" placeholder="请选择请选择完成情况" allow-clear/>
           </a-form-item>
         </a-col>
-        <a-col :span="10">
-          <a-form-item field="beginTime" label="结束时间" validate-trigger="blur" :rules="[{required:true,message:'请选择结束时间'}]" style="margin-bottom:15px;">
-            <a-date-picker
-                show-time
-                v-model="formData.beginTime"
-                placeholder="请选择结束时间"
-                value-format="timestamp"
-                style="width: 100%"
-            />
+        <a-col :span="24" >
+          <a-form-item field="overview" label="概况"  style="margin-bottom:15px; height: 60px">
+            <a-textarea  v-model="formData.overview" placeholder="备注：" allow-clear/>
           </a-form-item>
         </a-col>
-        <a-col :span="10">
-          <a-form-item field="attr" label="完成情况" validate-trigger="input" :rules="[{required:true,message:'请选择完成情况'}]" style="margin-bottom:15px;">
-            <a-select v-model="formData.type"  :options="ScheduleStatus" placeholder="请选择请选择完成情况" allow-clear/>
-          </a-form-item>
-        </a-col>
-        <br>
         <a-col :span="10">
           <a-form-item field="properties" label="添加附件" validate-trigger="input" style="margin-bottom:15px;">
-            <a-upload v-model="formData.properties"  placeholder="点击添加附件" allow-clear/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="20" >
-          <a-form-item field="description" label="备注"  style="margin-bottom:15px; height: 60px">
-            <a-textarea  class="description" v-model="formData.description" placeholder="备注：" allow-clear/>
+            <a-upload v-model="formData.file"  placeholder="点击添加附件" allow-clear/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -65,12 +50,14 @@ import useLoading from '@/hooks/loading';
 import { useI18n } from 'vue-i18n';
 import { cloneDeep } from 'lodash-es';
 //api
-import { save,update} from '@/api/project/project';
+import {  getProjectOption , getProjectNodeOption} from '@/api/project/project';
+import { save,update} from '@/api/project/project_ing';
 import { IconPicker ,Icon} from '@/components/Icon';
 import { Message } from '@arco-design/web-vue';
 import dayjs from 'dayjs';
 import type { RequestOption} from '@arco-design/web-vue/es/upload/interfaces';
 import { userUploadApi } from '@/api/common';
+import project from "@/views/project/project/index.vue";
 export default defineComponent({
   name: 'AddBook',
   components: { BasicModal,IconPicker,Icon },
@@ -84,19 +71,11 @@ export default defineComponent({
     const projectId = ref(0);
     //表单字段
     const basedata={
-      name: '',
-      description: '',
-      attr: '',
-      type: '',
+      projectId: '',
+      nodeId: '',
+      overview: '',
       state: '',
-      capacity: 0,
-      properties: '',
-      area:0,
-      address:'',
-      connect:'',
-      investmentAgreement:'',
-      businessCondition:'',
-      beginTime:0,
+      file: '',
     }
     const formData = ref(basedata)
     const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
@@ -110,7 +89,7 @@ export default defineComponent({
         formData.value=basedata
       }
     });
-    const getTitle = computed(() => (!unref(isUpdate) ? '新增项目' : '编辑项目'));
+    const getTitle = computed(() => (!unref(isUpdate) ? '新增项目进度' : '编辑项目进度'));
     //点击确认
     const { loading, setLoading } = useLoading();
     const handleSubmit = async () => {
@@ -138,6 +117,10 @@ export default defineComponent({
         Message.clear("top")
       }
     };
+
+    const handleClose = () => {
+      formData.value=basedata
+    }
     const ScheduleStatus = computed<SelectOptionData[]>(() => [
       {
         label: "已完成",
@@ -148,72 +131,18 @@ export default defineComponent({
         value: 2,
       },
     ]);
-    //属性
-    const attrOptions = computed<SelectOptionData[]>(() => [
-      {
-        label: "集中式",
-        value: 1,
-      },
-      {
-        label: "分布式",
-        value: 2,
-      },
-      {
-        label: "分散式",
-        value: 3,
-      },
-    ]);
-    // 1-风电，2-光伏，3-储能，4-风电+光伏，5-风电+储能，6-光伏+储能，7-风光储一体
-    const typeOptions = computed<SelectOptionData[]>(() => [
-      {
-        label: "风电",
-        value: 1,
-      },
-      {
-        label: "光伏",
-        value: 2,
-      },
-      {
-        label: "储能",
-        value: 3,
-      },
-      // {
-      //   label: "风电+光伏",
-      //   value: 4,
-      // },
-      // {
-      //   label: "风电+储能",
-      //   value: 5,
-      // },
-      // {
-      //   label: "光伏+储能",
-      //   value: 6,
-      // },
-      // {
-      //   label: "风光储一体",
-      //   value: 7,
-      // },
-    ]);
 
-    // 1-待定，2-推荐，3-终止，4-已完成
-    const stateOptions = computed<SelectOptionData[]>(() => [
-      {
-        label: "待定",
-        value: 1,
-      },
-      {
-        label: "进行中",
-        value: 2,
-      },
-      {
-        label: "已完成",
-        value: 3,
-      },
-      {
-        label: "中止",
-        value: 4,
-      },
-    ]);
+    const projectOption = ref([]);
+    const projectNodeOption = ref([]);
+
+    const fatchProjectOption = async () => {
+      projectOption.value = await getProjectOption();
+    }
+    fatchProjectOption()
+
+    const projectChange = async (projectId) => {
+      projectNodeOption.value =  await getProjectNodeOption(projectId);
+    }
 
     return {
       registerModal,
@@ -225,10 +154,11 @@ export default defineComponent({
       isUpdate,
       t,
       ScheduleStatus,
-      attrOptions,
-      typeOptions,
-      stateOptions,
+      projectOption,
+      projectNodeOption,
       dayjs,
+      projectChange,
+      handleClose,
     };
   },
 });

@@ -3,67 +3,46 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
   export const columns = computed<TableColumnData[]>(() => [
     {
       title: '项目名称',
-      dataIndex: 'name',
-      slotName: 'name',
+      dataIndex: 'projectName',
+      slotName: 'change',
       align:"center",
-      fixed: 'left',
+      width:150,
     },
     {
-      title: '负责人',
+      title: '节点',
+      dataIndex: 'nodeName',
+      slotName: 'nodeName',
+      align:"center",
+      width:100,
+    },
+    {
+      title: '概览',
+      dataIndex: 'overview',
+      slotName: 'overview',
+      align:"center",
+      width:100,
+    },
+
+    {
+      title: '提交人',
       dataIndex: 'username',
       slotName: 'username',
-      align:"center"
-    },
-    {
-      title: '节点名称',
-      dataIndex: 'node_name',
-      slotName: 'node_name',
-      align:"center"
-    },
-
-    {
-      title: '属性',
-      dataIndex: 'attr',
-      slotName: 'attr',
-      align:"center"
-    },
-    {
-      title: '类型',
-      dataIndex: 'type',
-      slotName: 'type',
-      align:"center"
-    },
-
-    {
-      title: '容量大小',
-      dataIndex: 'capacity',
-      slotName: 'capacity',
-      align:"center"
-    },
-
-    {
-      title: '完成状态',
-      dataIndex: 'state',
-      slotName: 'state',
-      align:"center"
-    },
-    {
-      title: '开始时间',
-      dataIndex: 'beginTime',
-      slotName: 'beginTime',
-      align:"center"
+      align:"center",
+      width:100,
     },
     {
       title: '创建时间',
       dataIndex: 'createdAt',
       slotName: 'createdAt',
-      align:"center"
+      align:"center",
+      width:100,
     },
     {
       title: '操作',
       dataIndex: 'operations',
       slotName: 'operations',
-      fixed: 'right',
-      align:"center"
+      align:"center",
+      width:20,
+      fixed:"right"
     },
   ]);

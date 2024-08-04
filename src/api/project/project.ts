@@ -20,6 +20,8 @@ enum Api {
     delProjectPerson = '/api/project/person/',
     saveProjectPerson = '/api/project/person',
     saveProjectContact = '/api/project/contact',
+    projectOption = '/api/project/option',
+    projectNodeOption = '/api/project/nodes/option/',
 }
 
 //数据列表
@@ -86,6 +88,13 @@ export function saveProjectContact(params: any) {
     return defHttp.post({ url: Api.saveProjectContact, params: params}, { errorMessageMode: 'message' });
 }
 
+export function getProjectOption() {
+    return defHttp.get({ url: Api.projectOption }, { errorMessageMode: 'message' });
+}
+
+export function getProjectNodeOption(id: any) {
+    return defHttp.get({ url: Api.projectNodeOption + id}, { errorMessageMode: 'message' });
+}
 
 /**数据类型 */
 export interface DataItem {
