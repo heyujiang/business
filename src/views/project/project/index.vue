@@ -9,7 +9,7 @@
             <a-select :style="{width:'220px'}"  v-model="formModel.userId" :options="userOptions" placeholder="负责人" allow-clear />
             <a-select :style="{width:'220px'}"  v-model="formModel.star" :options="starOptions" placeholder="星级" allow-clear />
             <a-select :style="{width:'220px'}"  v-model="formModel.type" :options="typeOptions" placeholder="类型" allow-clear />
-            <a-range-picker style="width: 220px" value-format="timestamp" v-model="formModel.createdAt" allow-clear/>
+            <a-range-picker style="width: 240px" value-format="timestamp" v-model="formModel.createdAt" allow-clear/>
             <a-button type="primary" @click="search">
               <template #icon>
                 <icon-search />

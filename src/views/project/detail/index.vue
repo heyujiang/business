@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.user', 'menu.user.info']" />
+    <Breadcrumb :items="['menu.project', 'menu.project.detail']" />
     <ProjectProcess :state="projectDetail.state"/>
     <ProjectBase :detail="projectDetail"/>
     <ProjectNode :projectId="projectId"/>
