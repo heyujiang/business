@@ -3,7 +3,7 @@
     <a-space direction="vertical">
       <a-descriptions :data="data" :align="{ label: 'right' }" table-layout="fixed" :column="3" bordered>
         <template #value="{value , data}">
-          <a-rate v-if="data.label == '星级'" :count="value" :default-value="value" readonly/>
+          <a-rate v-if="data.label == '星级'" :count="value" :default-value="value"  readonly/>
           <div v-else>{{value}}</div>
         </template>
         <template #title></template>

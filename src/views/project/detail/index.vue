@@ -3,7 +3,6 @@
     <Breadcrumb :items="['menu.project', 'menu.project.detail']" />
     <ProjectProcess :state="projectDetail.state"/>
     <ProjectBase :detail="projectDetail"/>
-    <ProjectNode :projectId="projectId"/>
     <a-grid :cols="24" :colGap="20" :rowGap="20">
       <a-grid-item :span="8">
         <ProjectPerson :projectId="projectId"/>
@@ -12,6 +11,7 @@
         <ProjectContact :projectId="projectId"/>
       </a-grid-item>
     </a-grid>
+    <ProjectNode :projectId="projectId"/>
   </div>
 </template>
 
