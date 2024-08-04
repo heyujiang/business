@@ -11,7 +11,11 @@ enum Api {
     update = '/api/project/',
     del = '/api/project/',
     getProjectInfo = '/api/project/',
-    getProjectNodes = '/api/project/nodes/'
+    getProjectNodes = '/api/project/nodes/',
+    getProjectContacts = '/api/project/contact/',
+    getProjectPersons = '/api/project/person/',
+    delProjectContact = '/api/project/contact/',
+    delProjectPerson = '/api/project/person/',
 }
 
 //数据列表
@@ -47,6 +51,22 @@ export function getProjectInfo(id: number) {
 
 export function getProjectNodes(id: number) {
     return defHttp.get({ url: Api.getProjectNodes + id}, { errorMessageMode: 'message' });
+}
+
+export function getProjectContacts(id: number) {
+    return defHttp.get({ url: Api.getProjectContacts + id}, { errorMessageMode: 'message' });
+}
+
+export function getProjectPersons(id: number) {
+    return defHttp.get({ url: Api.getProjectPersons + id}, { errorMessageMode: 'message' });
+}
+
+export function delProjectPerson(id: number) {
+    return defHttp.delete({ url: Api.delProjectPerson + id}, { errorMessageMode: 'message' });
+}
+
+export function delProjectContact(id: number) {
+    return defHttp.delete({ url: Api.delProjectContact + id}, { errorMessageMode: 'message' });
 }
 
 

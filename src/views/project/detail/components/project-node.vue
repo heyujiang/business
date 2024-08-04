@@ -6,11 +6,11 @@
   >
     <a-grid :cols="projectNodes.length" :colGap="10" :wrap="false">
      <a-grid-item v-for="(projectNode , index) in projectNodes" style="padding: 10px 0 ;" :key="index">
-         <a-card :bordered="false" :style="{marginBottom: '10px'  , borderRadius: '3px' , borderTop: '2px solid red'}" :header-style="{ borderTop:'1px solid red' , border:'none' }">
+         <a-card :bordered="false" :style="{marginBottom: '10px'  , borderRadius: '3px' , borderTop: '2px solid red'}" :header-style="{ border:'none' }">
             <template #title>
               {{ projectNode.name }}
             </template>
-           <a-progress :percent="0.2"/>
+           <a-progress :percent="projectNode.progress"/>
          </a-card>
 
          <a-card :bordered="false" class="son-node-card"  v-for="(sonNode , sonIndex) in projectNode.children" :key="sonIndex" style="margin-bottom: 10px ; border-radius: 3px ;" :header-style="{ border:'none' }">

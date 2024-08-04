@@ -5,11 +5,11 @@
     <ProjectBase :detail="projectDetail"/>
     <ProjectNode :projectId="projectId"/>
     <a-grid :cols="24" :colGap="20" :rowGap="20">
-      <a-grid-item :span="12">
-        <ProjectPerson/>
+      <a-grid-item :span="8">
+        <ProjectPerson :projectId="projectId"/>
       </a-grid-item>
-      <a-grid-item :span="12">
-        <ProjectContact/>
+      <a-grid-item :span="16">
+        <ProjectContact :projectId="projectId"/>
       </a-grid-item>
     </a-grid>
   </div>
