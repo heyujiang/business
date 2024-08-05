@@ -2,18 +2,18 @@
   <a-card class="general-card" title="基础信息">
     <a-space direction="vertical">
       <a-descriptions :data="data" :align="{ label: 'right' }" table-layout="fixed" :column="3" bordered>
-        <template #value="{value , data}">
-          <a-rate v-if="data.label == '星级'" :count="value" :default-value="value"  readonly/>
+        <template #value="{value ,index, data}">
+          <a-rate v-if="data.label == '项目等级'" :count="data.value" :default-value="data.value" readonly/>
           <div v-else>{{value}}</div>
         </template>
-        <template #title></template>
       </a-descriptions>
     </a-space>
   </a-card>
 </template>
 
 <script lang="ts" setup>
-import {computed, ref , unref} from "vue"
+import { computed } from "vue"
+import { attrMap , typeMap } from "@/views/project/data";
 
 const props = defineProps({
   detail: {
@@ -26,17 +26,17 @@ const props = defineProps({
 
 const data = computed(() => {
   return  [{
-    label: '项目名',
+    label: '项目名称',
     value: props.detail.name,
   },{
-    label: '星级',
+    label: '项目等级',
     value: props.detail.star,
   }, {
-    label: '属性',
-    value: props.detail.attr,
+    label: '项目属性',
+    value: attrMap.get(props.detail.attr),
   }, {
-    label: '类型',
-    value: props.detail.type,
+    label: '项目类型',
+    value: typeMap.get(props.detail.type),
   }, {
     label: '容量-MW',
     value: props.detail.capacity,
@@ -57,10 +57,10 @@ const data = computed(() => {
     value: props.detail.connect,
   }, {
     label: '投资协议',
-    value: props.detail.investment_agreement,
+    value: props.detail.investmentAgreement,
   }, {
     label: '商务条件',
-    value: props.detail.business_condition,
+    value: props.detail.businessCondition,
   }, {
     label: '简介',
     value: props.detail.description,

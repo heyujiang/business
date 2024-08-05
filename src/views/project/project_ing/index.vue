@@ -81,22 +81,18 @@
           @page-change="handlePaageChange"
           @page-size-change="handlePaageSizeChange"
       >
-<!--        <template #overview="{ record }">-->
-<!--          <a-popover title="概览" trigger="click" :content-style="{width:'500px' }">-->
-<!--            <a-button>查看</a-button>-->
-<!--            <template #content>-->
-<!--             {{record.overview}}-->
-<!--            </template>-->
-<!--          </a-popover>-->
-<!--        </template>-->
+        <template #projectName="{ record }">
+          <a-link :hoverable="false" @click="detail(record.projectId)">
+            {{ record.projectName}}
+          </a-link>
+        </template>
+
         <template #overview="{record}">
-          <a-typography-paragraph
-              :ellipsis="{
-            rows: 3,
-            expandable: true,
-               }">
-            {{record.overview}}
-          </a-typography-paragraph>
+          <a-tooltip :content="record.overview">
+            <a-typography-paragraph spacing="close" ellipsis>
+              {{ record.overview }}
+            </a-typography-paragraph>
+          </a-tooltip>
         </template>
 
         <template #operations="{ record }">
@@ -128,6 +124,7 @@ import {Icon} from '@/components/Icon';
 import {Message} from '@arco-design/web-vue';
 import {Pagination} from '@/types/global';
 import {getUserOptions} from "@/api/user";
+import router from "@/router";
 
 const {t} = useI18n();
 const [registerModal, {openModal}] = useModal();
@@ -298,6 +295,15 @@ const fetchUserOptions = async () => {
   }
 };
 fetchUserOptions();
+
+const detail = (id:number) => {
+  router.push({
+    name: "detail",
+    query: {
+      id:id,
+    }
+  });
+}
 
 </script>
 

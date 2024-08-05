@@ -204,6 +204,8 @@ import { getUserOptions } from '@/api/user';
 import { getNodeOptions } from '@/api/system/node';
 import { Message } from '@arco-design/web-vue';
 import router from "@/router";
+import {typeOptions , starOptions ,attrOptions, stateOptions , personTypeOptions, contactTypeOptions,statusOptions} from "@/views/project/data"
+
 
 const projectId = ref(0)
 const current = ref(1);
@@ -331,120 +333,12 @@ const keepCreate = () => {
 
 const viewDetail = () => {
   router.push({
-    name: "detail",
+    path: "/project/detail",
     query: {
       id:projectId.value,
     }
   });
 }
-
-//星级
-const starOptions = computed<SelectOptionData[]>(() => [
-  {
-    label: "一星",
-    value: 1,
-  },
-  {
-    label: "二星",
-    value: 2,
-  },
-  {
-    label: "三星",
-    value: 3,
-  },
-]);
-//属性
-const attrOptions = computed<SelectOptionData[]>(() => [
-  {
-    label: "集中式",
-    value: 1,
-  },
-  {
-    label: "分布式",
-    value: 2,
-  },
-  {
-    label: "分散式",
-    value: 3,
-  },
-]);
-// 1-风电，2-光伏，3-储能，4-风电+光伏，5-风电+储能，6-光伏+储能，7-风光储一体
-const typeOptions = computed<SelectOptionData[]>(() => [
-  {
-    label: "风电",
-    value: 1,
-  },
-  {
-    label: "光伏",
-    value: 2,
-  },
-  {
-    label: "储能",
-    value: 3,
-  }
-]);
-
-// 1-待定，2-推荐，3-终止，4-已完成
-const stateOptions = computed<SelectOptionData[]>(() => [
-  {
-    label: "待定",
-    value: 1,
-  },
-  {
-    label: "进行中",
-    value: 2,
-  },
-  {
-    label: "已完成",
-    value: 3,
-  },
-  {
-    label: "中止",
-    value: 4,
-  },
-]);
-
-const contactTypeOptions = computed<SelectOptionData[]>(() => [
-  {
-    label: "同行公司",
-    value: 1,
-  },
-  {
-    label: "分包方",
-    value: 2,
-  },
-  {
-    label: "总包方",
-    value: 3,
-  },
-  {
-    label: "小E",
-    value: 4,
-  },
-  {
-    label: "劳务",
-    value: 5,
-  },
-  {
-    label: "政府单位",
-    value: 6,
-  },
-]);
-
-const personTypeOptions = computed<SelectOptionData[]>(() => [
-  {
-    label: "第一负责人",
-    value: 1,
-  },
-  {
-    label: "第二负责人",
-    value: 2,
-  },
-  {
-    label: "普通成员",
-    value: 3,
-  },
-]);
 </script>
 
 <style scoped lang="less">

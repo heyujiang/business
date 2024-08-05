@@ -8,7 +8,7 @@ export interface LoginData {
 enum Api {
     getList = '/api/project/record',
     save = '/api/project/record',
-    update = '/api/project/record',
+    update = '/api/project/record/',
     del = '/api/project/record',
 }
 
@@ -25,7 +25,7 @@ export function save(params: any) {
   return defHttp.post({ url: Api.save, params:params}, { errorMessageMode: 'message' });
 }
 
-//新增用户
+//
 export function update(id:number,params: any) {
     return defHttp.post({ url: Api.update + id, params:params}, { errorMessageMode: 'message' });
 }

@@ -4,7 +4,7 @@
       <a-row :gutter="16">
         <a-col :span="12">
           <a-form-item field="projectId" label="项目" validate-trigger="change" :rules="[{required:true,message:'请选择项目'}]" style="margin-bottom:15px;">
-            <a-select  v-model="formData.projectId" :options="projectOption" @change="projectChange" placeholder="请选择项目" allow-clear/>
+            <a-select  v-model="formData.projectId" :options="projectOption" @change="projectChange" :disabled="isUpdate" placeholder="请选择项目" allow-clear/>
           </a-form-item>
         </a-col>
 
@@ -19,6 +19,7 @@
                   title: 'label',
                 }"
                 allow-clear
+                :disabled="isUpdate"
             ></a-tree-select>
           </a-form-item>
         </a-col>
@@ -85,6 +86,7 @@ export default defineComponent({
       if (unref(isUpdate)) {
         projectId.value = data.record.id
         formData.value=cloneDeep(data.record)
+        projectChange(data.record.projectId)
       }else{
         formData.value=basedata
       }

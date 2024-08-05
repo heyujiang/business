@@ -215,6 +215,7 @@
   import { Pagination } from '@/types/global';
   import { getUserOptions } from '@/api/user';
   import router from "@/router";
+  import {typeOptions , starOptions , statusOptions} from "@/views/project/data"
 
   const { t } = useI18n();
   const [registerModal, { openModal }] = useModal();
@@ -304,35 +305,6 @@
   };
 
   const userOptions = ref([]);
-  const typeOptions = computed<SelectOptionData[]>(() => [
-    {
-      label: "风电",
-      value: 1,
-    },
-    {
-      label: "光伏",
-      value: 2,
-    },
-    {
-      label: "储能",
-      value: 3,
-    },
-  ]);
-
-  const starOptions = computed<SelectOptionData[]>(() => [
-    {
-      label: "一星",
-      value: 1,
-    },
-    {
-      label: "二星",
-      value: 2,
-    },
-    {
-      label: "三星",
-      value: 3,
-    },
-  ]);
   const fetchUserOptions = async () => {
     try {
       userOptions.value = await getUserOptions();
@@ -397,21 +369,6 @@
       Message.clear("top")
     }
   }
-    //状态
-    const statusOptions = computed<SelectOptionData[]>(() => [
-    {
-      label: "全部",
-      value: 0,
-    },
-    {
-      label: "正常",
-      value: 1,
-    },
-    {
-      label: "禁用",
-      value: 2,
-    },
-  ]);
 </script>
 
 <script lang="ts">

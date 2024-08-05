@@ -4,7 +4,7 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
     {
       title: '项目名称',
       dataIndex: 'projectName',
-      slotName: 'change',
+      slotName: 'projectName',
       align:"center",
       width:100,
     },
@@ -20,7 +20,7 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       title: '概览',
       dataIndex: 'overview',
       slotName: 'overview',
-      align:"center",
+      align:"left",
       width:100,
     },
 
