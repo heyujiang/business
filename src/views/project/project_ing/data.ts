@@ -23,7 +23,13 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       align:"left",
       width:100,
     },
-
+    {
+      title: '状态',
+      dataIndex: 'state',
+      slotName: 'state',
+      align:"center",
+      width:50,
+    },
     {
       title: '提交人',
       dataIndex: 'username',

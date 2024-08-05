@@ -173,3 +173,19 @@ export const personTypeMap = new Map([
   [2, "第二负责人"],
   [3, "普通成员"],
 ]);
+
+export const recordStateOptions =computed<SelectOptionData[]>(() => [
+  {
+    label: "已完成",
+    value: 1,
+  },
+  {
+    label: "进行中",
+    value: 2,
+  },
+]);
+
+export const recordStateMap = new Map([
+  [1, "已完成"],
+  [2, "进行中"],
+]);

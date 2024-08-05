@@ -87,6 +87,15 @@
           </a-link>
         </template>
 
+        <template #state="{ record }">
+          <span v-if="record.state == 1">
+              已完成
+          </span>
+          <span v-else-if="record.state == 2">
+              进行中
+          </span>
+        </template>
+
         <template #overview="{record}">
           <a-tooltip :content="record.overview">
             <a-typography-paragraph spacing="close" ellipsis>

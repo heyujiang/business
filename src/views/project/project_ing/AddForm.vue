@@ -25,7 +25,7 @@
         </a-col>
         <a-col :span="12">
           <a-form-item field="state" label="完成情况" validate-trigger="change" :rules="[{required:true,message:'请选择完成情况'}]" style="margin-bottom:15px;">
-            <a-select v-model="formData.state"  :options="ScheduleStatus" placeholder="请选择请选择完成情况" allow-clear/>
+            <a-select v-model="formData.state"  :options="recordStateOptions" placeholder="请选择请选择完成情况" allow-clear/>
           </a-form-item>
         </a-col>
         <a-col :span="24" >
@@ -59,8 +59,14 @@ import dayjs from 'dayjs';
 import type { RequestOption} from '@arco-design/web-vue/es/upload/interfaces';
 import { userUploadApi } from '@/api/common';
 import project from "@/views/project/project/index.vue";
+import {recordStateOptions} from "@/views/project/data";
 export default defineComponent({
   name: 'AddBook',
+  computed: {
+    recordStateOptions() {
+      return recordStateOptions
+    }
+  },
   components: { BasicModal,IconPicker,Icon },
   emits: ['success'],
   setup(_, { emit }) {
@@ -123,16 +129,6 @@ export default defineComponent({
     const handleClose = () => {
       formData.value=basedata
     }
-    const ScheduleStatus = computed<SelectOptionData[]>(() => [
-      {
-        label: "已完成",
-        value: 1,
-      },
-      {
-        label: "进行中",
-        value: 2,
-      },
-    ]);
 
     const projectOption = ref([]);
     const projectNodeOption = ref([]);
@@ -155,7 +151,7 @@ export default defineComponent({
       formData,
       isUpdate,
       t,
-      ScheduleStatus,
+      recordStateOptions,
       projectOption,
       projectNodeOption,
       dayjs,
