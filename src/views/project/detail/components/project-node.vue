@@ -6,7 +6,7 @@
   >
     <a-grid :cols="projectNodes.length" :colGap="10" :wrap="false">
      <a-grid-item v-for="(projectNode , index) in projectNodes" style="padding: 10px 0 ;" :key="index">
-         <a-card :bordered="false" :style="{marginBottom: '10px'  , borderRadius: '3px' , borderTop: '2px solid red'}" :header-style="{ border:'none' }">
+         <a-card :bordered="false" :style="{backgroundColor:'#f0f1f3' ,marginBottom: '10px'  , borderRadius: '3px' , borderTop: '2px solid red'}" :header-style="{ border:'none' }">
             <template #title>
               {{ projectNode.name }}
             </template>

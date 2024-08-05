@@ -59,8 +59,9 @@
         :data="renderData"
         :bordered="{wrapper:true,cell:true}"
         :size="size"
+         ellipsis="true"
         :default-expand-all-rows="true"
-         :scroll="{ x: 2000 }"
+         :scroll="{ x: 2400 }"
         ref="artable"
         @page-change="handlePaageChange"
         @page-size-change="handlePaageSizeChange"
@@ -125,6 +126,56 @@
           <span v-else-if="record.type == 3">
             {{record.capacity +' Mwh'}}
           </span>
+        </template>
+
+        <template #investmentAgreement="{record}">
+          <a-typography-paragraph
+              :ellipsis="{
+            rows: 3,
+            expandable: true,
+               }">
+            {{record.investmentAgreement}}
+          </a-typography-paragraph>
+        </template>
+
+        <template #businessCondition="{record}">
+          <a-typography-paragraph
+              :ellipsis="{
+            rows: 3,
+            expandable: true,
+               }">
+            {{record.businessCondition}}
+          </a-typography-paragraph>
+        </template>
+
+        <template #properties="{record}">
+          <a-typography-paragraph
+              :ellipsis="{
+            rows: 3,
+            expandable: true,
+               }">
+            {{record.properties}}
+          </a-typography-paragraph>
+        </template>
+
+        <template #connect="{record}">
+          <a-typography-paragraph
+              :ellipsis="{
+            rows: 3,
+            expandable: true,
+               }">
+            {{record.connect}}
+          </a-typography-paragraph>
+        </template>
+
+        <template #description="{record}">
+          <a-typography-paragraph
+              :ellipsis="{
+            rows: 3,
+            expandable: true,
+               }">
+            {{record.description}}
+          </a-typography-paragraph>
         </template>
 
         <template #area="{ record }">

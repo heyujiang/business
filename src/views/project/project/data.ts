@@ -16,7 +16,7 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       dataIndex: 'nodeName',
       slotName: 'nodeName',
       align:"center",
-      width: 250,
+      width: 200,
       minWidth: 100,
     },
     {
@@ -24,32 +24,38 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       dataIndex: 'schedule',
       slotName: 'schedule',
       align:"center",
+      width:100,
     },
     {
       title: '星级',
       dataIndex: 'star',
       slotName: 'star',
       align:"center",
+      width:120,
     },
     {
       title: '属性',
       dataIndex: 'attr',
       slotName: 'attr',
-      align:"center"
+      align:"center",
+      width:100,
     },
     {
       title: '类型',
       dataIndex: 'type',
       slotName: 'type',
-      align:"center"
+      align:"center",
+      width:100,
     },
 
     {
       title: '容量大小',
       dataIndex: 'capacity',
       slotName: 'capacity',
-      align:"center"
+      align:"center",
+      width:100
     },
+
     {
       title: '电网接入情况',
       dataIndex: 'connect',
@@ -60,7 +66,7 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       title: '投资协议',
       dataIndex: 'investmentAgreement',
       slotName: 'investmentAgreement',
-      align:"center"
+      align:"center",
     },
     {
       title: '商务条件',
@@ -69,11 +75,18 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       align:"center"
     },
     {
+      title: '项目概览',
+      dataIndex: 'description',
+      slotName: 'description',
+      align:"center"
+    },
+    {
       title: '土地性质',
       dataIndex: 'properties',
       slotName: 'properties',
       align:"center",
     },
+
     {
       title: '土地面积',
       dataIndex: 'area',

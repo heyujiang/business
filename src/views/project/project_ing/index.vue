@@ -18,7 +18,6 @@
                 allow-clear
             ></a-tree-select>
             <a-select :style="{width:'220px'}" v-model="formModel.userId" :options="userOptions"  placeholder="请选择用户" allow-clear/>
-
             <a-button type="primary" @click="search">
               <template #icon>
                 <icon-search/>
@@ -82,13 +81,22 @@
           @page-change="handlePaageChange"
           @page-size-change="handlePaageSizeChange"
       >
-        <template #overview="{ record }">
-          <a-popover title="概览" trigger="click" :content-style="{width:'500px' }">
-            <a-button>查看</a-button>
-            <template #content>
-             {{record.overview}}
-            </template>
-          </a-popover>
+<!--        <template #overview="{ record }">-->
+<!--          <a-popover title="概览" trigger="click" :content-style="{width:'500px' }">-->
+<!--            <a-button>查看</a-button>-->
+<!--            <template #content>-->
+<!--             {{record.overview}}-->
+<!--            </template>-->
+<!--          </a-popover>-->
+<!--        </template>-->
+        <template #overview="{record}">
+          <a-typography-paragraph
+              :ellipsis="{
+            rows: 3,
+            expandable: true,
+               }">
+            {{record.overview}}
+          </a-typography-paragraph>
         </template>
 
         <template #operations="{ record }">
