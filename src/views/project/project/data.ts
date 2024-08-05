@@ -1,4 +1,5 @@
 import { computed } from 'vue';
+import { reactive } from 'vue';
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
   export const columns = computed<TableColumnData[]>(() => [
     {
@@ -7,13 +8,16 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       slotName: 'name',
       align:"center",
       fixed: 'left',
+      width: 200,
+      minWidth: 100,
     },
     {
       title: '当前节点',
       dataIndex: 'nodeName',
       slotName: 'nodeName',
       align:"center",
-      width:150,
+      width: 250,
+      minWidth: 100,
     },
     {
       title: '进度',
@@ -103,3 +107,4 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       width:180,
     },
   ]);
+

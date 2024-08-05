@@ -77,7 +77,7 @@
           :bordered="{wrapper:true,cell:true}"
           :size="size"
           :default-expand-all-rows="true"
-          :scroll="{ x: 2000 }"
+          :scroll="{ x: 1500 }"
           ref="artable"
           @page-change="handlePaageChange"
           @page-size-change="handlePaageSizeChange"

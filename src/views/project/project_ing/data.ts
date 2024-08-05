@@ -6,14 +6,15 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       dataIndex: 'projectName',
       slotName: 'change',
       align:"center",
-      width:150,
+      width:100,
     },
     {
       title: '节点',
       dataIndex: 'nodeName',
       slotName: 'nodeName',
       align:"center",
-      width:100,
+      width:80,
+      minWidth:50,
     },
     {
       title: '概览',
