@@ -9,7 +9,7 @@ enum Api {
   //用户
    Login = '/login ',
    registerUser = '/user/registerUser ',
-   Logout = '/user/logout',
+   Logout = '/api/user/logout',
    getCode = '/user/get_code',
    resetPassword = '/user/resetPassword',
    GetUserInfo = '/api/user/getUserInfo',

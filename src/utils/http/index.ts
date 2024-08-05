@@ -210,7 +210,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
     // 深度合并
     deepMerge(
       {
-        authenticationScheme: '',
+        authenticationScheme: 'Bearer',
         timeout: 10 * 1000,
         // 基础接口地址
         // baseURL: globSetting.apiUrl,
