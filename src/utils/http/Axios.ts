@@ -154,7 +154,7 @@ export class VAxios {
           ignoreCancelToken: true,
         },
       }).then((res:any) => {
-          resolve(res.data as Promise<T>);
+          resolve(res.data.data as Promise<T>);
         })
         .catch((e: Error | AxiosError) => {
           reject(e);

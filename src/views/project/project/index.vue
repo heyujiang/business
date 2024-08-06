@@ -72,7 +72,8 @@
           </a-link>
         </template>
         <template #star="{ record }">
-          <a-rate :default-value="record.star" :count="record.star"  readonly/>
+          <icon-star-fill v-for="i in record.star" :key="i" style="color: #f6c200" size="18"/>
+<!--          <a-rate :default-value="record.star" :count="record.star"  readonly/>-->
         </template>
 
         <template #schedule="{ record }">
@@ -108,13 +109,13 @@
           <span v-if="record.state == '1'" style="color: #0055d1; ">
               {{'待定'}}
           </span>
-          <span v-else-if ="record.state == '2'" style="color: #00bb00; " >
+          <span v-else-if ="record.state == '2'" style="color: #f3a845;  " >
               {{'进行中'}}
           </span>
-          <span v-else-if ="record.state == '3'" style="color: #ff0000; ">
+          <span v-else-if ="record.state == '3'" style="color: #00bb00; ">
               {{'已完成'}}
           </span>
-          <span v-else-if ="record.state == '4'" style="color: #8590A6; ">
+          <span v-else-if ="record.state == '4'" style="color: #ff0000; ">
               {{'中止'}}
           </span>
         </template>
@@ -282,7 +283,7 @@
 
   const detail = (id:number) => {
     router.push({
-      name: "detail",
+      path: "/project/detail",
       query: {
         id:id,
       }

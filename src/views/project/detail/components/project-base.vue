@@ -3,7 +3,9 @@
     <a-space direction="vertical">
       <a-descriptions :data="data" :align="{ label: 'right' }" table-layout="fixed" :column="3" bordered>
         <template #value="{value ,index, data}">
-          <a-rate v-if="data.label == '项目等级'" :count="data.value" :default-value="data.value" readonly/>
+          <div v-if="data.label == '项目等级'">
+            <icon-star-fill v-for="i in data.value" :key="i" style="color: #f6c200" size="18"/>
+          </div>
           <div v-else>{{value}}</div>
         </template>
       </a-descriptions>

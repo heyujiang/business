@@ -20,7 +20,7 @@
   import {getProjectInfo} from '@/api/project/project';
   import ProjectProcess from './components/project-progress.vue';
   import ProjectBase from './components/project-base.vue';
-  import ProjectNode from './components/project-node.vue';
+  import ProjectNode from './components/project_node/index.vue';
   import ProjectPerson from './components/project_person/index.vue';
   import ProjectContact from './components/project_contact/index.vue';
   import { useRoute } from 'vue-router'

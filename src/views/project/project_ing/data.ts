@@ -7,6 +7,7 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       slotName: 'projectName',
       align:"center",
       width:100,
+      fixed:"left"
     },
     {
       title: '节点',
@@ -35,21 +36,21 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       dataIndex: 'username',
       slotName: 'username',
       align:"center",
-      width:100,
+      width:50,
     },
     {
       title: '创建时间',
       dataIndex: 'createdAt',
       slotName: 'createdAt',
       align:"center",
-      width:100,
+      width:80,
     },
     {
       title: '操作',
       dataIndex: 'operations',
       slotName: 'operations',
       align:"center",
-      width:20,
+      width:50,
       fixed:"right"
     },
   ]);

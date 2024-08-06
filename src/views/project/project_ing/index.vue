@@ -106,11 +106,14 @@
 
         <template #operations="{ record }">
           <Icon icon="svgfont-bianji1" class="iconbtn" @click="handleEdit(record)" :size="18" color="#0960bd"></Icon>
+          <a-divider direction="vertical" />
+          <Icon icon="icon-file" @click="viewAttached(record.id)" :size="18" color="#0960bd"></Icon>
         </template>
       </a-table>
     </a-card>
     <!--表单-->
     <AddForm @register="registerModal" @success="handleData"/>
+    <Attached v-model:visible="visible" :record-id="aRecordId"/>
   </div>
 </template>
 
@@ -119,7 +122,6 @@ import {computed, reactive, ref, watch} from 'vue';
 import useLoading from '@/hooks/loading';
 import { getList,del} from '@/api/project/project_ing';
 import type {TableColumnData} from '@arco-design/web-vue/es/table/interface';
-import type {SelectOptionData} from '@arco-design/web-vue/es/select/interface';
 import {  getProjectOption , getProjectNodeOption} from '@/api/project/project';
 
 import cloneDeep from 'lodash/cloneDeep';
@@ -128,6 +130,7 @@ import {columns} from './data';
 //表单
 import {useModal} from '/@/components/Modal';
 import AddForm from './AddForm.vue';
+import Attached from './Attached.vue';
 import {useI18n} from 'vue-i18n';
 import {Icon} from '@/components/Icon';
 import {Message} from '@arco-design/web-vue';
@@ -236,6 +239,15 @@ const handleEdit = async (record: any) => {
     record: record
   });
 }
+
+const visible = ref(false)
+const aRecordId = ref<number>(0)
+
+const viewAttached = async (recordId: number) => {
+  visible.value = true
+  aRecordId.value = recordId
+}
+
 //更新数据
 const handleData = async () => {
   fetchData();
@@ -264,31 +276,16 @@ const handleDel = async (record: any) => {
     Message.clear("top")
   }
 }
-//状态
-const statusOptions = computed<SelectOptionData[]>(() => [
-  {
-    label: "全部",
-    value: 0,
-  },
-  {
-    label: "正常",
-    value: 1,
-  },
-  {
-    label: "禁用",
-    value: 2,
-  },
-]);
 
 const projectOption = ref([]);
 const projectNodeOption = ref([]);
 
-const fatchProjectOption = async () => {
+const fetchProjectOption = async () => {
   projectOption.value = await getProjectOption();
 }
-fatchProjectOption()
+fetchProjectOption()
 
-const projectChange = async (projectId) => {
+const projectChange = async (projectId:number) => {
   projectNodeOption.value =  await getProjectNodeOption(projectId);
 }
 
@@ -307,7 +304,7 @@ fetchUserOptions();
 
 const detail = (id:number) => {
   router.push({
-    name: "detail",
+    path: "/project/detail",
     query: {
       id:id,
     }

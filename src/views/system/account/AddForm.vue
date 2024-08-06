@@ -172,11 +172,13 @@
               try {
                 //开始手动上传
                 const filename=fileItem?.name||""
-                const resdata = await userUploadApi({ name: 'file', file: fileItem.file as Blob, filename,data:{cid:0}},onUploadProgress);
+                const resdata = await userUploadApi({ name: 'file', file: fileItem.file as Blob, filename,data:{type:'avatar'}},onUploadProgress);
                 //更新图片
+                console.log(resdata)
                 if(resdata){
                   formData.value.avatar=resdata.url
                 }
+                console.log(formData.value.avatar)
               } catch (error) {
                 onError(error);
               }

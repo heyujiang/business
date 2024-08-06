@@ -16,7 +16,7 @@ export function userUploadApi(
   params: UploadFileParams,
   onUploadProgress?: (progressEvent: any) => void
 ) {
-  return defHttp.uploadFile<UploadItem>({ url:`${DOMAIN}/upload/image`,onUploadProgress},params);
+  return defHttp.uploadFile<UploadItem>({ url:`${DOMAIN}/api/upload`,onUploadProgress},params);
 }
 //排序
 export function tableWeigh(params: object) {

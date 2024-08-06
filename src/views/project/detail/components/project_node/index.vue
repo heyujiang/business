@@ -18,16 +18,16 @@
              <a-tag>
                <template #icon>
                  <icon-tag v-if="sonNode.state == 1" size="14" style="color: #0055d1; "/>
-                 <icon-clock-circle v-else-if="sonNode.state == 2" size="14" style="color: #00bb00; " />
-                 <icon-check-circle v-else-if="sonNode.state == 3" size="14" style="color: #ff0000; "/>
+                 <icon-clock-circle v-else-if="sonNode.state == 2" size="14" style="color: #f3a845;  " />
+                 <icon-check-circle v-else-if="sonNode.state == 3" size="14" style="color: #00bb00; "/>
                </template>
                <span v-if="sonNode.state == '1'" style="color: #0055d1; ">
                     {{'未开始'}}
                </span>
-               <span v-else-if ="sonNode.state == '2'" style="color: #00bb00; " >
+               <span v-else-if ="sonNode.state == '2'" style="color: #f3a845; " >
                     {{'进行中'}}
                </span>
-               <span v-else-if ="sonNode.state == '3'" style="color: #ff0000; ">
+               <span v-else-if ="sonNode.state == '3'" style="color: #00bb00;">
                     {{'已完成'}}
                </span>
              </a-tag>

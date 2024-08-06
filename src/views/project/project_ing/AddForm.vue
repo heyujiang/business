@@ -2,13 +2,13 @@
   <BasicModal v-bind="$attrs" @register="registerModal" :loading="loading" helpMessage="编辑和修改项目进度" width="800px" :minHeight="420" :title="getTitle" @ok="handleSubmit" @close="handleClose">
     <a-form ref="formRef" :model="formData" auto-label-width >
       <a-row :gutter="16">
-        <a-col :span="12">
+        <a-col :span="16">
           <a-form-item field="projectId" label="项目" validate-trigger="change" :rules="[{required:true,message:'请选择项目'}]" style="margin-bottom:15px;">
             <a-select  v-model="formData.projectId" :options="projectOption" @change="projectChange" :disabled="isUpdate" placeholder="请选择项目" allow-clear/>
           </a-form-item>
         </a-col>
 
-        <a-col :span="12">
+        <a-col :span="16">
           <a-form-item field="nodeId" label="节点" validate-trigger="change" :rules="[{required:true,message:'请选择节点'}]" style="margin-bottom:15px;">
             <a-tree-select
                 v-model="formData.nodeId"
@@ -23,19 +23,19 @@
             ></a-tree-select>
           </a-form-item>
         </a-col>
-        <a-col :span="12">
+        <a-col :span="16">
           <a-form-item field="state" label="完成情况" validate-trigger="change" :rules="[{required:true,message:'请选择完成情况'}]" style="margin-bottom:15px;">
-            <a-select v-model="formData.state"  :options="recordStateOptions" placeholder="请选择请选择完成情况" allow-clear/>
+            <a-select v-model="formData.state"  :options="recordStateOptions"  :disabled="isUpdate" placeholder="请选择请选择完成情况" allow-clear/>
           </a-form-item>
         </a-col>
-        <a-col :span="24" >
+        <a-col :span="16" >
           <a-form-item field="overview" label="概况"  style="margin-bottom:15px; height: 60px">
-            <a-textarea  v-model="formData.overview" placeholder="备注：" allow-clear/>
+            <a-textarea  v-model="formData.overview" placeholder="请输入节点记录概况" allow-clear/>
           </a-form-item>
         </a-col>
-        <a-col :span="10">
+        <a-col :span="10" v-if="!isUpdate">
           <a-form-item field="properties" label="添加附件" validate-trigger="input" style="margin-bottom:15px;">
-            <a-upload v-model="formData.file"  placeholder="点击添加附件" allow-clear/>
+            <a-upload  :custom-request="customRequest"  placeholder="点击添加附件" :file-list="defaultFileList"  allow-clear/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -43,8 +43,7 @@
   </BasicModal>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed, unref} from 'vue';
-import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
+import { defineComponent, ref, computed, unref } from 'vue';
 import { BasicModal, useModalInner } from '/@/components/Modal';
 import { FormInstance } from '@arco-design/web-vue/es/form';
 import useLoading from '@/hooks/loading';
@@ -56,10 +55,9 @@ import { save,update} from '@/api/project/project_ing';
 import { IconPicker ,Icon} from '@/components/Icon';
 import { Message } from '@arco-design/web-vue';
 import dayjs from 'dayjs';
-import type { RequestOption} from '@arco-design/web-vue/es/upload/interfaces';
-import { userUploadApi } from '@/api/common';
-import project from "@/views/project/project/index.vue";
 import {recordStateOptions} from "@/views/project/data";
+import type {RequestOption} from "@arco-design/web-vue/es/upload/interfaces";
+import {userUploadApi} from "@/api/common";
 export default defineComponent({
   name: 'AddBook',
   computed: {
@@ -77,13 +75,18 @@ export default defineComponent({
     //ID
     const projectId = ref(0);
     //表单字段
-    const basedata={
-      projectId: '',
-      nodeId: '',
-      overview: '',
-      state: '',
-      file: '',
+
+    interface addRecord {
+      projectId?:number,
+      nodeId?:number,
+      overview?:string,
+      state?:number,
+      file?:object,
     }
+
+    const defaultFileList = ref([])
+    const basedata:addRecord = {}
+
     const formData = ref(basedata)
     const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
       formRef.value?.resetFields()
@@ -95,9 +98,11 @@ export default defineComponent({
         projectChange(data.record.projectId)
       }else{
         formData.value=basedata
+        defaultFileList.value = []
       }
     });
     const getTitle = computed(() => (!unref(isUpdate) ? '新增项目进度' : '编辑项目进度'));
+
     //点击确认
     const { loading, setLoading } = useLoading();
     const handleSubmit = async () => {
@@ -138,9 +143,53 @@ export default defineComponent({
     }
     fatchProjectOption()
 
-    const projectChange = async (projectId) => {
+    const projectChange = async (projectId:number) => {
       projectNodeOption.value =  await getProjectNodeOption(projectId);
     }
+
+    //上传附件改变
+    const onChange=(fileList:any)=>{
+      console.log("fileList",fileList)
+    }
+    //上传附件
+    const customRequest = (options: RequestOption) => {
+      // docs: https://axios-http.com/docs/cancellation
+      const controller = new AbortController();
+      (async function requestWrap() {
+        const {
+          onProgress,
+          onError,
+          onSuccess,
+          fileItem,
+        } = options;
+        onProgress(20);
+        const onUploadProgress = (event: ProgressEvent) => {
+          let percent;
+          if (event.total > 0) {
+            percent = (event.loaded / event.total) * 100;
+          }
+          onProgress(parseInt(String(percent), 10), event);
+        };
+        try {
+          //开始手动上传
+          const filename=fileItem?.name||""
+          const resdata = await userUploadApi({ name: 'file', file: fileItem.file as Blob, filename,data:{type:'attached'}},onUploadProgress);
+          //更新图片
+          console.log(resdata)
+          if(resdata){
+            formData.value.file = resdata
+          }
+          console.log(formData.value.file)
+        } catch (error) {
+          onError(error);
+        }
+      })();
+      return {
+        abort() {
+          controller.abort();
+        },
+      };
+    };
 
     return {
       registerModal,
@@ -157,6 +206,9 @@ export default defineComponent({
       dayjs,
       projectChange,
       handleClose,
+      onChange,
+      customRequest,
+      defaultFileList,
     };
   },
 });
