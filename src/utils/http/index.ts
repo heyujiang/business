@@ -48,7 +48,6 @@ const transform: AxiosTransform = {
     //如果token即将过去则刷新token
     // 这里逻辑可以根据项目进行修改
     const hasSuccess = resdata && Reflect.has(resdata, 'code') && code === ResultEnum.SUCCESS;
-    console.log(hasSuccess)
     if (hasSuccess) {
         if (options.successMessageMode === 'modal') {
           Modal.success({ title: "操作结果", content: resdata.msg });
@@ -78,9 +77,11 @@ const transform: AxiosTransform = {
           timeoutMsg = msg;
         }
     }
+    console.log("api request error and error message mode : " , options.errorMessageMode)
     if (options.errorMessageMode === 'modal') {
       Modal.error({ title: '错误提示', content: timeoutMsg });
     } else if (options.errorMessageMode === 'message') {
+      console.log(timeoutMsg)
       Message.clear("top")
       Message.error(timeoutMsg);
     }

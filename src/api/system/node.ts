@@ -16,7 +16,7 @@ enum Api {
 
 //菜单选择菜单
 export function getList(params: object) {
-  return defHttp.get({ url: Api.getList, params:params }, { errorMessageMode: 'none' });
+  return defHttp.get({ url: Api.getList, params:params }, { errorMessageMode: 'message' });
 }
 //菜单选择菜单
 export function getParent() {
@@ -42,7 +42,7 @@ export function del(id: number) {
 
 //OPTIONS
 export function getNodeOptions() {
-    return defHttp.get({ url: Api.nodeOptions}, { errorMessageMode: 'message' });
+    return defHttp.get({ url: Api.nodeOptions}, { errorMessageMode: 'none' });
 }
 
 /**数据类型 */

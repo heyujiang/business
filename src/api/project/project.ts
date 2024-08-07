@@ -32,7 +32,7 @@ export function getList(params: any) {
     if (params.createdAt[0] > 100000000){
         params=Object.assign({},params,{createdAt:[Math.floor(params.createdAt[0] / 1000),Math.floor(params.createdAt[1] / 1000)]})
     }
-   return defHttp.get({ url: Api.getList, params:params }, { errorMessageMode: 'none' });
+   return defHttp.get({ url: Api.getList, params:params }, { errorMessageMode: 'message' });
 }
 
 //新增用户
@@ -92,11 +92,11 @@ export function saveProjectContact(params: any) {
 }
 
 export function getProjectOption() {
-    return defHttp.get({ url: Api.projectOption }, { errorMessageMode: 'message' });
+    return defHttp.get({ url: Api.projectOption }, { errorMessageMode: 'none' });
 }
 
 export function getProjectNodeOption(id: any) {
-    return defHttp.get({ url: Api.projectNodeOption + id}, { errorMessageMode: 'message' });
+    return defHttp.get({ url: Api.projectNodeOption + id}, { errorMessageMode: 'none' });
 }
 
 export function getProjectAttached(params:any) {

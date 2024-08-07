@@ -38,7 +38,6 @@
             <a-upload
                 action="/"
                 :show-file-list="false"
-                @change="onChange"
                 :custom-request="customRequest"
               >
                 <template #upload-button>
@@ -81,11 +80,14 @@
   import { IconPicker ,Icon} from '@/components/Icon';
   import { Message } from '@arco-design/web-vue';
   import type { RequestOption} from '@arco-design/web-vue/es/upload/interfaces';
-  import { userUploadApi } from '@/api/common';
+  import {UploadItem, userUploadApi} from '@/api/common';
+  import {ResultEnum} from "@/utils/http/httpEnum";
+  import {Result} from "/#/axios";
+  import {any} from "vue-types";
   export default defineComponent({
     name: 'AddBook',
     components: { BasicModal,IconPicker,Icon },
-    emits: ['success'],
+    emits: ['success','register'],
     setup(_, { emit }) {
       const { t } = useI18n();
       const isUpdate = ref(false);
@@ -146,10 +148,7 @@
           Message.clear("top")
         }
       };
-      //上传附件改变
-      const onChange=(fileList:any)=>{
-        console.log("fileList",fileList)
-      }
+
       //上传附件
       const customRequest = (options: RequestOption) => {
           // docs: https://axios-http.com/docs/cancellation
@@ -172,13 +171,15 @@
               try {
                 //开始手动上传
                 const filename=fileItem?.name||""
-                const resdata = await userUploadApi({ name: 'file', file: fileItem.file as Blob, filename,data:{type:'avatar'}},onUploadProgress);
+                const uploadRes = await userUploadApi({ name: 'file', file: fileItem.file as Blob, filename,data:{type:'avatar'}},onUploadProgress);
                 //更新图片
-                console.log(resdata)
-                if(resdata){
-                  formData.value.avatar=resdata.url
+                if(uploadRes){
+                  if(uploadRes.code != ResultEnum.SUCCESS) {
+                    Message.error(uploadRes?.msg||"上传文件失败");
+                  }else{
+                    formData.value.avatar=uploadRes.data.url
+                  }
                 }
-                console.log(formData.value.avatar)
               } catch (error) {
                 onError(error);
               }
@@ -218,7 +219,6 @@
         formData,
         isUpdate,
         t,
-        onChange,
         customRequest,
         usernameRules,
       };

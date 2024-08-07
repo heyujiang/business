@@ -38,7 +38,7 @@ export function logout() {
 }
 //获取用信息
 export function getUserInfo() {
-  return defHttp.get({ url: Api.GetUserInfo }, { errorMessageMode: 'none' });
+  return defHttp.get({ url: Api.GetUserInfo }, { errorMessageMode: 'message' });
 }
 //获取验证码
 export function getCode(params:object) {
@@ -47,7 +47,7 @@ export function getCode(params:object) {
 
 //获取后台菜单
 export function getMenuList() {
-  return defHttp.get({ url: Api.GetMenu }, { errorMessageMode: 'none' });
+  return defHttp.get({ url: Api.GetMenu }, { errorMessageMode: 'message' });
 }
 
 //获取登录信息
@@ -57,6 +57,6 @@ export function getlogininfo(params:object) {
 
 //获取登录信息
 export function getUserOptions() {
-    return defHttp.get({ url: Api.UserOptions }, { errorMessageMode: 'message' });
+    return defHttp.get({ url: Api.UserOptions }, { errorMessageMode: 'none' });
 }
 

@@ -63,6 +63,8 @@ import {withDefaults, defineProps, ref, defineEmits, watch} from 'vue';
 import {  getProjectAttached ,createProjectAttached} from '@/api/project/project';
 import {RequestOption} from "@arco-design/web-vue/es/upload/interfaces";
 import {userUploadApi} from "@/api/common";
+import {ResultEnum} from "@/utils/http/httpEnum";
+import {Message} from "@arco-design/web-vue";
 
 interface attachedSearch {
   recordId?: number;
@@ -122,11 +124,16 @@ const customRequest = (options: RequestOption) => {
     try {
       //开始手动上传
       const filename=fileItem?.name||""
-      const resdata = await userUploadApi({ name: 'file', file: fileItem.file as Blob, filename,data:{type:'attached'}},onUploadProgress);
+      const uploadRes = await userUploadApi({ name: 'file', file: fileItem.file as Blob, filename,data:{type:'attached'}},onUploadProgress);
+
       //更新图片
-      if(resdata){
-        await createProjectAttached(Object.assign({},resdata,{recordId:props.search.recordId}))
-        fetchRecordAttached()
+      if(uploadRes){
+        if(uploadRes.code != ResultEnum.SUCCESS) {
+          Message.error(uploadRes?.msg||"上传文件失败");
+        }else{
+          await createProjectAttached(Object.assign({},uploadRes.data,{recordId:props.search.recordId}))
+          await fetchRecordAttached()
+        }
       }
     } catch (error) {
       onError(error);

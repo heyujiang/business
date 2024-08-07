@@ -24,44 +24,44 @@
       <Menu v-if="topMenu" />
     </div>
     <ul class="right-side">
-      <li>
-        <a-tooltip :content="$t('settings.search')">
-          <a-button class="nav-btn" type="outline" :shape="'circle'">
-            <template #icon>
-              <icon-search />
-            </template>
-          </a-button>
-        </a-tooltip>
-      </li>
-      <li>
-        <a-tooltip :content="$t('settings.language')">
-          <a-button
-            class="nav-btn"
-            type="outline"
-            :shape="'circle'"
-            @click="setDropDownVisible"
-          >
-            <template #icon>
-              <icon-language />
-            </template>
-          </a-button>
-        </a-tooltip>
-        <a-dropdown trigger="click" @select="changeLocale as any">
-          <div ref="triggerBtn" class="trigger-btn"></div>
-          <template #content>
-            <a-doption
-              v-for="item in locales"
-              :key="item.value"
-              :value="item.value"
-            >
-              <template #icon>
-                <icon-check v-show="item.value === currentLocale" />
-              </template>
-              {{ item.label }}
-            </a-doption>
-          </template>
-        </a-dropdown>
-      </li>
+<!--      <li>-->
+<!--        <a-tooltip :content="$t('settings.search')">-->
+<!--          <a-button class="nav-btn" type="outline" :shape="'circle'">-->
+<!--            <template #icon>-->
+<!--              <icon-search />-->
+<!--            </template>-->
+<!--          </a-button>-->
+<!--        </a-tooltip>-->
+<!--      </li>-->
+<!--      <li>-->
+<!--        <a-tooltip :content="$t('settings.language')">-->
+<!--          <a-button-->
+<!--            class="nav-btn"-->
+<!--            type="outline"-->
+<!--            :shape="'circle'"-->
+<!--            @click="setDropDownVisible"-->
+<!--          >-->
+<!--            <template #icon>-->
+<!--              <icon-language />-->
+<!--            </template>-->
+<!--          </a-button>-->
+<!--        </a-tooltip>-->
+<!--        <a-dropdown trigger="click" @select="changeLocale as any">-->
+<!--          <div ref="triggerBtn" class="trigger-btn"></div>-->
+<!--          <template #content>-->
+<!--            <a-doption-->
+<!--              v-for="item in locales"-->
+<!--              :key="item.value"-->
+<!--              :value="item.value"-->
+<!--            >-->
+<!--              <template #icon>-->
+<!--                <icon-check v-show="item.value === currentLocale" />-->
+<!--              </template>-->
+<!--              {{ item.label }}-->
+<!--            </a-doption>-->
+<!--          </template>-->
+<!--        </a-dropdown>-->
+<!--      </li>-->
       <li>
         <a-tooltip
           :content="

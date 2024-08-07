@@ -50,7 +50,7 @@ import useLoading from '@/hooks/loading';
 import { useI18n } from 'vue-i18n';
 import { cloneDeep } from 'lodash-es';
 //api
-import {  getProjectOption , getProjectNodeOption} from '@/api/project/project';
+import {getProjectOption, getProjectNodeOption, createProjectAttached} from '@/api/project/project';
 import { save,update} from '@/api/project/project_ing';
 import { IconPicker ,Icon} from '@/components/Icon';
 import { Message } from '@arco-design/web-vue';
@@ -58,6 +58,7 @@ import dayjs from 'dayjs';
 import {recordStateOptions} from "@/views/project/data";
 import type {RequestOption} from "@arco-design/web-vue/es/upload/interfaces";
 import {userUploadApi} from "@/api/common";
+import {ResultEnum} from "@/utils/http/httpEnum";
 export default defineComponent({
   name: 'AddBook',
   computed: {
@@ -173,13 +174,16 @@ export default defineComponent({
         try {
           //开始手动上传
           const filename=fileItem?.name||""
-          const resdata = await userUploadApi({ name: 'file', file: fileItem.file as Blob, filename,data:{type:'attached'}},onUploadProgress);
+          const uploadRes = await userUploadApi({ name: 'file', file: fileItem.file as Blob, filename,data:{type:'attached'}},onUploadProgress);
+
           //更新图片
-          console.log(resdata)
-          if(resdata){
-            formData.value.file = resdata
+          if(uploadRes){
+            if(uploadRes.code != ResultEnum.SUCCESS) {
+              Message.error(uploadRes?.msg||"上传文件失败");
+            }else{
+              formData.value.file = uploadRes.data
+            }
           }
-          console.log(formData.value.file)
         } catch (error) {
           onError(error);
         }

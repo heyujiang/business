@@ -17,7 +17,7 @@ enum Api {
 
 //数据列表
 export function getList(params: object) {
-  return defHttp.get({ url: Api.getList, params:params }, { errorMessageMode: 'none' });
+  return defHttp.get({ url: Api.getList, params:params }, { errorMessageMode: 'message' });
 }
 
 //新增用户

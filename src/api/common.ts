@@ -9,6 +9,9 @@ export interface UploadItem {
     time: number;
     uid: string;
     url: string;
+    code: number,
+    msg: string,
+    data: any,
   }
 //获取配置中的上传文件路径
 const DOMAIN =import.meta.env.VITE_APP_ENV=="production"? window?.globalConfig.Upload_url: window?.globalConfig.Upload_url_dev;
