@@ -109,7 +109,7 @@
           <span v-if="record.state == '1'" style="color: #0055d1; ">
               {{'待定'}}
           </span>
-          <span v-else-if ="record.state == '2'" style="color: #f3a845;  " >
+          <span v-else-if ="record.state == '2'" style="color: #f6c200;  " >
               {{'进行中'}}
           </span>
           <span v-else-if ="record.state == '3'" style="color: #00bb00; ">

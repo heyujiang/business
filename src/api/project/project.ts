@@ -22,6 +22,9 @@ enum Api {
     saveProjectContact = '/api/project/contact',
     projectOption = '/api/project/option',
     projectNodeOption = '/api/project/nodes/option/',
+    getProjectAttached = '/api/project/attached',
+    createProjectAttached = '/api/project/attached',
+    getProjectRecordByNode = '/api/project/record/node',
 }
 
 //数据列表
@@ -95,6 +98,20 @@ export function getProjectOption() {
 export function getProjectNodeOption(id: any) {
     return defHttp.get({ url: Api.projectNodeOption + id}, { errorMessageMode: 'message' });
 }
+
+export function getProjectAttached(params:any) {
+    return defHttp.get({ url: Api.getProjectAttached , params:params}, { errorMessageMode: 'message' });
+}
+
+
+export function createProjectAttached(params:any) {
+    return defHttp.post({ url: Api.createProjectAttached , params:params}, { errorMessageMode: 'message' });
+}
+
+export function getProjectRecordByNode(params:any) {
+    return defHttp.get({ url: Api.getProjectRecordByNode , params:params}, { errorMessageMode: 'message' });
+}
+
 
 /**数据类型 */
 export interface DataItem {

@@ -88,11 +88,11 @@
         </template>
 
         <template #state="{ record }">
-          <span v-if="record.state == 1">
-              已完成
+          <span v-if="record.state == 1"  style="color: #00bb00;">
+            已完成
           </span>
-          <span v-else-if="record.state == 2">
-              进行中
+          <span v-else-if="record.state == 2"  style="color: #f6c200; ">
+            进行中
           </span>
         </template>
 
@@ -113,7 +113,7 @@
     </a-card>
     <!--表单-->
     <AddForm @register="registerModal" @success="handleData"/>
-    <Attached v-model:visible="visible" :record-id="aRecordId"/>
+    <Attached v-model:visible="visible" :search="{recordId:aRecordId}" :showUpload="true"/>
   </div>
 </template>
 
@@ -130,7 +130,7 @@ import {columns} from './data';
 //表单
 import {useModal} from '/@/components/Modal';
 import AddForm from './AddForm.vue';
-import Attached from './Attached.vue';
+import Attached from '../components/Attached.vue';
 import {useI18n} from 'vue-i18n';
 import {Icon} from '@/components/Icon';
 import {Message} from '@arco-design/web-vue';
