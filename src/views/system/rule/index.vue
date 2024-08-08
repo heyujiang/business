@@ -64,7 +64,7 @@
           {{dayjs(record.createtime*1000).format("YYYY-MM-DD")}}
         </template>
         <template #status="{ record }">
-          <a-switch type="round" v-model="record.status" :checked-value="0" :unchecked-value="1" @change="handleStatus(record)">
+          <a-switch type="round" v-model="record.status" :checked-value="1" :unchecked-value="2" @change="handleStatus(record)">
               <template #checked>
                 开
               </template>
@@ -201,7 +201,7 @@
   const handleStatus=async(record:any)=>{
     try {
         Message.loading({content:"更新状态中",id:"upStatus"})
-       const res= await upStatus({id:record.id,status:record.status});
+       const res= await upStatus(record.id,{status:record.status});
        if(res){
          Message.success({content:"更新状态成功",id:"upStatus"})
        }
@@ -213,7 +213,7 @@
   const handleDel=async(record:any)=>{
     try {
         Message.loading({content:"删除中",id:"upStatus"})
-       const res= await del({ids:[record.id]});
+       const res= await del(record.id);
        if(res){
         fetchData();
          Message.success({content:"删除成功",id:"upStatus"})

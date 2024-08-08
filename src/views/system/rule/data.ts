@@ -24,8 +24,8 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
     },
     {
       title: '排序',
-      dataIndex: 'orderNo',
-      slotName: 'orderNo',
+      dataIndex: 'order',
+      slotName: 'order',
       align:"center"
     },
     {
@@ -36,8 +36,8 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
     },
     {
       title: '创建时间',
-      dataIndex: 'createtime',
-      slotName: 'createtime',
+      dataIndex: 'createdAt',
+      slotName: 'createdAt',
       align:"center"
     },
     {

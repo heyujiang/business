@@ -3,9 +3,9 @@
     <a-form ref="formRef" :model="formData" auto-label-width>
      <a-form-item field="type" label="菜单类型" style="margin-bottom:15px;">
         <a-radio-group type="button"  v-model="formData.type" @change="handleChangeType">
-          <a-radio :value="0">目录</a-radio>
-          <a-radio :value="1">菜单</a-radio>
-          <a-radio :value="2">按钮</a-radio>
+          <a-radio :value="1">目录</a-radio>
+          <a-radio :value="2">菜单</a-radio>
+          <a-radio :value="3">按钮</a-radio>
         </a-radio-group>
       </a-form-item>
       <a-row :gutter="16">
@@ -33,10 +33,10 @@
         </a-col>
         <a-col :span="12">
           <a-form-item label="排序" field="orderNo" style="margin-bottom:15px;">
-            <a-input-number v-model="formData.orderNo" placeholder="请填排序" />
+            <a-input-number v-model="formData.order" placeholder="请填排序" />
           </a-form-item>
         </a-col>
-        <a-col :span="12"  v-if="formData.type!=2">
+        <a-col :span="12"  v-if="formData.type!=3">
           <a-form-item label="图标" field="icon" style="margin-bottom:15px;">
             <a-input-search v-model="formData.icon" placeholder="选择图标/填写"  search-button>
               <template  v-if="formData.icon" #prefix>
@@ -53,62 +53,62 @@
               </a-input-search>
           </a-form-item>
         </a-col>
-        <a-col :span="12"  v-if="formData.type!=2">
+        <a-col :span="12"  v-if="formData.type!=3">
           <a-form-item field="routePath" label="路由地址" validate-trigger="input" :rules="[{required:true,message:'请填写路由地址'}]" style="margin-bottom:15px;">
             <a-input v-model="formData.routePath" placeholder="路由地址（path）" />
           </a-form-item>
         </a-col>
-        <a-col :span="12"  v-if="formData.type!=2">
+        <a-col :span="12"  v-if="formData.type!=3">
           <a-form-item field="routeName" label="路由名称" validate-trigger="input" :rules="[{required:true,message:'请填写路由名称'}]" style="margin-bottom:15px;">
             <a-input v-model="formData.routeName" placeholder="路由名称（name）" />
           </a-form-item>
         </a-col>
-        <a-col :span="12" v-if="formData.type==0">
+        <a-col :span="12" v-if="formData.type==1">
           <a-form-item field="redirect" label="重定向地址" validate-trigger="input" :rules="[{required:true,message:'请填写重定向地址'}]">
             <a-input v-model="formData.redirect" placeholder="重定向地址（redirect）" />
           </a-form-item>
         </a-col>
-        <a-col :span="12" v-if="formData.type==1">
+        <a-col :span="12" v-if="formData.type==2">
           <a-form-item field="component" label="组件路径" validate-trigger="input" :rules="[{required:true,message:'请填写组件路径'}]">
             <a-input v-model="formData.component" placeholder="组件路径（component）" />
           </a-form-item>
         </a-col>
-        <a-col :span="12" v-if="formData.type==2">
+        <a-col :span="12" v-if="formData.type==3">
           <a-form-item field="permission" label="权限标识" validate-trigger="input" :rules="[{required:true,message:'请填写权限标识'}]">
             <a-input v-model="formData.permission" placeholder='权限标识 （v-permission="[admin]"）' />
           </a-form-item>
         </a-col>
-        <a-col :span="12" v-if="formData.type!=2">
+        <a-col :span="12" v-if="formData.type!=3">
           <a-form-item field="isExt" label="是否外链" style="margin-bottom:5px;">
             <a-radio-group v-model="formData.isExt" :options="OYoptions" />
           </a-form-item>
         </a-col>
-        <a-col :span="12"  v-if="formData.type!=2">
+        <a-col :span="12"  v-if="formData.type!=3">
           <a-form-item field="keepalive" label="是否缓存" style="margin-bottom:5px;">
             <a-radio-group v-model="formData.keepalive" :options="OYoptions" />
           </a-form-item>
         </a-col>
-        <a-col :span="12"  v-if="formData.type!=2">
+        <a-col :span="12"  v-if="formData.type!=3">
           <a-form-item field="hideInMenu" label="左侧菜单中隐藏" style="margin-bottom:5px;">
             <a-radio-group v-model="formData.hideInMenu" :options="OYoptions" />
           </a-form-item>
         </a-col>
-        <a-col :span="12"  v-if="formData.type!=2">
+        <a-col :span="12"  v-if="formData.type!=3">
           <a-form-item field="hideChildrenInMenu" label="左侧菜单中显示" style="margin-bottom:5px;">
             <a-radio-group v-model="formData.hideChildrenInMenu" :options="OYoptions" />
           </a-form-item>
         </a-col>
-        <a-col :span="12"  v-if="formData.type!=2">
+        <a-col :span="12"  v-if="formData.type!=3">
           <a-form-item field="noAffix" label="添加到标签中" style="margin-bottom:5px;">
             <a-radio-group v-model="formData.noAffix" :options="OYoptions" />
           </a-form-item>
         </a-col>
-        <a-col :span="12"  v-if="formData.type!=2">
+        <a-col :span="12"  v-if="formData.type!=3">
           <a-form-item field="activeMenu" label="高亮设置的菜单" style="margin-bottom:5px;">
             <a-radio-group v-model="formData.activeMenu" :options="OYoptions" />
           </a-form-item>
         </a-col>
-        <a-col :span="12"  v-if="formData.type!=2">
+        <a-col :span="12"  v-if="formData.type!=3">
           <a-form-item field="requiresAuth" label="是否需要登录鉴权" style="margin-bottom:5px;">
             <a-radio-group v-model="formData.requiresAuth" :options="OYoptions" />
           </a-form-item>
@@ -125,7 +125,7 @@
   import { useI18n } from 'vue-i18n';
   import { cloneDeep } from 'lodash-es';
   //api
-  import { getParent, save,RuleItem } from '@/api/system/rule';
+  import { getParent, save , update,RuleItem } from '@/api/system/rule';
   import { IconPicker ,Icon} from '@/components/Icon';
   import { Message } from '@arco-design/web-vue';
   export default defineComponent({
@@ -143,8 +143,8 @@
             id:0,
             title: '',
             locale: '',
-            orderNo: 1,
-            type: 0,
+            order: 1,
+            type: 1,
             pid:0,
             icon:"",
             routePath:"",//path
@@ -175,6 +175,7 @@
           }
           if (unref(isUpdate)) {
             m_component.value=data.record.component
+            console.log(data.record)
             formData.value=cloneDeep(data.record)
           }else{
             m_component.value=""
@@ -195,9 +196,16 @@
             if(formData.value.type==0&&formData.value.routePath&&formData.value.routePath.substr(0,1)!="/"){
               formData.value.routePath='/'+formData.value.routePath
             }
-            Message.loading({content:"更新中",id:"upStatus"})
-            await save(unref(formData));
-            Message.success({content:"更新成功",id:"upStatus"})
+            if (unref(isUpdate)) {
+              Message.loading({content:"更新中",id:"upStatus"})
+              await update(formData.value.id,unref(formData));
+              Message.success({content:"更新成功",id:"upStatus"})
+            }else{
+              Message.loading({content:"新增中",id:"upStatus"})
+              await save(unref(formData));
+              Message.success({content:"新增成功",id:"upStatus"})
+            }
+
             closeModal()
             emit('success');
             setLoading(false);
