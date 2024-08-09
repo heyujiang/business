@@ -89,8 +89,8 @@
 
   const loginConfig = useStorage('login-config', {
     rememberPassword: true,
-    username: 'cfun', // 演示默认值-上线环境请赋空值
-    password: '2002', // 默认密码-上线环境请赋空值
+    username: '', // 演示默认值-上线环境请赋空值
+    password: '', // 默认密码-上线环境请赋空值
   });
   const userInfo = reactive({
     username: loginConfig.value.username,

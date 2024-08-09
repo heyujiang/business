@@ -20,6 +20,7 @@ export default {
   // new
   'userSetting.label.certification': 'Certification',
   'userSetting.label.phone': 'Phone',
+  'userSetting.label.email':'Email',
   'userSetting.label.accountId': 'Account Id',
   'userSetting.label.registrationDate': 'Registration Date',
   'userSetting.tab.basicInformation': 'Basic Information',

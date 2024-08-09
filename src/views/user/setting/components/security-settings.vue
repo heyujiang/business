@@ -1,5 +1,4 @@
 <template>
-  <a-spin :loading="loading" style="width: 100%">
   <a-list :bordered="false">
     <a-list-item>
       <a-list-item-meta>
@@ -22,121 +21,121 @@
         </template>
       </a-list-item-meta>
     </a-list-item>
-    <a-list-item>
-      <a-list-item-meta>
-        <template #avatar>
-          <a-typography-paragraph>
-            {{ $t('userSetting.SecuritySettings.form.label.securityQuestion') }}
-          </a-typography-paragraph>
-        </template>
-        <template #description>
-          <div class="content">
-            <a-typography-paragraph class="tip">
-              {{
-                $t('userSetting.SecuritySettings.placeholder.securityQuestion')
-              }}
-            </a-typography-paragraph>
-          </div>
-          <div class="operation">
-            <a-link>
-              {{ $t('userSetting.SecuritySettings.button.settings') }}
-            </a-link>
-          </div>
-        </template>
-      </a-list-item-meta>
-    </a-list-item>
-    <a-list-item>
-      <a-list-item-meta>
-        <template #avatar>
-          <a-typography-paragraph>
-            {{ $t('userSetting.SecuritySettings.form.label.phone') }}
-          </a-typography-paragraph>
-        </template>
-        <template #description>
-          <div class="content">
-            <a-typography-paragraph>
-              {{phoneFilter(formData.mobile)}}
-            </a-typography-paragraph>
-          </div>
-          <div class="operation">
-            <a-link>
-              {{ $t('userSetting.SecuritySettings.button.update') }}
-            </a-link>
-          </div>
-        </template>
-      </a-list-item-meta>
-    </a-list-item>
-    <a-list-item>
-      <a-list-item-meta>
-        <template #avatar>
-          <a-typography-paragraph>
-            {{ $t('userSetting.SecuritySettings.form.label.email') }}
-          </a-typography-paragraph>
-        </template>
-        <template #description>
-          <div class="content">
-            <a-typography-paragraph :class="{tip:!formData.email}">
-              <template v-if="formData.email">
-                {{formData.email}}
-              </template>
-              <template v-else>
-                {{ $t('userSetting.SecuritySettings.placeholder.email') }}
-              </template>
-            </a-typography-paragraph>
-          </div>
-          <div class="operation">
-            <a-link>
-              {{ $t('userSetting.SecuritySettings.button.update') }}
-            </a-link>
-          </div>
-        </template>
-      </a-list-item-meta>
-    </a-list-item>
+<!--    <a-list-item>-->
+<!--      <a-list-item-meta>-->
+<!--        <template #avatar>-->
+<!--          <a-typography-paragraph>-->
+<!--            {{ $t('userSetting.SecuritySettings.form.label.securityQuestion') }}-->
+<!--          </a-typography-paragraph>-->
+<!--        </template>-->
+<!--        <template #description>-->
+<!--          <div class="content">-->
+<!--            <a-typography-paragraph class="tip">-->
+<!--              {{-->
+<!--                $t('userSetting.SecuritySettings.placeholder.securityQuestion')-->
+<!--              }}-->
+<!--            </a-typography-paragraph>-->
+<!--          </div>-->
+<!--          <div class="operation">-->
+<!--            <a-link>-->
+<!--              {{ $t('userSetting.SecuritySettings.button.settings') }}-->
+<!--            </a-link>-->
+<!--          </div>-->
+<!--        </template>-->
+<!--      </a-list-item-meta>-->
+<!--    </a-list-item>-->
+<!--    <a-list-item>-->
+<!--      <a-list-item-meta>-->
+<!--        <template #avatar>-->
+<!--          <a-typography-paragraph>-->
+<!--            {{ $t('userSetting.SecuritySettings.form.label.phone') }}-->
+<!--          </a-typography-paragraph>-->
+<!--        </template>-->
+<!--        <template #description>-->
+<!--          <div class="content">-->
+<!--            <a-typography-paragraph>-->
+<!--              {{phoneFilter(formData.mobile)}}-->
+<!--            </a-typography-paragraph>-->
+<!--          </div>-->
+<!--          <div class="operation">-->
+<!--            <a-link>-->
+<!--              {{ $t('userSetting.SecuritySettings.button.update') }}-->
+<!--            </a-link>-->
+<!--          </div>-->
+<!--        </template>-->
+<!--      </a-list-item-meta>-->
+<!--    </a-list-item>-->
+<!--    <a-list-item>-->
+<!--      <a-list-item-meta>-->
+<!--        <template #avatar>-->
+<!--          <a-typography-paragraph>-->
+<!--            {{ $t('userSetting.SecuritySettings.form.label.email') }}-->
+<!--          </a-typography-paragraph>-->
+<!--        </template>-->
+<!--        <template #description>-->
+<!--          <div class="content">-->
+<!--            <a-typography-paragraph :class="{tip:!formData.email}">-->
+<!--              <template v-if="formData.email">-->
+<!--                {{formData.email}}-->
+<!--              </template>-->
+<!--              <template v-else>-->
+<!--                {{ $t('userSetting.SecuritySettings.placeholder.email') }}-->
+<!--              </template>-->
+<!--            </a-typography-paragraph>-->
+<!--          </div>-->
+<!--          <div class="operation">-->
+<!--            <a-link>-->
+<!--              {{ $t('userSetting.SecuritySettings.button.update') }}-->
+<!--            </a-link>-->
+<!--          </div>-->
+<!--        </template>-->
+<!--      </a-list-item-meta>-->
+<!--    </a-list-item>-->
   </a-list>
   <!--修改密码-->
   <a-modal v-model:visible="changePassWord"  title="修改密码" @before-ok="handlePassword">
     <a-form :model="formpassword" ref="formRef">
-      <a-form-item field="oldpassword" label="原来密码" :rules="rules">
-        <a-input-password v-model="formpassword.oldpassword" allow-clear/>
+      <a-form-item field="oldPassword" label="原来密码" :rules="rules">
+        <a-input-password v-model="formpassword.oldPassword" allow-clear/>
       </a-form-item>
       <a-form-item field="password" label="新密码" :rules="rulesnew">
         <a-input-password v-model="formpassword.password" allow-clear/>
       </a-form-item>
-      <a-form-item field="secondpassword" label="确认密码" :rules="rulessecond">
-        <a-input-password v-model="formpassword.secondpassword" allow-clear/>
+      <a-form-item field="secondPassword" label="确认密码" :rules="rulessecond">
+        <a-input-password v-model="formpassword.secondPassword" allow-clear/>
       </a-form-item>
     </a-form>
   </a-modal>
-</a-spin>
 </template>
 
 <script lang="ts" setup>
   import {PropType,ref,watch} from 'vue';
   import { checkPassword,BasicInfoModel,changePassword } from '@/api/user-center';
   import { Message } from '@arco-design/web-vue';
-  // import useLoading from '@/hooks/loading';
+  import {useUserStore} from "@/store";
+
   const props = defineProps({
      formData: {
       type: Object as PropType<BasicInfoModel>,
       default: false,
-    },
-    loading:{
-      type:Boolean,
-      default: false,
     }
  });
  const formData = ref<BasicInfoModel>({
-    id: 0,
-    nickname: "",
-    email:  "",
-    mobile:  "",
-    remark:  "",
-    company: "",
-    province: "",
-    city:  "",
-    area:  "",
-    address:  "",
-    createtime: "",
+   id: 0,
+   nickname: "",
+   email:  "",
+   mobile:"",
+   remark:  "",
+   company: "",
+   country:"",
+   province: "",
+   city:  "",
+   area:  "",
+   address:  "",
+   createtime: "",
+   phoneNumber:"",
+   createdAt:"",
+   introduction:"",
   });
  watch(
       () => props.formData,
@@ -147,21 +146,22 @@
   //修改密码
   const formRef = ref()
   const formpassword=ref({
-    oldpassword:"",
+    oldPassword:"",
     password:"",
-    secondpassword:"",
+    secondPassword:"",
   })
   const rules = [{
       validator: (value:any, cb:any) => {
         return new Promise(async(resolve) => {
-          if(!value==undefined){
+          if(value == undefined){
             cb('请输入原来密码')
-          }else{
-            const resData = await checkPassword({password:value});
-            if(!resData){
-              cb('您输入的原来密码不正确！')
-            }
           }
+          // else{
+          //   const resData = await checkPassword({password:value});
+          //   if(!resData){
+          //     cb('您输入的原来密码不正确！')
+          //   }
+          // }
           resolve(null)
         })
       }
@@ -199,6 +199,9 @@
         })
       }
     }];
+
+  const userStore = useUserStore();
+
   const changePassWord=ref(false)
   //提交修改
   const handlePassword=()=>{
@@ -206,17 +209,16 @@
         console.log("提交修改",res)
       if(res==undefined){
         Message.loading({content:"修改密码中",id:"delaction"})
-        const resultdata = await changePassword({oldpassword:formpassword.value.oldpassword,password:formpassword.value.password});
-        if(resultdata){
-          changePassWord.value=false
+        try{
+          await changePassword({oldPassword:formpassword.value.oldPassword,password:formpassword.value.password});
           Message.success({content:"修改密码成功",id:"delaction"})
-        }else{
-          Message.clear()
+          await userStore.logout(true)
+        }catch (error) {
+          console.log(error)
         }
       }
     })
     return false
-    // okLoading.value=false
   }
    //手机号过滤器
    const phoneFilter=(val:string) =>{

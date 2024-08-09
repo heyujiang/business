@@ -20,6 +20,7 @@ export default {
   // new
   'userSetting.label.certification': '实名认证',
   'userSetting.label.phone': '手机号码',
+  'userSetting.label.email':'邮箱',
   'userSetting.label.accountId': '账号ID',
   'userSetting.label.registrationDate': '注册时间',
   'userSetting.tab.basicInformation': '基础信息',

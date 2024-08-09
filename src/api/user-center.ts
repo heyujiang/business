@@ -3,8 +3,10 @@ import md5 from 'md5'
 enum Api {
    saveInfo = '/api/user/updateBasic',
    GetUser = '/api/user/getUserInfo',
+   updateAvatar = '/api/user/updateAvatar',
+   changePassword = '/api/user/updatePassword',
+
    checkPassword = '/user/data/checkPassword',
-   changePassword = '/user/data/changePassword',
    GetCertification = '/user/data/get_certification',
 }
 export interface MyProjectRecord {
@@ -31,6 +33,9 @@ export interface BasicInfoModel {
   area: string;
   address: string;
   createtime: string;
+  phoneNumber:string;
+  createdAt:string;
+  introduction:string;
 }
 export interface MyTeamRecord {
   id: number;
@@ -38,7 +43,7 @@ export interface MyTeamRecord {
   name: string;
   peopleNumber: number;
 }
-//获取账户信息 
+//获取账户信息
 export function getUser() {
   return defHttp.get<BasicInfoModel>({ url:Api.GetUser});
 }
@@ -57,13 +62,17 @@ export function checkPassword(params:any) {
 }
 //修改密码
 export interface ChangeData {
-    oldpassword: string;
+    oldPassword: string;
     password: string;
 }
 export function changePassword(params:ChangeData) {
-  params=Object.assign({},params,{oldpassword:md5(params.oldpassword)})//加密推送
+  params=Object.assign({},params,{oldPassword:md5(params.oldPassword)})//加密推送
   params=Object.assign({},params,{password:md5(params.password)})//加密推送
   return defHttp.post({ url:Api.changePassword,params:params}, { errorMessageMode: 'message' });
+}
+
+export function updateAvatar(params:object) {
+  return defHttp.post({ url:Api.updateAvatar,params:params}, { errorMessageMode: 'message' });
 }
 
 

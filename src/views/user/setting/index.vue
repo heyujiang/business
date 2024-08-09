@@ -3,14 +3,14 @@
     <Breadcrumb :items="['menu.user', 'menu.user.setting']" />
     <a-row style="margin-bottom: 16px">
       <a-col :span="24">
-        <UserPanel :loading="loading" :formData="formData"/>
+        <UserPanel :formData="formData"/>
       </a-col>
     </a-row>
     <a-row class="wrapper">
       <a-col :span="24">
         <a-tabs default-active-key="1" type="rounded">
           <a-tab-pane key="1" :title="$t('userSetting.tab.basicInformation')">
-            <BasicInformation :loading="loading" :formData="formData"/>
+            <BasicInformation  :formData="formData"/>
           </a-tab-pane>
           <a-tab-pane key="2" :title="$t('userSetting.tab.securitySettings')">
             <SecuritySettings :loading="loading" :formData="formData"/>
@@ -25,36 +25,39 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
-  import UserPanel from './components/user-panel.vue';
-  import BasicInformation from './components/basic-information.vue';
-  import SecuritySettings from './components/security-settings.vue';
-  // import Certification from './components/certification.vue';
-  import { getUser ,BasicInfoModel } from '@/api/user-center';
-  import useLoading from '@/hooks/loading';
-  const formData = ref<BasicInfoModel>({
+import {ref} from 'vue';
+import UserPanel from './components/user-panel.vue';
+import BasicInformation from './components/basic-information.vue';
+import SecuritySettings from './components/security-settings.vue';
+// import Certification from './components/certification.vue';
+import {BasicInfoModel, getUser} from '@/api/user-center';
+import useLoading from '@/hooks/loading';
+
+const formData = ref<BasicInfoModel>({
     id: 0,
     nickname: "",
     email:  "",
     mobile:"",
     remark:  "",
     company: "",
-    country:  "",
+    country:"",
     province: "",
     city:  "",
     area:  "",
     address:  "",
     createtime: "",
+    phoneNumber:"",
+    createdAt:"",
+    introduction:"",
   });
   const { loading, setLoading } = useLoading(true);
   const fetchData = async () => {
     try {
-      const resData = await getUser();
-      formData.value= resData;
+      formData.value= await getUser();
     } catch (err) {
       // you can report use errorHandler or other
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
   fetchData();

@@ -21,21 +21,21 @@
         :placeholder="$t('userSetting.basicInfo.placeholder.email')"
       />
     </a-form-item>
-    <a-form-item
-      field="nickname"
-      :label="$t('userSetting.basicInfo.form.label.nickname')"
-      :rules="[
-        {
-          required: true,
-          message: $t('userSetting.form.error.nickname.required'),
-        },
-      ]"
-    >
-      <a-input
-        v-model="formData.nickname"
-        :placeholder="$t('userSetting.basicInfo.placeholder.nickname')"
-      />
-    </a-form-item>
+<!--    <a-form-item-->
+<!--      field="nickname"-->
+<!--      :label="$t('userSetting.basicInfo.form.label.nickname')"-->
+<!--      :rules="[-->
+<!--        {-->
+<!--          required: true,-->
+<!--          message: $t('userSetting.form.error.nickname.required'),-->
+<!--        },-->
+<!--      ]"-->
+<!--    >-->
+<!--      <a-input-->
+<!--        v-model="formData.nickname"-->
+<!--        :placeholder="$t('userSetting.basicInfo.placeholder.nickname')"-->
+<!--      />-->
+<!--    </a-form-item>-->
 <!--    <a-form-item-->
 <!--      field="area"-->
 <!--      :label="$t('userSetting.basicInfo.form.label.area')"-->
@@ -73,22 +73,22 @@
 <!--        :placeholder="$t('userSetting.basicInfo.placeholder.address')"-->
 <!--      />-->
 <!--    </a-form-item>-->
-    <a-form-item
-      field="profile"
-      :label="$t('userSetting.basicInfo.form.label.profile')"
-      :rules="[
-        {
-          maxLength: 200,
-          message: $t('userSetting.form.error.profile.maxLength'),
-        },
-      ]"
-      row-class="keep-margin"
-    >
-      <a-textarea
-        v-model="formData.remark"
-        :placeholder="$t('userSetting.basicInfo.placeholder.profile')"
-      />
-    </a-form-item>
+<!--    <a-form-item-->
+<!--      field="introduction"-->
+<!--      :label="$t('userSetting.basicInfo.form.label.profile')"-->
+<!--      :rules="[-->
+<!--        {-->
+<!--          maxLength: 200,-->
+<!--          message: $t('userSetting.form.error.profile.maxLength'),-->
+<!--        },-->
+<!--      ]"-->
+<!--      row-class="keep-margin"-->
+<!--    >-->
+<!--      <a-textarea-->
+<!--        v-model="formData.introduction"-->
+<!--        :placeholder="$t('userSetting.basicInfo.placeholder.profile')"-->
+<!--      />-->
+<!--    </a-form-item>-->
     <a-form-item>
       <a-space>
         <a-button type="primary" @click="validate">
@@ -103,10 +103,18 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
+import {PropType, ref, watch} from 'vue';
   import { FormInstance } from '@arco-design/web-vue/es/form';
   import { getUser,saveInfo,BasicInfoModel } from '@/api/user-center';
   import { Message } from '@arco-design/web-vue';
+
+  const props = defineProps({
+    formData: {
+      type: Object as PropType<BasicInfoModel>,
+      default: false,
+    },
+  });
+
   const formRef = ref<FormInstance>();
   const formData = ref<BasicInfoModel>({
     id: 0,
@@ -115,31 +123,33 @@
     mobile:"",
     remark:  "",
     company: "",
+    country:"",
     province: "",
     city:  "",
     area:  "",
     address:  "",
     createtime: "",
+    phoneNumber:"",
+    createdAt:"",
+    introduction:"",
   });
-  const fetchData = async () => {
-    try {
-      formData.value = await getUser();
-    } catch (err) {
-      // you can report use errorHandler or other
-    } finally {
 
-    }
-  };
-  fetchData();
+  watch(
+      () => props.formData,
+      () => {
+        formData.value=props.formData
+      }
+  )
+
   const validate = async () => {
     const res = await formRef.value?.validate();
     if (!res) {
       Message.loading({content:"更新中",id:"delaction"})
-      const res = await saveInfo(formData.value)
-      if(res){
+      try {
+        await saveInfo(formData.value)
         Message.success({content:"更新成功",id:"delaction"})
-      }else{
-        // Message.clear()
+      }catch (error) {
+        console.log(error)
       }
     }
   };

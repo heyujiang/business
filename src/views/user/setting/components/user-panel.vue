@@ -37,17 +37,7 @@
       >
         <template #label="{ label }">{{ $t(label) }} :</template>
         <template #value="{ value, data }">
-          <a-tag
-            v-if="data.label === 'userSetting.label.certification'"
-            color="green"
-            size="small"
-          >
-            已认证
-          </a-tag>
-          <span v-else-if="data.label=='userSetting.label.phone'">
-            {{value}}
-          </span>
-          <span v-else>{{ value }}</span>
+          <span>{{ value }}</span>
         </template>
       </a-descriptions>
     </a-space>
@@ -65,16 +55,17 @@
   import { useUserStore } from '@/store';
   import { userUploadApi } from '@/api/common';
   import type { DescData } from '@arco-design/web-vue/es/descriptions/interface';
-  import { BasicInfoModel,saveInfo} from '@/api/user-center';
- const props = defineProps({
-     formData: {
-      type: Object as PropType<BasicInfoModel>,
-      default: false,
-    },
- });
+  import { BasicInfoModel,updateAvatar} from '@/api/user-center';
+
+  const props = defineProps({
+       formData: {
+        type: Object as PropType<BasicInfoModel>,
+        default: false,
+      },
+  });
   const userStore = useUserStore();
   const file = {
-    uid: '-2',
+    uid:0,
     name: 'avatar.png',
     url: userStore.avatar,
   };
@@ -88,21 +79,16 @@
             value: userStore.name,
           },
           {
-            label: 'userSetting.label.certification',
-            value: 1,
-          },
-          {
-            label: 'userSetting.label.accountId',
-            value:  props.formData.id,
-          },
-          {
             label: 'userSetting.label.phone',
-            value: props.formData.mobile,
+            value: props.formData.phoneNumber,
+          },
+          {
+            label: 'userSetting.label.email',
+            value: props.formData.email,
           },
           {
             label: 'userSetting.label.registrationDate',
-            value:dayjs(parseInt(props.formData.createtime)*1000).format('YYYY-MM-DD HH:mm'),
-            // value:props.formData.createtime,
+            value: props.formData.createdAt,
           },
         ] as DescData[];
       }
@@ -131,19 +117,21 @@
       };
       try {
          //开始手动上传
-         const filename=fileItem?.name||""
-        const resdata = await userUploadApi({ name: 'file', file: fileItem.file as Blob, filename,data:{cid:0}},onUploadProgress);
+        const filename=fileItem?.name||""
+        const resData = await userUploadApi({ name: 'file', file: fileItem.file as Blob, filename,data:{type:'avatar'}},onUploadProgress);
         //更新图片
-        if(resdata){
+        if(resData){
+          console.log(resData)
           Message.loading({content:"更新头像",id:"delaction"})
-          const upres = await saveInfo({avatar:resdata.url})
-          if(upres){
+          try {
+            await updateAvatar({avatar:resData.data.url})
             Message.success({content:"更新成功",id:"delaction"})
-          }else{
-            Message.clear()
+            await userStore.info();
+          }catch (res) {
+
           }
+          onSuccess(resData);
         }
-        onSuccess(resdata);
       } catch (error) {
         onError(error);
       }
