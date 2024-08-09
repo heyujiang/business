@@ -45,7 +45,7 @@
             已认证
           </a-tag>
           <span v-else-if="data.label=='userSetting.label.phone'">
-            {{phoneFilter(value)}}
+            {{value}}
           </span>
           <span v-else>{{ value }}</span>
         </template>
@@ -154,11 +154,11 @@
       },
     };
   };
-    //手机号过滤器
-    const phoneFilter=(val:string) =>{
-    let reg = /^(.{3}).*(.{4})$/;
-    return val.replace(reg, "$1****$2");
-  }
+  //   //手机号过滤器
+  //   const phoneFilter=(val:string) =>{
+  //   let reg = /^(.{3}).*(.{4})$/;
+  //   return val.replace(reg, "$1****$2");
+  // }
 </script>
 
 <style scoped lang="less">

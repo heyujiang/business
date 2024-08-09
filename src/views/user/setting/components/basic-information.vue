@@ -1,5 +1,4 @@
 <template>
-  <a-spin :loading="loading" style="width: 100%">
   <a-form
     ref="formRef"
     :model="formData"
@@ -37,43 +36,43 @@
         :placeholder="$t('userSetting.basicInfo.placeholder.nickname')"
       />
     </a-form-item>
-    <a-form-item
-      field="area"
-      :label="$t('userSetting.basicInfo.form.label.area')"
-    >
-      <a-cascader
-        v-model="formData.area"
-        :placeholder="$t('userSetting.basicInfo.placeholder.area')"
-        :options="[
-          {
-            label: '北京',
-            value: 'beijing',
-            children: [
-              {
-                label: '北京',
-                value: 'beijing',
-                children: [
-                  {
-                    label: '朝阳',
-                    value: 'chaoyang',
-                  },
-                ],
-              },
-            ],
-          },
-        ]"
-        allow-clear
-      />
-    </a-form-item>
-    <a-form-item
-      field="address"
-      :label="$t('userSetting.basicInfo.form.label.address')"
-    >
-      <a-input
-        v-model="formData.address"
-        :placeholder="$t('userSetting.basicInfo.placeholder.address')"
-      />
-    </a-form-item>
+<!--    <a-form-item-->
+<!--      field="area"-->
+<!--      :label="$t('userSetting.basicInfo.form.label.area')"-->
+<!--    >-->
+<!--      <a-cascader-->
+<!--        v-model="formData.area"-->
+<!--        :placeholder="$t('userSetting.basicInfo.placeholder.area')"-->
+<!--        :options="[-->
+<!--          {-->
+<!--            label: '北京',-->
+<!--            value: 'beijing',-->
+<!--            children: [-->
+<!--              {-->
+<!--                label: '北京',-->
+<!--                value: 'beijing',-->
+<!--                children: [-->
+<!--                  {-->
+<!--                    label: '朝阳',-->
+<!--                    value: 'chaoyang',-->
+<!--                  },-->
+<!--                ],-->
+<!--              },-->
+<!--            ],-->
+<!--          },-->
+<!--        ]"-->
+<!--        allow-clear-->
+<!--      />-->
+<!--    </a-form-item>-->
+<!--    <a-form-item-->
+<!--      field="address"-->
+<!--      :label="$t('userSetting.basicInfo.form.label.address')"-->
+<!--    >-->
+<!--      <a-input-->
+<!--        v-model="formData.address"-->
+<!--        :placeholder="$t('userSetting.basicInfo.placeholder.address')"-->
+<!--      />-->
+<!--    </a-form-item>-->
     <a-form-item
       field="profile"
       :label="$t('userSetting.basicInfo.form.label.profile')"
@@ -101,7 +100,6 @@
       </a-space>
     </a-form-item>
   </a-form>
-</a-spin>
 </template>
 
 <script lang="ts" setup>
@@ -109,7 +107,6 @@
   import { FormInstance } from '@arco-design/web-vue/es/form';
   import { getUser,saveInfo,BasicInfoModel } from '@/api/user-center';
   import { Message } from '@arco-design/web-vue';
-  import useLoading from '@/hooks/loading';
   const formRef = ref<FormInstance>();
   const formData = ref<BasicInfoModel>({
     id: 0,
@@ -124,15 +121,13 @@
     address:  "",
     createtime: "",
   });
-  const { loading, setLoading } = useLoading(true);
   const fetchData = async () => {
     try {
-      const resData = await getUser();
-      formData.value= resData;
+      formData.value = await getUser();
     } catch (err) {
       // you can report use errorHandler or other
     } finally {
-      setLoading(false);
+
     }
   };
   fetchData();
@@ -144,7 +139,7 @@
       if(res){
         Message.success({content:"更新成功",id:"delaction"})
       }else{
-        Message.clear()
+        // Message.clear()
       }
     }
   };

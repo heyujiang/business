@@ -1,8 +1,8 @@
 import { defHttp } from '@/utils/http';
 import md5 from 'md5'
 enum Api {
-   saveInfo = '/user/data/saveInfo',
-   GetUser = '/user/data/get_user',
+   saveInfo = '/api/user/updateBasic',
+   GetUser = '/api/user/getUserInfo',
    checkPassword = '/user/data/checkPassword',
    changePassword = '/user/data/changePassword',
    GetCertification = '/user/data/get_certification',
