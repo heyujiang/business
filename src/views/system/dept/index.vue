@@ -4,20 +4,20 @@
     <a-card class="general-card onelineCard" style="height: calc(100% - 50px);">
       <a-row style="margin-bottom: 10px">
         <a-col :span="16">
-          <a-space>
-            <a-input :style="{width:'220px'}"  v-model="formModel.name" placeholder="标题" allow-clear />
-            <a-range-picker v-model="formModel.createdTime" :style="{width:'200px'}" />
-            <a-select v-model="formModel.status"  :options="statusOptions" placeholder="状态" :style="{width:'120px'}" />
-            <a-button type="primary" @click="search">
-              <template #icon>
-                <icon-search />
-              </template>
-              查询
-            </a-button>
-            <a-button @click="reset">
-              {{ $t('searchTable.form.reset') }}
-            </a-button>
-          </a-space>
+<!--          <a-space>-->
+<!--            <a-input :style="{width:'220px'}"  v-model="formModel.name" placeholder="标题" allow-clear />-->
+<!--            <a-range-picker v-model="formModel.createdTime" :style="{width:'200px'}" />-->
+<!--            <a-select v-model="formModel.status"  :options="statusOptions" placeholder="状态" :style="{width:'120px'}" />-->
+<!--            <a-button type="primary" @click="search">-->
+<!--              <template #icon>-->
+<!--                <icon-search />-->
+<!--              </template>-->
+<!--              查询-->
+<!--            </a-button>-->
+<!--            <a-button @click="reset">-->
+<!--              {{ $t('searchTable.form.reset') }}-->
+<!--            </a-button>-->
+<!--          </a-space>-->
         </a-col>
         <a-col
           :span="8"
@@ -65,17 +65,9 @@
         ref="artable"
         @change="handleChange" 
       >
-        <template #title="{ record }">
-          <span v-html="record.spacer" style="padding-right: 5px;color: var(--color-neutral-4);"></span>{{ record.name }}
-        </template>
-        <template #icon="{ record }">
-          <Icon :icon="record.icon" :size="20"></Icon>
-        </template>
-        <template #createtime="{ record }">
-          {{dayjs(record.createtime*1000).format("YYYY-MM-DD")}}
-        </template>
+
         <template #status="{ record }">
-          <a-switch type="round" v-model="record.status" :checked-value="0" :unchecked-value="1" @change="handleStatus(record)">
+          <a-switch type="round" v-model="record.status" :checked-value="1" :unchecked-value="2" @change="handleStatus(record)">
               <template #checked>
                 开
               </template>
@@ -220,42 +212,28 @@
   const handleStatus=async(record:any)=>{
     try {
         Message.loading({content:"更新状态中",id:"upStatus"})
-       const res= await upStatus({id:record.id,status:record.status});
+       const res= await upStatus(record.id,{status:record.status});
        if(res){
          Message.success({content:"更新状态成功",id:"upStatus"})
        }
     }catch (error) {
-      Message.clear("top")
-    } 
+      console.log(error)
+    }
   }
   //删除数据
   const handleDel=async(record:any)=>{
     try {
-        Message.loading({content:"删除中",id:"upStatus"})
-       const res= await del({ids:[record.id]});
+       Message.loading({content:"删除中",id:"upStatus"})
+       const res= await del(record.id);
        if(res){
         fetchData();
-         Message.success({content:"删除成功",id:"upStatus"})
+        Message.success({content:"删除成功",id:"upStatus"})
        }
     }catch (error) {
-      Message.clear("top")
-    } 
+      console.log(error)
+    }
   }
-   //状态
-   const statusOptions = computed<SelectOptionData[]>(() => [
-    {
-      label: "全部",
-      value: "",
-    },
-    {
-      label: "正常",
-      value: 0,
-    },
-    {
-      label: "禁用",
-      value: 1,
-    },
-  ]);
+
 </script>
 
 <script lang="ts">

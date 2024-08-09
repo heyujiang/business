@@ -20,8 +20,16 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="上级菜单" field="pid" style="margin-bottom:15px;">
-            <a-tree-select placeholder="选择上级菜单" :data="parntList" 
+          <a-form-item label="上级菜单" field="pid" style="margin-bottom:15px;" validate-trigger="change" :rules="[{
+            validator: (value, cb) => {
+              if (formData.id > 0 && formData.id == value) {
+                cb('不可选择自己作为上级菜单')
+              } else {
+                cb()
+              }
+            }
+          }]">
+            <a-tree-select placeholder="选择上级菜单" :data="parntList"
             :fieldNames="{
                 key: 'id',
                 title: 'title',

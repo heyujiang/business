@@ -3,13 +3,8 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
   export const columns = computed<TableColumnData[]>(() => [
     {
       title: '角色名称',
-      dataIndex: 'name',
+      dataIndex: 'title',
       slotName: 'title',
-    },
-    {
-      title: '排序',
-      dataIndex: 'weigh',
-      align:"center"
     },
     {
       title: '状态',
@@ -19,8 +14,8 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
     },
     {
       title: '创建时间',
-      dataIndex: 'createtime',
-      slotName: 'createtime',
+      dataIndex: 'createdAt',
+      slotName: 'createdAt',
       align:"center"
     },
     {

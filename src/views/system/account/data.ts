@@ -18,11 +18,16 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       slotName: 'phoneNumber',
       align:"center"
     },
-    // {
-    //   title: '姓名（昵称）',
-    //   dataIndex: 'name',
-    //   slotName: 'name',
-    // },
+    {
+      title: '部门',
+      dataIndex: 'dept',
+      slotName: 'dept',
+    },
+    {
+      title: '角色',
+      dataIndex: 'roles',
+      slotName: 'roles',
+    },
     {
       title: '邮箱',
       dataIndex: 'email',

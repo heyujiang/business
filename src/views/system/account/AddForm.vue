@@ -17,20 +17,36 @@
             <a-input v-model="formData.phoneNumber"  :disabled="isUpdate" placeholder="请填手机号" />
           </a-form-item>
         </a-col>
-
-<!--        <a-col :span="12">-->
-<!--          <a-form-item field="name" label="姓名" validate-trigger="input" style="margin-bottom:15px;">-->
-<!--            <a-input v-model="formData.name" placeholder="请填写姓名" />-->
-<!--          </a-form-item>-->
-<!--        </a-col>-->
-<!--        <a-col :span="12">-->
-<!--          <a-form-item field="nickName" label="昵称" validate-trigger="input" style="margin-bottom:15px;">-->
-<!--            <a-input v-model="formData.nickName" placeholder="请填写昵称" />-->
-<!--          </a-form-item>-->
-<!--        </a-col>-->
         <a-col :span="12">
           <a-form-item field="email" label="邮箱" validate-trigger="input" style="margin-bottom:15px;">
             <a-input v-model="formData.email" placeholder="请填写邮箱" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item label="部门" field="deptId" style="margin-bottom:15px;" validate-trigger="change" :rules="[{required:true,message:'请选择部门'}]">
+            <a-tree-select placeholder="选择部门"
+                           :data="deptList"
+                           :fieldNames="{
+                             key: 'id',
+                             title: 'title',
+                             children: 'children'
+                           }"
+                           v-model="formData.deptId">
+            </a-tree-select>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item label="角色" field="roleIds" style="margin-bottom:15px;" validate-trigger="change" :rules="[{required:true,message:'请选择角色'}]">
+            <a-tree-select placeholder="选择角色"
+                           :data="roleList"
+                           :fieldNames="{
+                             key: 'id',
+                             title: 'title',
+                             children: 'children'
+                           }"
+                           multiple
+                           v-model="formData.roleIds">
+            </a-tree-select>
           </a-form-item>
         </a-col>
         <a-col :span="12">
@@ -77,6 +93,8 @@
   import { cloneDeep } from 'lodash-es';
   //api
   import { save,update,isAccountexist} from '@/api/system/account';
+  import { getParent as getDeptOptions} from '@/api/system/dept';
+  import { getParent as getRoleOptions} from '@/api/system/role';
   import { IconPicker ,Icon} from '@/components/Icon';
   import { Message } from '@arco-design/web-vue';
   import type { RequestOption} from '@arco-design/web-vue/es/upload/interfaces';
@@ -95,12 +113,17 @@
       const formRef = ref<FormInstance>();
       //ID
       const userId = ref(0);
+      const deptList = ref([]);
+      const roleList = ref([]);
       //表单字段
       const basedata={
+          id:0,
           username: "",
           phoneNumber:"",//手机
           // name: '',
           // nickName: '',
+          deptId:'',
+          roleIds:[],
           password: '',
           email:"",//邮箱
           avatar:"",
@@ -108,6 +131,8 @@
       const formData = ref(basedata)
       const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
           formRef.value?.resetFields()
+          deptList.value = await getDeptOptions();
+          roleList.value = await getRoleOptions();
           setModalProps({ confirmLoading: false });
           isUpdate.value = !!data?.isUpdate;
           if (unref(isUpdate)) {
@@ -221,6 +246,8 @@
         t,
         customRequest,
         usernameRules,
+        deptList,
+        roleList,
       };
     },
   });

@@ -30,14 +30,26 @@
             </template>
             <template #cover>
               <div style="width: 100%; text-align: center;">
-                <img v-if="attachedItem.mime == 'application/pdf'" style="width: 20%;" alt="pdf" src="../../../assets/images/PDF.png"/>
-                <img v-else-if="attachedItem.mime == 'application/vnd.ms-excel'" style="width: 20%;" alt="pdf" src="../../../assets/images/ECEL.png"/>
-                <img v-else-if="attachedItem.mime == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" style="width: 20%;" alt="pdf" src="../../../assets/images/ECEL.png"/>
-                <img v-else-if="attachedItem.mime == 'application/wps-office.xlsx'" style="width: 20%;" alt="pdf" src="../../../assets/images/ECEL.png"/>
-                <img v-else-if="attachedItem.mime == 'application/msword'" style="width: 20%;" alt="pdf" src="../../../assets/images/WORD.png"/>
-                <img v-else-if="attachedItem.mime == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'" style="width: 20%;" alt="pdf" src="../../../assets/images/WORD.png"/>
-                <img v-else-if="attachedItem.mime == 'application/wps-office.docx'" style="width: 20%;" alt="pdf" src="../../../assets/images/WORD.png"/>
-                <img v-else style="width: 20%;" alt="pdf" src="../../../assets/images/DOC.png"/>
+                <img v-if="attachedItem.mime == 'image/jpeg'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/JPG.png"/>
+                <img v-else-if="attachedItem.mime == 'image/png'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/PNG.png"/>
+                <img v-else-if="attachedItem.mime == 'image/gif'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/GIF.png"/>
+                <img v-else-if="attachedItem.mime == 'image/bmp'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/IMAGE.png"/>
+                <img v-else-if="attachedItem.mime == 'image/webp'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/IMAGE.png"/>
+                <img v-else-if="attachedItem.mime == 'application/pdf'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/PDF.png"/>
+                <img v-else-if="attachedItem.mime == 'application/zip'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/ZIP.png"/>
+                <img v-else-if="attachedItem.mime == 'application/vnd.ms-excel'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/ECEL.png"/>
+                <img v-else-if="attachedItem.mime == 'application/wps-office.xls'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/ECEL.png"/>
+                <img v-else-if="attachedItem.mime == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/ECEL.png"/>
+                <img v-else-if="attachedItem.mime == 'application/wps-office.xlsx'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/ECEL.png"/>
+                <img v-else-if="attachedItem.mime == 'application/msword'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/WORD.png"/>
+                <img v-else-if="attachedItem.mime == 'application/wps-office.doc'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/WORD.png"/>
+                <img v-else-if="attachedItem.mime == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/WORD.png"/>
+                <img v-else-if="attachedItem.mime == 'application/wps-office.docx'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/WORD.png"/>
+                <img v-else-if="attachedItem.mime == 'application/vnd.ms-powerpoint'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/PPT.png"/>
+                <img v-else-if="attachedItem.mime == 'application/wps-office.ppt'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/PPT.png"/>
+                <img v-else-if="attachedItem.mime == 'application/vnd.openxmlformats-officedocument.presentationml.presentation'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/PPT.png"/>
+                <img v-else-if="attachedItem.mime == 'application/wps-office.pptx'" style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/PPT.png"/>
+                <img v-else style="width: 20%;" :alt="attachedItem.mime" src="../../../assets/images/file/DOC.png"/>
               </div>
             </template>
             <a-card-meta >
@@ -98,7 +110,6 @@ const handleCancel = () => {
 const attachedItems = ref<any>([])
 const fetchRecordAttached = async () => {
   attachedItems.value = await getProjectAttached(props.search)
-  console.log(attachedItems.value)
 }
 fetchRecordAttached()
 
@@ -168,6 +179,81 @@ const fileSize = (size:number) => {
 
 function pow1024(num:number) {
   return Math.pow(1024, num)
+}
+
+const getFileCover = (mime:string|undefined):string => {
+  let mimeCover = ""
+  switch (mime){
+    case "image/jpeg":                 // ".jpg",
+      mimeCover = "../../../assets/images/file/JPG.png";
+      break
+    case     "image/png":                 //  ".png",
+      mimeCover = "../../../assets/images/file/PNG.png";
+      break
+    case     "image/gif":                  // ".gif",
+      mimeCover = "../../../assets/images/file/GIF.png";
+      break
+    case    "image/bmp":                  // ".bmp",
+      mimeCover = "../../../assets/images/file/IMAGE.png";
+      break
+    case     "image/webp":                //  ".webp",
+      mimeCover = "../../../assets/images/file/IMAGE.png";
+      break
+    case    "application/pdf":            // "pdf",
+      mimeCover = "../../../assets/images/file/PDF.png";
+      break
+    case    "application/zip":            // "zip",
+      mimeCover = "../../../assets/images/file/ZIP.png";
+      break
+    case     "application/vnd.rar":       //  "rar",
+      mimeCover = "../../../assets/images/file/DOC.png";
+      break
+    case     "application/x-7z-compressed": //"7z",
+      mimeCover = "../../../assets/images/file/DOC.png";
+      break
+    case     "application/vnd.ms-excel":    //"xls",
+      mimeCover = "../../../assets/images/file/EXEL.png";
+      break
+    case    "application/wps-office.xls":  //"xls",
+      mimeCover = "../../../assets/images/file/EXEL.png";
+      break
+    case    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":        // "xlsx",
+      mimeCover = "../../../assets/images/file/EXEL.png";
+      break
+    case     "application/wps-office.xlsx":                                               //"xlsx",
+      mimeCover = "../../../assets/images/file/EXEL.png";
+      break
+    case     "application/msword":                                                        //"doc",
+      mimeCover = "../../../assets/images/file/WORD.png";
+      break
+    case     "application/wps-office.doc":                                                //"docx",
+      mimeCover = "../../../assets/images/file/WORD.png";
+      break
+    case    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":   //"docx",
+      mimeCover = "../../../assets/images/file/WORD.png";
+      break
+    case    "application/wps-office.docx":                                               //"docx",
+      mimeCover = "../../../assets/images/file/WORD.png";
+      break
+    case    "application/vnd.ms-powerpoint":                                            // "ppt",
+      mimeCover = "../../../assets/images/file/PPT.png";
+      break
+    case    "application/wps-office.ppt":                                               // "ppt",
+      mimeCover = "../../../assets/images/file/PPT.png";
+      break
+    case    "application/vnd.openxmlformats-officedocument.presentationml.presentation": //"pptx",
+      mimeCover = "../../../assets/images/file/PPT.png";
+      break
+    case    "application/wps-office.pptx":                                               //"pptx",
+      mimeCover = "../../../assets/images/file/PPT.png";
+      break
+    default:
+       mimeCover = "../../../assets/images/file/DOC.png";
+       break
+  }
+
+  return mimeCover;
+
 }
 </script>
 
