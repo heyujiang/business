@@ -107,8 +107,8 @@ export function getCertification() {
 }
 /*************************userinfo */
 enum ApiS {
-  latestActivity = '/user/info/latestActivity',
-  projectList = '/user/info/projectList',
+  latestActivity = '/api/user/myLatestRecords',
+  projectList = '/api/user/myProjects',
   teamList = '/user/info/teamList',
 }
 export interface LatestActivity {
@@ -119,11 +119,11 @@ export interface LatestActivity {
 }
 //获取动态
 export function queryLatestActivity() {
-  return defHttp.post<LatestActivity[]>({ url:ApiS.latestActivity}, { errorMessageMode: 'message' });
+  return defHttp.get<LatestActivity[]>({ url:ApiS.latestActivity}, { errorMessageMode: 'message' });
 }
 //项目
 export function queryMyProjectList() {
-  return defHttp.post({ url:ApiS.projectList}, { errorMessageMode: 'message' });
+  return defHttp.get({ url:ApiS.projectList}, { errorMessageMode: 'message' });
 }
 //我的团队
 export function queryMyTeamList() {

@@ -2,32 +2,32 @@
   <div class="header">
     <a-space :size="12" direction="vertical" align="center">
       <a-avatar :size="64">
-        <template #trigger-icon>
-          <icon-camera />
-        </template>
+<!--        <template #trigger-icon>-->
+<!--          <icon-camera />-->
+<!--        </template>-->
         <img :src="userInfo.avatar" />
       </a-avatar>
       <a-typography-title :heading="6" style="margin: 0">
-        {{ userInfo.name }}
+        {{ userInfo.username }}
       </a-typography-title>
-      <div class="user-msg">
-        <a-space :size="18">
-          <div>
-            <icon-user />
-            <a-typography-text>{{ userInfo.nickname }}</a-typography-text>
-          </div>
-          <div>
-            <icon-home />
-            <a-typography-text>
-              {{ userInfo.company }}
-            </a-typography-text>
-          </div>
-          <div>
-            <icon-location />
-            <a-typography-text>{{ userInfo.city }}</a-typography-text>
-          </div>
-        </a-space>
-      </div>
+<!--      <div class="user-msg">-->
+<!--        <a-space :size="18">-->
+<!--          <div>-->
+<!--            <icon-user />-->
+<!--            <a-typography-text>{{ userInfo.nickname }}</a-typography-text>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <icon-home />-->
+<!--            <a-typography-text>-->
+<!--              {{ userInfo.company }}-->
+<!--            </a-typography-text>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <icon-location />-->
+<!--            <a-typography-text>{{ userInfo.city }}</a-typography-text>-->
+<!--          </div>-->
+<!--        </a-space>-->
+<!--      </div>-->
     </a-space>
   </div>
 </template>
@@ -36,7 +36,7 @@
   import { useUserStore } from '@/store';
 
   const userInfo = useUserStore();
-  console.log(userInfo.city)
+  console.log(userInfo.username)
 </script>
 
 <style scoped lang="less">
