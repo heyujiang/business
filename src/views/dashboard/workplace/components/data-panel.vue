@@ -13,13 +13,13 @@
         </a-avatar>
         <a-statistic
           :title="$t('workplace.onlineContent')"
-          :value="49"
+          :value="viewCount.totalCount"
           :value-from="0"
           animation
           show-group-separator
         >
           <template #suffix>
-             <span class="unit">{{ $t('workplace.pecs') }}</span>
+             <span class="unit">个</span>
           </template>
         </a-statistic>
       </a-space>
@@ -37,14 +37,15 @@
         </a-avatar>
         <a-statistic
           :title="$t('workplace.putIn')"
-          :value="8935"
+          :value="viewCount.totalCapacity"
           :value-from="0"
-          :precision="1"
+          :precision="2"
+          :start="true"
           animation
           show-group-separator
         >
-          <template #suffix>MW
-<!--            <span class="unit">{{ $t('workplace.pecs') }}</span>-->
+          <template #suffix>
+            <span class="unit">MW</span>
           </template>
         </a-statistic>
       </a-space>
@@ -62,13 +63,13 @@
         </a-avatar>
         <a-statistic
           :title="$t('workplace.newDay')"
-          :value="4"
+          :value="viewCount.monthAddCount"
           :value-from="0"
           animation
           show-group-separator
         >
           <template #suffix>
-            <span class="unit">{{ $t('workplace.pecs') }}</span>
+            <span class="unit">个</span>
           </template>
         </a-statistic>
       </a-space>
@@ -87,12 +88,12 @@
         </a-avatar>
         <a-statistic
           :title="$t('workplace.newFromYesterday')"
-          :value="2"
-
+          :value="viewCount.threeStartProject"
           :value-from="0"
-
         >
-          <template #suffix>  <icon-caret-up class="up-icon" /> </template>
+          <template #suffix>
+            <span class="unit">个</span>
+          </template>
         </a-statistic>
       </a-space>
     </a-grid-item>
@@ -103,6 +104,21 @@
 </template>
 
 <script lang="ts" setup>
+import {ref} from "vue";
+import {getViewCount, viewCountItem} from "@/api/dashboard/workplace";
+
+const viewCount = ref<viewCountItem>({
+  monthAddCount: 0,
+  threeStartProject: 0,
+  totalCapacity: 0,
+  totalCount: 0
+})
+
+const fetchViewCount = async  () => {
+  viewCount.value = await getViewCount()
+}
+
+fetchViewCount()
 </script>
 
 <style lang="less" scoped>

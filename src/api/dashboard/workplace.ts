@@ -9,6 +9,8 @@ enum Api {
     getSiteCount = '/dashboard/workplace/get_siteCount',
     getMessage = '/dashboard/workplace/get_message',
     getMsmContent = '/dashboard/workplace/get_msmContent',
+    getViewCount = '/api/home/viewCount',
+    getLatestRecord = '/api/home/latestRecord',
 }
 
 //获取文章统计
@@ -46,6 +48,12 @@ export function getMessage(params: object) {
 export function getMsmContent(params: object) {
     return defHttp.get({ url: Api.getMsmContent, params:params}, { errorMessageMode: 'message' });
 }
+export function getViewCount() {
+    return defHttp.get({ url: Api.getViewCount}, { errorMessageMode: 'message' });
+}
+export function getLatestRecord() {
+    return defHttp.get({ url: Api.getLatestRecord}, { errorMessageMode: 'message' });
+}
 /**数据类型 */
 export interface DataItem {
     id:number,
@@ -75,4 +83,25 @@ export interface QuickItem {
     path_url:string;
     is_common:number;
     type:number;
+}
+
+export type viewCountItem = {
+    totalCount:number;
+    totalCapacity:number;
+    monthAddCount:number;
+    threeStartProject:number;
+}
+
+export type RecordItem = {
+    id:number,
+    projectId:number,
+    projectName:string,
+    nodeId:number,
+    nodeName:string,
+    userId:number,
+    username:string,
+    overview:string,
+    state:number;
+    createdAt:string;
+    updatedAt:string;
 }

@@ -9,7 +9,6 @@
     >
       <template #title>
           负责人项目
-<!--        {{ $t('workplace.categoriesPercent') }}-->
       </template>
       <Chart height="310px" :option="chartOption" />
     </a-card>

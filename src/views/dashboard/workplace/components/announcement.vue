@@ -6,13 +6,13 @@
     :body-style="{ padding: '15px 20px 13px 20px' }"
   >
     <template #extra>
-      <a-link>{{ $t('workplace.viewMore') }}</a-link>
+<!--      <a-link>{{ $t('workplace.viewMore') }}</a-link>-->
     </template>
     <div>
       <div v-for="(item, idx) in list" :key="idx" class="item">
-        <a-tag :color="item.type" size="small">{{ item.label }}</a-tag>
+        <a-tag :color="color[`${idx % color.length}`]" size="small">{{ item.username }}</a-tag>
         <span class="item-content">
-          {{ item.content }}
+          {{ item.projectName }} - {{ item.nodeName }}
         </span>
       </div>
     </div>
@@ -20,33 +20,20 @@
 </template>
 
 <script lang="ts" setup>
-  const list = [
-    {
-      type: 'orangered',
-      label: '尹冲',
-      content: '获得开工许可/银行资金证明',
-    },
-    {
-      type: 'cyan',
-      label: '尹冲',
-      content: '获得开工许可/银行资金证明',
-    },
-    {
-      type: 'blue',
-      label: '尹冲',
-      content: '获得开工许可/银行资金证明',
-    },
-    {
-      type: 'blue',
-      label: '尹冲',
-      content: '获得开工许可/银行资金证明',
-    },
-    {
-      type: 'cyan',
-      label: '尹冲',
-      content: '获得开工许可/银行资金证明',
-    },
-  ];
+  import {getLatestRecord, RecordItem} from "@/api/dashboard/workplace";
+  import {ref} from "vue";
+
+  const color = ref<string[]>([
+    'red' , 'orangered' , 'orange' , 'gold' , 'lime' , 'green' , 'cyan' , 'blue' , 'purple' ,  'magenta'
+  ])
+
+  const list = ref<RecordItem[]>([])
+
+  const fetchAnnouncement = async ()=>{
+    list.value = await getLatestRecord()
+  }
+
+  fetchAnnouncement()
 </script>
 
 <style scoped lang="less">
