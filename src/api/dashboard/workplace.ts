@@ -11,6 +11,8 @@ enum Api {
     getMsmContent = '/dashboard/workplace/get_msmContent',
     getViewCount = '/api/home/viewCount',
     getLatestRecord = '/api/home/latestRecord',
+    getLatestProjectByType = '/api/home/latestProject',
+    getPersonCapacity = '/api/home/personCapacity',
 }
 
 //获取文章统计
@@ -54,6 +56,33 @@ export function getViewCount() {
 export function getLatestRecord() {
     return defHttp.get({ url: Api.getLatestRecord}, { errorMessageMode: 'message' });
 }
+
+export function getPersonCapacity() {
+    return defHttp.get({ url: Api.getPersonCapacity}, { errorMessageMode: 'message' });
+}
+
+export function getLatestProjectByType(params:LatestType) {
+    return defHttp.get({ url: Api.getLatestProjectByType , params:params}, { errorMessageMode: 'message' });
+}
+
+export interface LatestType {
+    type:string,
+    latest:string,
+}
+
+export interface LatestDataItem {
+    id:number,
+    name: string;
+    capacity:number;
+    username:string;
+}
+
+export interface PersonCapacityItem {
+    userId:number,
+    username:string,
+    capacity:number,
+}
+
 /**数据类型 */
 export interface DataItem {
     id:number,

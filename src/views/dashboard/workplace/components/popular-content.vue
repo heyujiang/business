@@ -6,30 +6,39 @@
       :body-style="{ padding: '17px 20px 21px 20px' }"
     >
       <template #title>
-        {{ $t('workplace.popularContent') }}
+        项目概况
       </template>
-      <template #extra>
-        <a-link>{{ $t('workplace.viewMore') }}</a-link>
-      </template>
+
       <a-space direction="vertical" :size="10" fill>
-        <a-radio-group
-          v-model:model-value="type"
-          type="button"
-          @change="typeChange as any"
-        >
-          <a-radio value="text">
-            三星项目
-<!--            {{ $t('workplace.popularContent.text') }}-->
-          </a-radio>
-          <a-radio value="image">
-            项目进展
-<!--            {{ $t('workplace.popularContent.image') }}-->
-          </a-radio>
-          <a-radio value="video">
-            项目无进展
-<!--            {{ $t('workplace.popularContent.video') }}-->
-          </a-radio>
-        </a-radio-group>
+        <a-space>
+          <a-radio-group
+              v-model:model-value="latestType.type"
+              type="button"
+              @change="typeChange as any"
+          >
+            <a-radio value="threeStar">
+              三星项目
+            </a-radio>
+            <a-radio value="progress">
+              项目进展
+            </a-radio>
+            <a-radio value="noProgress">
+              项目无进展
+            </a-radio>
+          </a-radio-group>
+
+          <a-radio-group
+              v-model:model-value="latestType.latest"
+              @change="typeChange as any"
+          >
+            <a-radio value="week">
+              近一周
+            </a-radio>
+            <a-radio value="month">
+              近一月
+            </a-radio>
+          </a-radio-group>
+        </a-space>
         <a-table
           :data="renderList"
           :pagination="false"
@@ -37,34 +46,30 @@
           :scroll="{ x: '100%', y: '264px' }"
         >
           <template #columns>
-            <a-table-column title="排名" data-index="key"></a-table-column>
-            <a-table-column title="项目名称" data-index="title">
+            <a-table-column title="ID" data-index="id"></a-table-column>
+            <a-table-column title="项目名称" data-index="name">
               <template #cell="{ record }">
                 <a-typography-paragraph
                   :ellipsis="{
                     rows: 1,
                   }"
                 >
-                  {{ record.title }}
+                  {{ record.name }}
                 </a-typography-paragraph>
               </template>
             </a-table-column>
-            <a-table-column title="容量大小" data-index="clickNumber">
+            <a-table-column title="容量大小" data-index="capacity">
             </a-table-column>
             <a-table-column
               title="负责人"
-              data-index="increases"
+              data-index="username"
               :sortable="{
                 sortDirections: ['ascend', 'descend'],
               }"
             >
               <template #cell="{ record }">
                 <div class="increases-cell">
-                  <span>{{ record.increases }}%</span>
-                  <icon-caret-up
-                    v-if="record.increases !== 0"
-                    style="color: #f53f3f; font-size: 8px"
-                  />
+                  <span>{{ record.username }}</span>
                 </div>
               </template>
             </a-table-column>
@@ -78,27 +83,34 @@
 <script lang="ts" setup>
   import { ref } from 'vue';
   import useLoading from '@/hooks/loading';
-  import { queryPopularList } from '@/api/dashboard';
   import type { TableData } from '@arco-design/web-vue/es/table/interface';
+  import {LatestType,getLatestProjectByType ,LatestDataItem} from "@/api/dashboard/workplace";
 
-  const type = ref('text');
+
+  const latestType = ref<LatestType>({
+    type:'threeStar',
+    latest:'week',
+  })
   const { loading, setLoading } = useLoading();
-  const renderList = ref<TableData[]>();
-  const fetchData = async (contentType: string) => {
+  const renderList = ref<LatestDataItem[]>();
+
+  const fetchData = async () => {
     try {
       setLoading(true);
-      const { data } = await queryPopularList({ type: contentType });
-      renderList.value = data;
+      console.log(latestType.value)
+      renderList.value = await getLatestProjectByType(latestType.value);
     } catch (err) {
       // you can report use errorHandler or other
     } finally {
       setLoading(false);
     }
   };
-  const typeChange = (contentType: string) => {
-    fetchData(contentType);
+
+  const typeChange = () => {
+    fetchData();
   };
-  fetchData('text');
+
+  fetchData();
 </script>
 
 <style scoped lang="less">

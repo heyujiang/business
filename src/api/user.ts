@@ -7,7 +7,7 @@ export interface LoginData {
 }
 enum Api {
   //用户
-   Login = '/login ',
+   Login = '/api/login ',
    registerUser = '/user/registerUser ',
    Logout = '/api/user/logout',
    getCode = '/user/get_code',
