@@ -12,7 +12,7 @@
       <div v-for="(item, idx) in list" :key="idx" class="item">
         <a-tag :color="color[`${idx % color.length}`]" size="small">{{ item.username }}</a-tag>
         <span class="item-content">
-          {{ item.projectName }} - {{ item.nodeName }}
+         {{ item.nodeName }}---{{ item.projectName }}
         </span>
       </div>
     </div>
