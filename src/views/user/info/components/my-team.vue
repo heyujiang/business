@@ -24,10 +24,18 @@
         <a-list-item-meta v-else :title="team.name">
           <template #avatar>
             <a-avatar>
-              <img :src="team.avatar" />
+            <span>用户名</span>
             </a-avatar>
           </template>
-          <template #description> 共{{ team.peopleNumber }}人 </template>
+          <template >
+           <icon-record></icon-record>
+          <span>职位</span>
+          </template>
+          <template >
+            <icon-phone></icon-phone>
+            <span>联系方式</span>
+          </template>
+          <template #description> 共5人 </template>
         </a-list-item-meta>
       </a-list-item>
     </a-list>

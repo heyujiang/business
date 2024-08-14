@@ -24,28 +24,27 @@
             </a-col>
           </a-row>
         </a-skeleton>
-        <a-list-item-meta v-else>
-<!--          <template #avatar>-->
-<!--            <a-avatar>-->
-<!--              {{ index + 1 }}-->
-<!--            </a-avatar>-->
-<!--          </template>-->
-
-          <template #title>
-            <a-typography-title :heading="6">
-              {{ activity.projectName }}
-            </a-typography-title>
-            <a-typography-title type="secondary"  :heading="6">
-              {{ activity.nodeName }}
-            </a-typography-title>
-            <a-typography-text>
-              {{ activity.createdAt }}
-            </a-typography-text>
+        <a-list-item-meta v-else @click="viewDetail(activity.projectId)">
+          <template #avatar>
+            <a-avatar>
+              {{ index + 1 }}
+            </a-avatar>
           </template>
 
-          <template #description>
+          <template #title>
+            <span style="font-size: 15px;color: #4daaff; cursor:pointer">
+              {{ activity.projectName }}
+            </span>
+            <span>
+              -----({{ activity.nodeName }})
+            </span>
+            <span style="font-size: 14px;color: #8590A6">
             <a-typography-text type="secondary" :ellipsis="{rows:3}">
               {{ activity.overview }}
+            </a-typography-text>
+          </span>
+            <a-typography-text>
+              {{ activity.createdAt }}
             </a-typography-text>
           </template>
         </a-list-item-meta>
@@ -79,7 +78,14 @@
       path:"/project/project_ing"
     });
   }
-
+  const viewDetail = (projectId: number) => {
+    router.push({
+      path: "/project/detail",
+      query: {
+        id: projectId,
+      }
+    });
+  }
 </script>
 
 <style scoped lang="less">

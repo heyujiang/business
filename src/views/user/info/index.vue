@@ -5,24 +5,24 @@
     <div class="content">
       <div class="content-left">
         <a-grid :cols="24" :col-gap="16" :row-gap="16">
-          <a-grid-item :span="18">
+          <a-grid-item :span="24">
             <MyProject />
           </a-grid-item>
-          <a-grid-item :span="6">
+          <a-grid-item :span="24">
             <LatestActivity />
           </a-grid-item>
         </a-grid>
       </div>
-<!--      <div class="content-right">-->
-<!--        <a-grid :cols="24" :row-gap="16">-->
-<!--          <a-grid-item :span="24">-->
-<!--            <MyTeam />-->
-<!--          </a-grid-item>-->
-<!--          <a-grid-item class="panel" :span="24">-->
-<!--            <LatestNotification />-->
-<!--          </a-grid-item>-->
-<!--        </a-grid>-->
-<!--      </div>-->
+      <div class="content-right">
+        <a-grid :cols="24" :row-gap="16">
+          <a-grid-item :span="24">
+            <MyTeam />
+          </a-grid-item>
+          <a-grid-item class="panel" :span="24">
+            <LatestNotification />
+          </a-grid-item>
+        </a-grid>
+      </div>
     </div>
   </div>
 </template>

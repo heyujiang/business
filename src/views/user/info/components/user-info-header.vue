@@ -10,24 +10,24 @@
       <a-typography-title :heading="6" style="margin: 0">
         {{ userInfo.username }}
       </a-typography-title>
-<!--      <div class="user-msg">-->
-<!--        <a-space :size="18">-->
-<!--          <div>-->
-<!--            <icon-user />-->
-<!--            <a-typography-text>{{ userInfo.nickname }}</a-typography-text>-->
-<!--          </div>-->
-<!--          <div>-->
-<!--            <icon-home />-->
-<!--            <a-typography-text>-->
-<!--              {{ userInfo.company }}-->
-<!--            </a-typography-text>-->
-<!--          </div>-->
-<!--          <div>-->
-<!--            <icon-location />-->
-<!--            <a-typography-text>{{ userInfo.city }}</a-typography-text>-->
-<!--          </div>-->
-<!--        </a-space>-->
-<!--      </div>-->
+      <div class="user-msg">
+        <a-space :size="18">
+          <div>
+            <icon-user />
+            <a-typography-text>{{ userInfo.username }}</a-typography-text>
+          </div>
+          <div>
+            <icon-relation />
+            <a-typography-text>
+              {{ userInfo.company }}总经理
+            </a-typography-text>
+          </div>
+          <div>
+            <icon-sound />
+            <a-typography-text>{{ userInfo.introduction }}不执于旧，无畏于新</a-typography-text>
+          </div>
+        </a-space>
+      </div>
     </a-space>
   </div>
 </template>

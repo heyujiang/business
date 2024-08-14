@@ -5,42 +5,70 @@
     </template>
     <a-row :gutter="16">
       <a-col
-        v-for="(project, index) in projectList"
-        :key="index"
-        :xs="12"
-        :sm="12"
-        :md="12"
-        :lg="12"
-        :xl="6"
-        :xxl="6"
-        class="my-project-item"
+          v-for="(project, index) in projectList"
+          :key="index"
+          :xs="12"
+          :sm="12"
+          :md="12"
+          :lg="12"
+          :xl="6"
+          :xxl="6"
+          class="my-project-item"
       >
         <a-card class="project-card" @click="viewDetail(project.id)">
           <a-skeleton v-if="loading" :loading="loading" :animation="true">
-            <a-skeleton-line :rows="4" />
+            <a-skeleton-line :rows="5"/>
           </a-skeleton>
           <a-space v-else direction="vertical" fill>
-            <a-typography-title class="project-card-title" style="font-size: 15px;color: #4daaff;font-weight: bold" :heading="5" :ellipsis="{rows:1}">{{ project.name }}</a-typography-title>
+            <a-typography-title class="project-card-title" style="font-size: 15px;color: #4daaff;font-weight: bold"
+                                :heading="5" :ellipsis="{rows:1}">{{ project.name }}
+            </a-typography-title>
             <div class="project-card-state">
               <a-tag>
                 <template #icon>
                   <icon-tag v-if="project.state == 1" size="14" style="color: #0055d1; "/>
-                  <icon-clock-circle v-else-if="project.state == 2" size="14" style="color: #f6c200;  " />
+                  <icon-clock-circle v-else-if="project.state == 2" size="14" style="color: #f6c200;  "/>
                   <icon-check-circle v-else-if="project.state == 3" size="14" style="color: #00bb00; "/>
                 </template>
-                <span v-if="project.state == '1'" style="color: #0055d1; ">
-                    {{'未开始'}}
+                <span v-if="project.state == 1" style="color: #0055d1; ">
+                    {{ '未开始' }}
                </span>
-                <span v-else-if ="project.state == '2'" style="color: #f6c200; " >
-                    {{'进行中'}}
+                <span v-else-if="project.state == 2" style="color: #f6c200; ">
+                    {{ '进行中' }}
                </span>
-                <span v-else-if ="project.state == '3'" style="color: #00bb00;">
-                    {{'已完成'}}
+                <span v-else-if="project.state == 3" style="color: #00bb00;">
+                    {{ '已完成' }}
                </span>
               </a-tag>
+              <span style="padding-left: 20px;"> <icon-star-fill v-for="i in project.star" :key="i"
+                                                                 style="color: #f6c200" size="18"/></span>
+              <span style="padding-left: 20px; font-size: 12px">
+          <span v-if="project.type == 1"
+                style="background-color: #30a4e4;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
+              {{ '风电' }}
+          </span>
+                <span v-else-if="project.type == 2"
+                      style="background-color: #1fbb6a;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
+              {{ '光伏' }}
+          </span>
+                <span v-else-if="project.type == 3"
+                      style="background-color: #00bbbb;  padding: 2px 10px;  border-radius: 20px;color: #FFFFFF ">
+              {{ '储能' }}
+          </span>
+             </span>
             </div>
+
+            <span style="color: #8590A6;font-size: 12px;margin-top:20px;">
+
+          <span v-if="project.type == 1||project.type == 2">
+           容量：{{project.capacity +' MW'}}
+          </span>
+          <span v-else-if="project.type == 3">
+            容量： {{project.capacity +' Mwh'}}
+          </span>
+            </span>
             <div class="project-card-desc">
-              <a-typography-text :ellipsis="{rows:3}">
+              <a-typography-text :ellipsis="{rows:2}">
                 {{ project.description }}
               </a-typography-text>
             </div>
@@ -57,63 +85,67 @@
 </template>
 
 <script lang="ts" setup>
-  import { queryMyProjectList, MyProjectRecord } from '@/api/user-center';
-  import useRequest from '@/hooks/request';
-  import router from "@/router";
+import {MyProjectRecord, queryMyProjectList} from '@/api/user-center';
+import useRequest from '@/hooks/request';
+import router from "@/router";
 
-  const defaultValue = Array(6).fill({} as MyProjectRecord);
-  const { loading, response: projectList } = useRequest<MyProjectRecord[]>(
+const defaultValue = Array(6).fill({} as MyProjectRecord);
+const {loading, response: projectList} = useRequest<MyProjectRecord[]>(
     queryMyProjectList,
     defaultValue
-  );
+);
 
-  const viewProject = ()=>{
-    router.push({
-      path:"/project/project"
-    });
-  }
+const viewProject = () => {
+  router.push({
+    path: "/project/project"
+  });
+}
 
-  const viewDetail = (projectId:number)=>{
-    router.push({
-      path: "/project/detail",
-      query: {
-        id:projectId,
-      }
-    });
-  }
+const viewDetail = (projectId: number) => {
+  router.push({
+    path: "/project/detail",
+    query: {
+      id: projectId,
+    }
+  });
+}
 </script>
 
 <style scoped lang="less">
-  :deep(.arco-card-body) {
-    min-height: 128px;
-    padding-bottom: 0;
+:deep(.arco-card-body) {
+  min-height: 128px;
+  padding-bottom: 0;
+}
+
+.my-project {
+  &-item {
+    margin-bottom: 16px;
   }
-  .my-project {
-    &-item {
-      margin-bottom: 16px;
-    }
+}
+.project-card-title{
+cursor:pointer
+}
+
+.project-card {
+  padding: 10px;
+  border-radius: 10px;
+
+  &-desc {
+    line-height: 20px;
+    min-height: 50px;
   }
 
-  .project-card{
-    padding: 10px;
-    border-radius: 10px;
-
-    &-desc{
-      line-height: 20px;
-      min-height: 70px;
-    }
-
-    &-createdat {
-      float: right;
-    }
+  &-createdat {
+    float: right;
   }
+}
 
-  .project-card:hover{
-    -webkit-transform: translateY(-8px);
-    transform: translateY(-8px);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border: 1.5px solid; /* 设置边框宽度和样式 */
-    border-color:#1fbb6a; /* 设置边框颜色为红色 */
+.project-card:hover {
+  -webkit-transform: translateY(-8px);
+  transform: translateY(-8px);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: 1.5px solid; /* 设置边框宽度和样式 */
+  border-color: #1fbb6a; /* 设置边框颜色为红色 */
 
-  }
+}
 </style>

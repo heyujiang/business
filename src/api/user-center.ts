@@ -14,6 +14,12 @@ export interface MyProjectRecord {
   name: string;
   description: string;
   peopleNumber: number;
+  star:number;
+  attr:number;
+  type:number;
+  capacity:number;
+  state:number;
+  createdAt:string;
   contributors: {
     name: string;
     email: string;
@@ -113,9 +119,15 @@ enum ApiS {
 }
 export interface LatestActivity {
   id: number;
+  projectId:number;
   title: string;
   description: string;
   avatar: string;
+  nodeName:string;
+  overview:string;
+  projectName:string;
+  createdAt:string;
+  username:string;
 }
 //获取动态
 export function queryLatestActivity() {
