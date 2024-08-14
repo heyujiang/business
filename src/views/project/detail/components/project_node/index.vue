@@ -6,14 +6,14 @@
   >
     <a-grid :cols="projectNodes.length" :colGap="10" :wrap="false">
      <a-grid-item v-for="(projectNode , index) in projectNodes" style="padding: 10px 0 ;" :key="index">
-         <a-card :bordered="false" :style="{backgroundColor:'#f0f1f3' ,marginBottom: '10px'  , borderRadius: '3px' , borderTop: `2px solid ${projectNode.state == 1 ? '#0055d1' : (projectNode.state == 2 ? '#f6c200' :  (projectNode.state == 3 ? '#00bb00' : '#0055d1')) }`}" :header-style="{ border:'none' }">
+         <a-card :bordered="false" :style="{backgroundColor:'#f0f1f3' ,marginBottom: '10px',borderRadius: '3px' , borderTop: `2px solid ${projectNode.state == 1 ? '#0055d1' : (projectNode.state == 2 ? '#f6c200' :  (projectNode.state == 3 ? '#00bb00' : '#0055d1')) }`}" :header-style="{ border:'none' }">
             <template #title>
               {{ projectNode.name }}
             </template>
            <a-progress :percent="projectNode.progress"/>
          </a-card>
 
-         <a-card :bordered="false" class="son-node-card"  v-for="(sonNode , sonIndex) in projectNode.children" :key="sonIndex" style="margin-bottom: 10px ; border-radius: 3px ;" :header-style="{ border:'none' }">
+         <a-card :bordered="false" class="son-node-card" v-for="(sonNode , sonIndex) in projectNode.children" :key="sonIndex" style="margin-bottom: 10px ; border-radius: 3px ;" :header-style="{ border:'none' }">
            <template #title>
              <a-tag>
                <template #icon>
@@ -32,7 +32,7 @@
                </span>
              </a-tag>
            </template>
-           {{ sonNode.name }}
+          <p style="font-weight: bold">{{ sonNode.name }}</p>
            <template #actions>
              <span class="icon-hover" @click="viewRecord(sonNode.nodeId)"> <icon-computer /> {{ sonNode.recordTotal }} </span>
              <span class="icon-hover" @click="viewAttached(sonNode.nodeId)"> <icon-file /> {{ sonNode.attachedTotal }} </span>

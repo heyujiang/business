@@ -20,7 +20,7 @@
             <a-skeleton-line :rows="4" />
           </a-skeleton>
           <a-space v-else direction="vertical" fill>
-            <a-typography-title class="project-card-title" :heading="5" :ellipsis="{rows:1}">{{ project.name }}</a-typography-title>
+            <a-typography-title class="project-card-title" style="font-size: 15px;color: #4daaff;font-weight: bold" :heading="5" :ellipsis="{rows:1}">{{ project.name }}</a-typography-title>
             <div class="project-card-state">
               <a-tag>
                 <template #icon>
@@ -96,6 +96,7 @@
 
   .project-card{
     padding: 10px;
+    border-radius: 10px;
 
     &-desc{
       line-height: 20px;
@@ -111,5 +112,8 @@
     -webkit-transform: translateY(-8px);
     transform: translateY(-8px);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border: 1.5px solid; /* 设置边框宽度和样式 */
+    border-color:#1fbb6a; /* 设置边框颜色为红色 */
+
   }
 </style>

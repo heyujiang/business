@@ -10,14 +10,14 @@ window.globalConfig = {
     Root_wxurl_dev:`${localhost}`,//接口测试-微信小程序-开发环境
     Upinfile_url:`${domain}`,//业务专用上传附件
     Upinfile_url_dev:`${domain}`,//业务专用上传附件-开发环境
-	// AppTitle:"京杭能源开发管理后台",
-	AppTitle:"-",
+	AppTitle:"京杭能源开发管理后台",
+	// AppTitle:"-",
     AppVersion:"1.1.0",
     Company:"",
     Address:"中国·杭州",
     Team:"工程事业部提供支持",
-    // loginTitle:"登录京杭能源开发管理后台",
-    loginTitle:"登录",
+    loginTitle:"登录京杭能源开发管理后台",
+    // loginTitle:"登录",
     loginSubTitle:"",
     Copyright:"开发工程事业部",
     MaxSizeImage:5,//最大上传图片大小,单位M
