@@ -6,10 +6,10 @@
     :body-style="{ padding: '15px 20px 13px 20px' }"
   >
     <template #extra>
-<!--      <a-link>{{ $t('workplace.viewMore') }}</a-link>-->
+      <a-link @click="viewRecord(0)">{{ $t('workplace.viewMore') }}</a-link>
     </template>
     <div>
-      <div v-for="(item, idx) in list" :key="idx" class="item">
+      <div v-for="(item, idx) in list" :key="idx" class="item" @click="viewRecord(item.id)">
         <a-tag :color="color[`${idx % color.length}`]" size="small">{{ item.username }}</a-tag>
         <span class="item-content">
          {{ item.nodeName }}---{{ item.projectName }}
@@ -22,6 +22,7 @@
 <script lang="ts" setup>
   import {getLatestRecord, RecordItem} from "@/api/dashboard/workplace";
   import {ref} from "vue";
+  import router from "@/router";
 
   const color = ref<string[]>([
     'red' , 'orangered' , 'orange' , 'gold' , 'lime' , 'green' , 'cyan' , 'blue' , 'purple' ,  'magenta'
@@ -34,6 +35,15 @@
   }
 
   fetchAnnouncement()
+
+  const viewRecord = (id:number)=>{
+    router.push({
+      path:"/project/project_ing",
+      query:{
+        id:id
+      }
+    })
+  }
 </script>
 
 <style scoped lang="less">

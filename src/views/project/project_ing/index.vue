@@ -78,8 +78,8 @@
           :default-expand-all-rows="true"
           :scroll="{ x: 1500 }"
           ref="artable"
-          @page-change="handlePaageChange"
-          @page-size-change="handlePaageSizeChange"
+          @page-change="handlePageChange"
+          @page-size-change="handlePageSizeChange"
       >
         <template #projectName="{ record }">
           <a-link :hoverable="false" @click="detail(record.projectId)">
@@ -118,7 +118,7 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, reactive, ref, watch} from 'vue';
+import {computed, reactive, ref, watch, onMounted, nextTick} from 'vue';
 import useLoading from '@/hooks/loading';
 import { getList,del} from '@/api/project/project_ing';
 import type {TableColumnData} from '@arco-design/web-vue/es/table/interface';
@@ -138,6 +138,7 @@ import {Pagination} from '@/types/global';
 import {getUserOptions} from "@/api/user";
 import router from "@/router";
 import {useRoute} from "vue-router";
+import {useWindowSizeFn} from "@/hooks/event/useWindowSizeFn";
 
 const {t} = useI18n();
 const [registerModal, {openModal}] = useModal();
@@ -180,17 +181,27 @@ const size = ref<SizeProps>('large');
 
 const route = useRoute()
 const username = route.query.name
+const recordId = ref(route.query.id)
+
+
 
 //查询字段
+type formModelI = {
+  projectId?:number,
+  nodeId?:number,
+  userId?:number,
+  id?:number,
+}
+
 const generateFormModel = () => {
   return {
     projectId: '',
     nodeId: '',
     userId: '',
+    id:0,
   };
 };
-const formModel = ref(generateFormModel());
-
+const formModel = ref<formModelI>({});
 
 const userOptions = ref([]);
 const fetchUserOptions = async () => {
@@ -227,13 +238,14 @@ const fetchData = async () => {
 };
 
 const search = () => {
+  formModel.value.id = 0
   fetchData();
 };
 const reset = () => {
-  formModel.value = generateFormModel();
+  formModel.value = {};
   fetchData();
 };
-fetchData();
+// fetchData();
 const handleSelectDensity = (
     val: string | number | Record<string, any> | undefined,
     e: Event
@@ -252,6 +264,7 @@ watch(
     },
     {deep: true, immediate: true}
 );
+
 //添加菜单
 const createRule = () => {
   openModal(true, {
@@ -277,15 +290,15 @@ const viewAttached = async (recordId: number) => {
 
 //更新数据
 const handleData = async () => {
-  fetchData();
+  await fetchData();
 }
 //分页
-const handlePaageChange = (page: any) => {
+const handlePageChange = (page: any) => {
   pagination.current = page
   fetchData();
 }
 //分页总数
-const handlePaageSizeChange = (pageSize: any) => {
+const handlePageSizeChange = (pageSize: any) => {
   pagination.pageSize = pageSize
   fetchData();
 }
@@ -296,7 +309,7 @@ const handleDel = async (record: any) => {
     Message.loading({content: "删除中", id: "upStatus"})
     const res = await del(record.id);
     if (res) {
-      fetchData();
+      await fetchData();
       Message.success({content: "删除成功", id: "upStatus"})
     }
   } catch (error) {
@@ -325,6 +338,13 @@ const detail = (id:number) => {
     }
   });
 }
+
+onMounted(async () => {
+  if(recordId.value) {
+    formModel.value.id = recordId.value
+  }
+  await fetchData();
+});
 
 </script>
 

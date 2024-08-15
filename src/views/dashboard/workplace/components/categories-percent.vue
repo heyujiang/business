@@ -10,7 +10,7 @@
       <template #title>
           负责人项目
       </template>
-      <Chart height="310px" :option="chartOption"/>
+      <Chart height="310px" :option="chartOption" @click="viewProject"/>
     </a-card>
   </a-spin>
 </template>
@@ -140,12 +140,11 @@
 
   });
 
-
-  const viewProject = (name:string) => {
+  const viewProject = (params:string) => {
     router.push({
       path: "/project/project",
       query: {
-        name: name,
+        name: params.name,
       }
     });
   }
