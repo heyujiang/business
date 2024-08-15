@@ -58,7 +58,7 @@
                   style="cursor:pointer;color: #4daaff"
                   @click="viewDetail(record.id)"
                 >
-                  {{ record.name }}
+                  <a-link @click="viewProject(record.id)">{{ record.name }}</a-link>
                 </a-typography-paragraph>
               </template>
             </a-table-column>
@@ -131,6 +131,15 @@
     });
   }
   fetchData();
+
+  const viewProject = (id:number) => {
+    router.push({
+      path: "/project/detail",
+      query: {
+        id:id,
+      }
+    });
+  }
 </script>
 
 <style scoped lang="less">
