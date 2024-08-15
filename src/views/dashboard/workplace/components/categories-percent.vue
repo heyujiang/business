@@ -22,6 +22,7 @@
   import {computed, ref} from "vue";
   import {useAppStore} from "@/store";
   import {string} from "vue-types";
+  import router from "@/router";
   const { loading } = useLoading();
 
   const capList = ref<PersonCapacityItem[]>([])
@@ -75,7 +76,6 @@
       legend: {
         left: 'center',
         data: persons.value,
-        bottom: 0,
         icon: 'circle',
         itemWidth: 8,
         textStyle: {
@@ -135,6 +135,12 @@
       ],
     };
   });
+
+  const viewProject = () => {
+    router.push({
+      path: "/project/project"
+    });
+  }
 </script>
 
 <style scoped lang="less"></style>
