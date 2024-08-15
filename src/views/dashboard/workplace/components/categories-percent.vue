@@ -10,7 +10,7 @@
       <template #title>
           负责人项目
       </template>
-      <Chart height="310px" :option="chartOption" />
+      <Chart height="310px" :option="chartOption"/>
     </a-card>
   </a-spin>
 </template>
@@ -18,11 +18,13 @@
 <script lang="ts" setup>
   import useLoading from '@/hooks/loading';
   import useChartOption from '@/hooks/chart-option';
+  import * as echarts from 'echarts'
   import {getPersonCapacity, PersonCapacityItem} from "@/api/dashboard/workplace";
   import {computed, ref} from "vue";
   import {useAppStore} from "@/store";
   import {string} from "vue-types";
   import router from "@/router";
+  import doc from "@/components/gfeditor/emain/ot/doc";
   const { loading } = useLoading();
 
   const capList = ref<PersonCapacityItem[]>([])
@@ -89,6 +91,7 @@
         show: true,
         trigger: 'item',
       },
+
       graphic: {
         elements: [
           {
@@ -134,11 +137,16 @@
         },
       ],
     };
+
   });
 
-  const viewProject = () => {
+
+  const viewProject = (name:string) => {
     router.push({
-      path: "/project/project"
+      path: "/project/project",
+      query: {
+        name: name,
+      }
     });
   }
 </script>
