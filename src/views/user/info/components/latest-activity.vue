@@ -27,7 +27,7 @@
         <a-list-item-meta v-else @click="viewDetail(activity.projectId)">
           <template #avatar>
             <a-avatar>
-              {{ index + 1 }}
+              <img :src="activity.avatar"/>
             </a-avatar>
           </template>
 
