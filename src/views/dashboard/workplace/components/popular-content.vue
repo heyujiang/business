@@ -43,22 +43,34 @@
           :data="renderList"
           :pagination="false"
           :bordered="false"
+          :hover="true"
+          :stripe="true"
           :scroll="{ x: '100%', y: '264px' }"
         >
           <template #columns>
-            <a-table-column title="ID" data-index="id"></a-table-column>
+            <a-table-column width=80 title="ID" data-index="id"></a-table-column>
             <a-table-column title="项目名称" data-index="name">
-              <template #cell="{ record }">
+              <template #cell="{ record }" >
                 <a-typography-paragraph
                   :ellipsis="{
                     rows: 1,
                   }"
+                  style="cursor:pointer;color: #4daaff"
+                  @click="viewDetail(record.id)"
                 >
                   {{ record.name }}
                 </a-typography-paragraph>
               </template>
             </a-table-column>
-            <a-table-column title="容量大小" data-index="capacity">
+            <a-table-column title="容量大小" data-index="capacity" :sortable="{sortDirections: ['ascend', 'descend'],}">
+              <template #capacity="{ record }">
+                 <span v-if="record.type == 1||record.type == 2">
+                 {{record.capacity +' MW'}}
+                 </span>
+                <span v-else-if="record.type == 3">
+                 {{record.capacity +' Mwh'}}
+                  </span>
+              </template>
             </a-table-column>
             <a-table-column
               title="负责人"
@@ -85,7 +97,7 @@
   import useLoading from '@/hooks/loading';
   import type { TableData } from '@arco-design/web-vue/es/table/interface';
   import {LatestType,getLatestProjectByType ,LatestDataItem} from "@/api/dashboard/workplace";
-
+  import router from "@/router";
 
   const latestType = ref<LatestType>({
     type:'threeStar',
@@ -110,6 +122,14 @@
     fetchData();
   };
 
+  const viewDetail = (projectId: number) => {
+    router.push({
+      path: "/project/detail",
+      query: {
+        id: projectId,
+      }
+    });
+  }
   fetchData();
 </script>
 

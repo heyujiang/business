@@ -44,12 +44,12 @@
     return appStore.theme === 'dark';
   });
 
-  const color = ref<string[]>(['#3D72F6' ,"#3cf44b","#ef4545","#683aae",
-    "#efcecb","#cc9208","#03ea54","#f6c200",
-    "#32f3aa","rgba(16,89,22,0.92)"])
-  const focusColor = ref<string[]>([ 'rgba(61,114,246,0.5)' ,"rgba(60,244,75,0.5)","rgba(239,69,69,0.5)","rgba(104,58,174,0.5)",
-    "rgba(239,206,203,0.5)","rgba(204,146,8,0.5)","rgba(3,234,84,0.5)","rgba(246,194,0,0.5)",
-    "rgba(50,243,170,0.5)","rgba(16,89,22,0.5)"])
+  const color = ref<string[]>(['#f36405' ,"#f7c606","#7ed587","#3fc3b8",
+    "#427ff7","#f8af05","#5488ef","#f6c200",
+    "#f7c606","rgb(243,100,5)"])
+  const focusColor = ref<string[]>([ 'rgb(126,213,135)' ,"rgb(63,196,185)","rgba(239,69,69,0.5)","rgb(66,127,247)",
+    "rgb(84,136,239)","rgba(204,146,8,0.5)","rgb(243,100,5)","rgb(247,198,6)",
+    "rgb(63,196,185)","rgb(84,136,239)"])
 
   const totalCap = ref<number>(0)
 
@@ -107,7 +107,7 @@
             left: 'center',
             top: '50%',
             style: {
-              text: totalCap.value.toFixed(2),
+              text: totalCap.value.toFixed(2)+"MW",
               textAlign: 'center',
               fill: isDark ? '#ffffffb3' : '#1D2129',
               fontSize: 16,
