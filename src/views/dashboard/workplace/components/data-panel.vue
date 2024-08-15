@@ -2,7 +2,7 @@
   <a-grid :cols="24" :row-gap="16" class="panel">
     <a-grid-item
       class="panel-col"
-      :span="6"
+      :span="5"
     >
       <a-space>
         <a-avatar :size="54" class="col-avatar">
@@ -26,7 +26,7 @@
     </a-grid-item>
     <a-grid-item
       class="panel-col"
-      :span="6"
+      :span="7"
     >
       <a-space>
         <a-avatar :size="54" class="col-avatar">
