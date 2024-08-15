@@ -137,6 +137,7 @@ import {Message} from '@arco-design/web-vue';
 import {Pagination} from '@/types/global';
 import {getUserOptions} from "@/api/user";
 import router from "@/router";
+import {useRoute} from "vue-router";
 
 const {t} = useI18n();
 const [registerModal, {openModal}] = useModal();
@@ -176,6 +177,10 @@ const renderData = ref([]);
 const cloneColumns = ref<Column[]>([]);
 const showColumns = ref<Column[]>([]);
 const size = ref<SizeProps>('large');
+
+const route = useRoute()
+const username = route.query.name
+
 //查询字段
 const generateFormModel = () => {
   return {
@@ -185,6 +190,28 @@ const generateFormModel = () => {
   };
 };
 const formModel = ref(generateFormModel());
+
+
+const userOptions = ref([]);
+const fetchUserOptions = async () => {
+  try {
+    userOptions.value = await getUserOptions();
+    if(username){
+      userOptions.value.forEach((item)=>{
+        if(username && item.label == username ){
+          formModel.value.userId = item.value
+          fetchData()
+        }
+      })
+    }
+  } catch (err) {
+    // you can report use errorHandler or other
+  } finally {
+
+  }
+};
+fetchUserOptions();
+
 const fetchData = async () => {
   setLoading(true);
   try {
@@ -289,18 +316,6 @@ const projectChange = async (projectId:number) => {
   projectNodeOption.value =  await getProjectNodeOption(projectId);
 }
 
-
-const userOptions = ref([]);
-const fetchUserOptions = async () => {
-  try {
-    userOptions.value = await getUserOptions();
-  } catch (err) {
-    // you can report use errorHandler or other
-  } finally {
-
-  }
-};
-fetchUserOptions();
 
 const detail = (id:number) => {
   router.push({

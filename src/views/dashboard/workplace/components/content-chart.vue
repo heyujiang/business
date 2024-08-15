@@ -11,7 +11,7 @@
 <!--      <template #extra>-->
 <!--        <a-link>{{ $t('workplace.viewMore') }}</a-link>-->
 <!--      </template>-->
-      <Chart height="289px" :option="chartOption" />
+      <Chart height="289px" :option="chartOption" @click="clickChart"/>
     </a-card>
   </a-spin>
 </template>
@@ -25,6 +25,7 @@
   import { ToolTipFormatterParams } from '@/types/echarts';
   import { AnyObject } from '@/types/global';
   import {getUserData} from "@/api/dashboard/workplace";
+  import router from "@/router";
 
   function graphicFactory(side: AnyObject) {
     return {
@@ -44,6 +45,8 @@
   const seriesProject = ref<number[]>([]);
   const seriesRecord = ref<number[]>([]);
   const seriesAttached = ref<number[]>([]);
+
+  const chartRef = ref();
 
   const { chartOption } = useChartOption(() => {
     return {
@@ -114,6 +117,26 @@
     }
   };
   fetchData();
+
+  const clickChart = (params:any)=>{
+    console.log(params)
+    if(params.seriesName == '项目'){
+      router.push({
+        path:'/project/project',
+        query:{
+          name : params.name
+        }
+      })
+    }else if(params.seriesName == '记录'){
+      router.push({
+        path:'/project/project_ing',
+        query:{
+          name : params.name
+        }
+      })
+    }
+
+  }
 </script>
 
 <style scoped lang="less"></style>

@@ -5,6 +5,9 @@
     :header-style="{ paddingBottom: '18px' }"
     :body-style="{ paddingBottom: '12px' }"
   >
+    <template #extra>
+      <span v-show="teamList.length > 0" style="color: var(--color-neutral-6)"> 共{{ teamList.length }}人 </span>
+    </template>
     <a-list :bordered="false">
       <a-list-item
         v-for="(team,id) in teamList"
@@ -21,17 +24,21 @@
             </a-col>
           </a-row>
         </a-skeleton>
-          <a-list-item-meta v-else>
-            <template #description>
-              <a-space>
-                <a-avatar v-for="user in team.member">
-                  <img :src="user.avatar" :alt="user.username"/>
-                </a-avatar>
-                <span>共{{team.count }}人</span>
-              </a-space>
-
-            </template>
-          </a-list-item-meta>
+        <a-list-item-meta v-else>
+          <template #avatar>
+            <a-avatar>
+              <img :src="team.avatar" alt="">
+            </a-avatar>
+          </template>
+          <template #title>
+            <icon-record></icon-record>
+            <span>{{ team.username }}</span>
+          </template>
+          <template #description>
+            <icon-phone></icon-phone>
+            <span>{{ team.phoneNumber }}</span>
+          </template>
+        </a-list-item-meta>
       </a-list-item>
     </a-list>
   </a-card>

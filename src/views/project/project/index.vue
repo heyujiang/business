@@ -217,6 +217,7 @@
   import { getUserOptions } from '@/api/user';
   import router from "@/router";
   import {typeOptions , starOptions , statusOptions} from "@/views/project/data"
+  import {useRoute} from "vue-router";
 
   const { t } = useI18n();
   const [registerModal, { openModal }] = useModal();
@@ -230,7 +231,6 @@
     showTotal:true,
     showPageSize:true,
   });
-  const boxheight=document.documentElement.clientHeight;//页面高度
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
   type Column = TableColumnData & { checked?: true };
   const { loading, setLoading } = useLoading(true);
@@ -256,17 +256,43 @@
       value: 'large',
     },
   ]);
+
+  const route = useRoute()
+  const username = route.query.name
+
     //查询字段
   const generateFormModel = () => {
-    return {
-      name:'',
-      userId: '',
-      star:'',
-      type:'',
-      createdAt: [],
-    };
+      return {
+        name:'',
+        userId: '',
+        star:'',
+        type:'',
+        createdAt: [],
+      };
   };
   const formModel = ref(generateFormModel());
+
+  const userOptions = ref([]);
+  const fetchUserOptions = async () => {
+    try {
+      userOptions.value = await getUserOptions();
+      if(username){
+        userOptions.value.forEach((item)=>{
+          if(username && item.label == username ){
+            formModel.value.userId = item.value
+            fetchData()
+          }
+        })
+      }
+
+    } catch (err) {
+      // you can report use errorHandler or other
+    } finally {
+
+    }
+  };
+  fetchUserOptions();
+
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -305,17 +331,7 @@
     size.value = val as SizeProps;
   };
 
-  const userOptions = ref([]);
-  const fetchUserOptions = async () => {
-    try {
-      userOptions.value = await getUserOptions();
-    } catch (err) {
-      // you can report use errorHandler or other
-    } finally {
 
-    }
-  };
-  fetchUserOptions();
 
   watch(
     () => columns.value,

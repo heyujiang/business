@@ -142,13 +142,9 @@ export function queryMyTeamList() {
   return defHttp.get({ url:ApiS.teamList}, { errorMessageMode: 'message' });
 }
 
-interface TeamUser {
+export interface TeamRecord {
   userId: number;
   username:string;
   avatar:string;
-}
-
-export interface TeamRecord {
-  count:number;
-  member:TeamUser[];
+  phoneNumber:string;
 }
