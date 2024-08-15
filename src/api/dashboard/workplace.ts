@@ -13,6 +13,7 @@ enum Api {
     getLatestRecord = '/api/home/latestRecord',
     getLatestProjectByType = '/api/home/latestProject',
     getPersonCapacity = '/api/home/personCapacity',
+    getUserData = '/api/home/userData',
 }
 
 //获取文章统计
@@ -63,6 +64,10 @@ export function getPersonCapacity() {
 
 export function getLatestProjectByType(params:LatestType) {
     return defHttp.get({ url: Api.getLatestProjectByType , params:params}, { errorMessageMode: 'message' });
+}
+
+export function getUserData() {
+    return defHttp.get({ url: Api.getUserData }, { errorMessageMode: 'message' });
 }
 
 export interface LatestType {

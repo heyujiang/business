@@ -26,7 +26,6 @@
         </a-grid-item>
         <a-grid-item :span="24">
           <div class="panel moduler-wrap">
-<!--            <QuickOperation />-->
             <RecentlyVisited />
           </div>
         </a-grid-item>
@@ -49,7 +48,6 @@
   import PopularContent from './components/popular-content.vue';
   import CategoriesPercent from './components/categories-percent.vue';
   import RecentlyVisited from './components/recently-visited.vue';
-  import QuickOperation from './components/quick-operation.vue';
   import Announcement from './components/announcement.vue';
   import Carousel from './components/carousel.vue';
   import Docs from './components/docs.vue';
