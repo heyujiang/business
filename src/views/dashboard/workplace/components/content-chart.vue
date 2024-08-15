@@ -72,21 +72,35 @@
         data: seriesProject.value,
         tooltip:{
           position:'inside',
+        },
+        barWidth: '20%',
+        itemStyle: {
+          color: '#42b0f8'
         }
       }, {
         name: "记录",
         type: "bar",
         data:  seriesRecord.value,
+        barWidth: '20%',
         tooltip:{
           position:'inside',
+        },
+        itemStyle: {
+          color: '#427ff7'
         }
+
       }, {
         name: "文件",
         type: "bar",
         data:  seriesAttached.value,
+        barWidth: '20%',
         tooltip:{
           position:'inside',
+        },
+        itemStyle: {
+          color: '#f7c606'
         }
+
       }]
     };
   })
