@@ -7,8 +7,8 @@
   >
     <a-list :bordered="false">
       <a-list-item
-        v-for="team in teamList"
-        :key="team.id"
+        v-for="(team,id) in teamList"
+        :key="id"
         action-layout="horizontal"
       >
         <a-skeleton v-if="loading" :loading="loading" :animation="true">
@@ -21,33 +21,28 @@
             </a-col>
           </a-row>
         </a-skeleton>
-        <a-list-item-meta v-else :title="team.name">
-          <template #avatar>
-            <a-avatar>
-            <span>用户名</span>
-            </a-avatar>
-          </template>
-          <template >
-           <icon-record></icon-record>
-          <span>职位</span>
-          </template>
-          <template >
-            <icon-phone></icon-phone>
-            <span>联系方式</span>
-          </template>
-          <template #description> 共5人 </template>
-        </a-list-item-meta>
+          <a-list-item-meta v-else>
+            <template #description>
+              <a-space>
+                <a-avatar v-for="user in team.member">
+                  <img :src="user.avatar" :alt="user.username"/>
+                </a-avatar>
+                <span>共{{team.count }}人</span>
+              </a-space>
+
+            </template>
+          </a-list-item-meta>
       </a-list-item>
     </a-list>
   </a-card>
 </template>
 
 <script lang="ts" setup>
-  import { queryMyTeamList, MyTeamRecord } from '@/api/user-center';
+  import { queryMyTeamList, TeamRecord } from '@/api/user-center';
   import useRequest from '@/hooks/request';
 
-  const defaultValue: MyTeamRecord[] = new Array(4).fill({});
-  const { loading, response: teamList } = useRequest<MyTeamRecord[]>(
+  const defaultValue: TeamRecord[] = new Array(4).fill({});
+  const { loading, response: teamList } = useRequest<TeamRecord[]>(
     queryMyTeamList,
     defaultValue
   );

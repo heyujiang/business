@@ -115,7 +115,7 @@ export function getCertification() {
 enum ApiS {
   latestActivity = '/api/user/myLatestRecords',
   projectList = '/api/user/myProjects',
-  teamList = '/user/info/teamList',
+  teamList = '/api/user/myTeams',
 }
 export interface LatestActivity {
   id: number;
@@ -139,5 +139,16 @@ export function queryMyProjectList() {
 }
 //我的团队
 export function queryMyTeamList() {
-  return defHttp.post({ url:ApiS.teamList}, { errorMessageMode: 'message' });
+  return defHttp.get({ url:ApiS.teamList}, { errorMessageMode: 'message' });
+}
+
+interface TeamUser {
+  userId: number;
+  username:string;
+  avatar:string;
+}
+
+export interface TeamRecord {
+  count:number;
+  member:TeamUser[];
 }

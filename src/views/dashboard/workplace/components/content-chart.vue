@@ -6,11 +6,11 @@
       :body-style="{
         paddingTop: '20px',
       }"
-      :title="$t('workplace.contentData')"
+      title="员工数据"
     >
-      <template #extra>
-        <a-link>{{ $t('workplace.viewMore') }}</a-link>
-      </template>
+<!--      <template #extra>-->
+<!--        <a-link>{{ $t('workplace.viewMore') }}</a-link>-->
+<!--      </template>-->
       <Chart height="289px" :option="chartOption" />
     </a-card>
   </a-spin>
@@ -50,6 +50,7 @@
       legend: {
         data: ["项目", "记录", "文件"]
       },
+      color:["#e95350","#f36405","#7ed587"],
       grid: {
         left: "3%",
         right: "4%",
@@ -70,37 +71,29 @@
         name: "项目",
         type: "bar",
         data: seriesProject.value,
+        barMaxWidth:30,
+        barMinWidth:10,
         tooltip:{
-          position:'inside',
-        },
-        barWidth: '20%',
-        itemStyle: {
-          color: '#42b0f8'
+          position:'top',
         }
       }, {
         name: "记录",
         type: "bar",
         data:  seriesRecord.value,
-        barWidth: '20%',
+        barMaxWidth:30,
+        barMinWidth:10,
         tooltip:{
-          position:'inside',
-        },
-        itemStyle: {
-          color: '#427ff7'
+          position:'top',
         }
-
       }, {
         name: "文件",
         type: "bar",
         data:  seriesAttached.value,
-        barWidth: '20%',
+        barMaxWidth:30,
+        barMinWidth:10,
         tooltip:{
-          position:'inside',
-        },
-        itemStyle: {
-          color: '#f7c606'
+          position:'top',
         }
-
       }]
     };
   })
