@@ -10,5 +10,8 @@ export interface UserState {
   rooturl?: string;
   city?: string;
   company?: string;
+  job?:string;
+  role?:string;
+  dept?:string;
   sessionTimeout?: boolean;
 }

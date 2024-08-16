@@ -24,6 +24,9 @@ const useUserStore = defineStore('user', {
     rooturl: '',
     city: '',
     company: '',
+    job:'',
+    role:'',
+    dept:'',
     sessionTimeout: false,//登录是否已过期
   }),
 

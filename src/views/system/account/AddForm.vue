@@ -23,6 +23,11 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
+          <a-form-item field="job" label="职位" validate-trigger="input" style="margin-bottom:15px;">
+            <a-input v-model="formData.job" placeholder="请填写职位" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
           <a-form-item label="部门" field="deptId" style="margin-bottom:15px;" validate-trigger="change" :rules="[{required:true,message:'请选择部门'}]">
             <a-tree-select placeholder="选择部门"
                            :data="deptList"
@@ -92,16 +97,15 @@
   import { useI18n } from 'vue-i18n';
   import { cloneDeep } from 'lodash-es';
   //api
-  import { save,update,isAccountexist} from '@/api/system/account';
+  import { save,update,SaveAccount} from '@/api/system/account';
   import { getParent as getDeptOptions} from '@/api/system/dept';
   import { getParent as getRoleOptions} from '@/api/system/role';
   import { IconPicker ,Icon} from '@/components/Icon';
   import { Message } from '@arco-design/web-vue';
   import type { RequestOption} from '@arco-design/web-vue/es/upload/interfaces';
-  import {UploadItem, userUploadApi} from '@/api/common';
+  import { userUploadApi} from '@/api/common';
   import {ResultEnum} from "@/utils/http/httpEnum";
-  import {Result} from "/#/axios";
-  import {any} from "vue-types";
+
   export default defineComponent({
     name: 'AddBook',
     components: { BasicModal,IconPicker,Icon },
@@ -115,20 +119,8 @@
       const userId = ref(0);
       const deptList = ref([]);
       const roleList = ref([]);
-      //表单字段
-      const basedata={
-          id:0,
-          username: "",
-          phoneNumber:"",//手机
-          // name: '',
-          // nickName: '',
-          deptId:'',
-          roleIds:[],
-          password: '',
-          email:"",//邮箱
-          avatar:"",
-        }
-      const formData = ref(basedata)
+
+      const formData = ref<SaveAccount>({})
       const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
           formRef.value?.resetFields()
           deptList.value = await getDeptOptions();
@@ -139,7 +131,7 @@
             userId.value = data.record.id
             formData.value=cloneDeep(data.record)
           }else{
-            formData.value=basedata
+            formData.value= {}
           }
       });
       const getTitle = computed(() => (!unref(isUpdate) ? '新增用户' : '编辑用户'));
@@ -152,15 +144,15 @@
             setLoading(true);
 
             if(!unref(isUpdate)){
-              if(formData.value.password==""){
+              if(formData.value.password === "" || formData.value.password == undefined){
                 formData.value.password="123456"
               }
               Message.loading({content:"新增中",id:"upStatus"})
-              await save(unref(formData));
+              await save(formData.value);
               Message.success({content:"新增成功",id:"upStatus"})
             }else{
               Message.loading({content:"更新中",id:"upStatus"})
-              await update(unref(userId),unref(formData));
+              await update(unref(userId),formData.value);
               Message.success({content:"更新成功",id:"upStatus"})
             }
 
@@ -170,7 +162,6 @@
           }
         } catch (error) {
           setLoading(false);
-          Message.clear("top")
         }
       };
 
@@ -215,26 +206,7 @@
               },
             };
       };
-      //验证账号唯一性
-      const usernameRules = [{
-        validator: (value:any, cb:any) => {
-          return new Promise(async(resolve) => {
-            if(!value){
-              cb('请填写登录账号')
-            }else{
-              let sdata={username:value}
-              if(formData.value.id>0){
-                sdata=Object.assign({},sdata,{id:formData.value.id}) as any
-              }
-              const resData = await isAccountexist(sdata);
-              if(resData.code==1){
-                cb(resData.message)
-              }
-            }
-            resolve(true)
-          })
-        }
-      }];
+
       return {
         registerModal,
         getTitle,
@@ -245,7 +217,6 @@
         isUpdate,
         t,
         customRequest,
-        usernameRules,
         deptList,
         roleList,
       };

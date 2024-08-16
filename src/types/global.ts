@@ -35,3 +35,22 @@ export interface GeneralChart {
   xAxis: string[];
   data: Array<{ name: string; value: number[] }>;
 }
+
+export const densityList = [
+  {
+    name: '迷你',
+    value: 'mini',
+  },
+  {
+    name: '偏小',
+    value: 'small',
+  },
+  {
+    name: '中等',
+    value: 'medium',
+  },
+  {
+    name: '偏大',
+    value: 'large',
+  },
+];

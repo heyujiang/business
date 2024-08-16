@@ -42,6 +42,9 @@ export interface BasicInfoModel {
   phoneNumber:string;
   createdAt:string;
   introduction:string;
+  job:string;
+  username:string;
+  role:string;
 }
 export interface MyTeamRecord {
   id: number;

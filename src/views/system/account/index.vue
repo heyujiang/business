@@ -15,7 +15,7 @@
               查询
             </a-button>
             <a-button @click="reset">
-              {{ $t('searchTable.form.reset') }}
+              重置
             </a-button>
           </a-space>
         </a-col>
@@ -24,19 +24,21 @@
            style="text-align: right;"
         >
         <a-space>
-          <a-button type="primary" @click="createRule">
+          <a-button type="primary" @click="createUser">
             <template #icon>
               <icon-plus />
             </template>
-            {{ $t('searchTable.operation.create') }}
+            新建
           </a-button>
-          <a-tooltip :content="$t('searchTable.actions.refresh')">
+
+          <a-tooltip content="刷新">
             <div class="action-icon" @click="search"
               ><icon-refresh size="18"
             /></div>
           </a-tooltip>
+
           <a-dropdown @select="handleSelectDensity">
-            <a-tooltip :content="$t('searchTable.actions.density')">
+            <a-tooltip content="密度">
               <div class="action-icon"><icon-line-height size="18" /></div>
             </a-tooltip>
             <template #content>
@@ -63,8 +65,8 @@
         :size="size"
         :default-expand-all-rows="true"
         ref="artable"
-        @page-change="handlePaageChange"
-        @page-size-change="handlePaageSizeChange"
+        @page-change="handlePageChange"
+        @page-size-change="handlePageSizeChange"
       >
         <template #avatar="{ record }">
           <a-avatar trigger-type="mask">
@@ -102,9 +104,9 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, ref, reactive, watch, nextTick } from 'vue';
+  import { computed, ref, reactive, watch, nextTick ,onMounted  } from 'vue';
   import useLoading from '@/hooks/loading';
-  import { getList,enable,disable,del} from '@/api/system/account';
+  import {getList, enable, disable, del, UserCond} from '@/api/system/account';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
   import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
   import cloneDeep from 'lodash/cloneDeep';
@@ -117,54 +119,44 @@
   import { useI18n } from 'vue-i18n';
   import {Icon} from '@/components/Icon';
   import { Message } from '@arco-design/web-vue';
-  import { Pagination } from '@/types/global';
-  const { t } = useI18n();
+  import { Pagination,densityList } from '@/types/global';
+
+  onMounted(()=>{
+    fetchData()
+  })
+
   const [registerModal, { openModal }] = useModal();
-  const densityList = computed(() => [
-    {
-      name: t('searchTable.size.mini'),
-      value: 'mini',
-    },
-    {
-      name: t('searchTable.size.small'),
-      value: 'small',
-    },
-    {
-      name: t('searchTable.size.medium'),
-      value: 'medium',
-    },
-    {
-      name: t('searchTable.size.large'),
-      value: 'large',
-    },
-  ]);
+
   //分页
   const basePagination: Pagination = {
     current: 1,
     pageSize: 10,
   };
+
   const pagination = reactive({
     ...basePagination,
     showTotal:true,
     showPageSize:true,
   });
-  const boxheight=document.documentElement.clientHeight;//页面高度
-  type SizeProps = 'mini' | 'small' | 'medium' | 'large';
+
   type Column = TableColumnData & { checked?: true };
   const { loading, setLoading } = useLoading(true);
   const renderData = ref([]);
   const cloneColumns = ref<Column[]>([]);
   const showColumns = ref<Column[]>([]);
-  const size = ref<SizeProps>('large');
-    //查询字段
-    const generateFormModel = () => {
-    return {
-      phoneNumber: '',
-      username: '',
-      state: '',
-    };
+
+  type SizeProps = 'mini' | 'small' | 'medium' | 'large';
+  const size = ref<SizeProps>('large'); //表格size
+  //修改表格size
+  const handleSelectDensity = (
+      val: string | number | Record<string, any> | undefined,
+      e: Event
+  ) => {
+    size.value = val as SizeProps;
   };
-  const formModel = ref(generateFormModel());
+
+  const formModel = ref<UserCond>({}); //搜索选项
+
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -173,7 +165,7 @@
       pagination.current = data.page;
       pagination.total = data.count;
     } catch (err) {
-      // you can report use errorHandler or other
+      console.log(err)
     } finally {
       setLoading(false);
     }
@@ -182,16 +174,10 @@
   const search = () => {
     fetchData();
   };
+
   const reset = () => {
-    formModel.value = generateFormModel();
+    formModel.value = {};
     fetchData();
-  };
-  fetchData();
-  const handleSelectDensity = (
-    val: string | number | Record<string, any> | undefined,
-    e: Event
-  ) => {
-    size.value = val as SizeProps;
   };
 
   watch(
@@ -205,82 +191,87 @@
     },
     { deep: true, immediate: true }
   );
-  //添加菜单
-  const createRule=()=>{
+
+  //添加用
+  const createUser=()=>{
     openModal(true, {
       isUpdate: false,
       record:null
     });
   }
-  //编辑数据
+
+  //编辑用户
   const handleEdit=async(record:any)=>{
     openModal(true, {
       isUpdate: true,
       record:record
     });
   }
-  //更新数据
-  const handleData=async()=>{
-    fetchData();
+
+  // 更新数据
+  const handleData= async () => {
+    await fetchData();
   }
-  //分页
-  const handlePaageChange = (page:any) => {
+
+  // 分页跳转
+  const handlePageChange = async (page:any) => {
     pagination.current=page
-    fetchData();
+    await fetchData();
   }
-  //分页总数
-  const handlePaageSizeChange = (pageSize:any) => {
+  
+  // 设置分页数量
+  const handlePageSizeChange = async (pageSize:any) => {
     pagination.pageSize=pageSize
-    fetchData();
+    await fetchData();
   }
-  //更新状态
+
+  //切换用户状态
   const handleStatus=async(record:any)=>{
     if(record.state == 1) {
-        enableUser(record)
+        await enableUser(record)
     }else{
-        disableUser(record)
+        await disableUser(record)
     }
   }
 
+  //启用用户
   const enableUser=async(record:any)=>{
     try {
       Message.loading({content:"启用中",id:"upStatus"})
       const res= await enable(record.id);
-      if(res){
-        Message.success({content:"启用成功",id:"upStatus"})
-      }
+      Message.success({content:"启用成功",id:"upStatus"})
     }catch (error) {
-      Message.clear("top")
+      console.log(error)
     }
   }
 
+  //禁用用户
   const disableUser=async(record:any)=>{
     try {
       Message.loading({content:"禁用中",id:"upStatus"})
-      const res= await disable(record.id);
-      if(res){
-        Message.success({content:"禁用成功",id:"upStatus"})
-      }
+      await disable(record.id);
+      Message.success({content:"禁用成功",id:"upStatus"})
     }catch (error) {
-      Message.clear("top")
+      console.log(error)
     }
   }
 
   //删除数据
   const handleDel=async(record:any)=>{
     try {
-        Message.loading({content:"删除中",id:"upStatus"})
-       const res= await del(record.id);
-       if(res){
-        fetchData();
-         Message.success({content:"删除成功",id:"upStatus"})
-       }
+      Message.loading({content:"删除中",id:"upStatus"})
+      const res= await del(record.id);
+      if(res){
+        Message.success({content:"删除成功",id:"upStatus"})
+        await fetchData();
+      }
     }catch (error) {
-      Message.clear("top")
+      console.log(error)
     }
   }
-    //状态
-    const statusOptions = computed<SelectOptionData[]>(() => [
+
+  //状态选择项
+  const statusOptions = computed<SelectOptionData[]>(() => [
     {
       label: "全部",
       value: 0,

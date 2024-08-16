@@ -2,10 +2,7 @@
   <div class="header">
     <a-space :size="12" direction="vertical" align="center">
       <a-avatar :size="64">
-<!--        <template #trigger-icon>-->
-<!--          <icon-camera />-->
-<!--        </template>-->
-        <img :src="userInfo.avatar" />
+        <img :src="userInfo.avatar" alt=""/>
       </a-avatar>
       <a-typography-title :heading="6" style="margin: 0">
         {{ userInfo.username }}
@@ -13,18 +10,12 @@
       <div class="user-msg">
         <a-space :size="18">
           <div>
-            <icon-user />
-            <a-typography-text>{{ userInfo.username }}</a-typography-text>
+            <icon-user-group />
+            <a-typography-text>{{ userInfo.dept }}</a-typography-text>
           </div>
           <div>
-            <icon-relation />
-            <a-typography-text>
-              {{ userInfo.company }}总经理
-            </a-typography-text>
-          </div>
-          <div>
-            <icon-sound />
-            <a-typography-text>{{ userInfo.introduction }}不执于旧，无畏于新</a-typography-text>
+            <icon-book />
+            <a-typography-text>{{ userInfo.job }}</a-typography-text>
           </div>
         </a-space>
       </div>

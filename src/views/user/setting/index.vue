@@ -49,6 +49,9 @@ const formData = ref<BasicInfoModel>({
     phoneNumber:"",
     createdAt:"",
     introduction:"",
+    job:"",
+    role:"",
+    username:"",
   });
   const { loading, setLoading } = useLoading(true);
   const fetchData = async () => {

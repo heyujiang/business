@@ -1,15 +1,36 @@
 import { defHttp } from '@/utils/http';
 import md5 from 'md5'
+
 //类型
 export interface LoginData {
   username: string;
   password: string;
 }
+
+export interface UserCond {
+    phoneNumber?: string;
+    username?: string;
+    state?: number;
+}
+
+
+export interface SaveAccount {
+    id?:number;
+    username?: string;
+    phoneNumber?:string;
+    job?:string;
+    deptId?:string;
+    roleIds?:number[];
+    password?: string | undefined;
+    email?:string;
+    avatar?:string;
+}
+
+
 enum Api {
     getList = '/api/user',
     save = '/api/user',
     update = '/api/user/',
-    Isaccountexist = '/system/account/isaccountexist',
     enable = '/api/user/enable/',
     disable = '/api/user/disable/',
     del = '/api/user/',
@@ -21,7 +42,7 @@ export function getList(params: object) {
 }
 
 //新增用户
-export function save(params: any) {
+export function save(params: SaveAccount) {
   if(params.password){
     params=Object.assign({},params,{password:md5(params.password)})//加密推送
   }
@@ -29,16 +50,11 @@ export function save(params: any) {
 }
 
 //新增用户
-export function update(id:number,params: any) {
+export function update(id:number,params: SaveAccount) {
     if(params.password){
         params=Object.assign({},params,{password:md5(params.password)})//加密推送
     }
     return defHttp.post({ url: Api.update + id, params:params}, { errorMessageMode: 'message' });
-}
-
-//判断账号是否已经存在
-export function isAccountexist(params: object) {
-  return defHttp.post({ url: Api.Isaccountexist, params:params}, { errorMessageMode: 'message',isTransformResponse:false});
 }
 
 export function enable(id: number) {
