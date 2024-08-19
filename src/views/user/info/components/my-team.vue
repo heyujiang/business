@@ -31,12 +31,16 @@
             </a-avatar>
           </template>
           <template #title>
-            <icon-record></icon-record>
-            <span>{{ team.username }}</span>
+            <a-space>
+              <icon-user></icon-user>
+              <span>{{ team.username }}</span>
+            </a-space>
           </template>
           <template #description>
-            <icon-phone></icon-phone>
-            <span>{{ team.phoneNumber }}</span>
+            <a-space>
+              <icon-phone></icon-phone>
+              <span>{{ team.phoneNumber }}</span>
+            </a-space>
           </template>
         </a-list-item-meta>
       </a-list-item>

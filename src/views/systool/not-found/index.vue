@@ -2,7 +2,7 @@
   <div class="content">
     <a-result class="result" status="404" :subtitle="'not found'"> </a-result>
     <div class="operation-row">
-      <a-button key="back" type="primary" @click="back"> 返回首页 </a-button>
+      <a-button key="back" type="primary" @click="back"> 首页 </a-button>
     </div>
   </div>
 </template>
@@ -13,7 +13,7 @@
   const router = useRouter();
   const back = () => {
     // warning： Go to the node that has the permission
-    router.push({ name: 'home' });
+    router.push({ path: '/home' });
   };
 </script>
 

@@ -7,12 +7,12 @@
       <a-col
           v-for="(project, index) in projectList"
           :key="index"
-          :xs="12"
-          :sm="12"
+          :xs="24"
+          :sm="24"
           :md="12"
           :lg="12"
-          :xl="6"
-          :xxl="6"
+          :xl="12"
+          :xxl="8"
           class="my-project-item"
       >
         <a-card class="project-card" @click="viewDetail(project.id)">
@@ -123,11 +123,11 @@ const viewDetail = (projectId: number) => {
   }
 }
 .project-card-title{
-cursor:pointer
+  cursor:pointer
 }
 
 .project-card {
-  padding: 10px;
+  padding: 5px;
   border-radius: 10px;
 
   &-desc {
@@ -146,6 +146,5 @@ cursor:pointer
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border: 1.5px solid; /* 设置边框宽度和样式 */
   border-color: #1fbb6a; /* 设置边框颜色为红色 */
-
 }
 </style>

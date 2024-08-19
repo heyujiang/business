@@ -76,7 +76,6 @@
     // It's not used here
     return {
       legend: {
-        left: 'center',
         data: persons.value,
         icon: 'circle',
         itemWidth: 8,
@@ -86,6 +85,10 @@
         itemStyle: {
           borderWidth: 0,
         },
+        width:'100%',
+        height:'100%',
+        left: 0,
+        type:'scroll',
       },
       tooltip: {
         show: true,

@@ -17,13 +17,13 @@
               @change="typeChange as any"
           >
             <a-radio value="threeStar">
-              三星项目
+              三星
             </a-radio>
             <a-radio value="progress">
-              项目进展
+              进展
             </a-radio>
             <a-radio value="noProgress">
-              项目无进展
+              无进展
             </a-radio>
           </a-radio-group>
 

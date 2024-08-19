@@ -76,7 +76,7 @@
         renderData.value = [
           {
             label: 'userSetting.label.name',
-            value: userStore.name,
+            value: userStore.username,
           },
           {
             label: 'userSetting.label.phone',

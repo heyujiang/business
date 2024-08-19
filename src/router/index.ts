@@ -9,7 +9,8 @@ NProgress.configure({ showSpinner: false }); // NProgress Configuration
 
 const router = createRouter({
   // history: createWebHistory(),//history模式
-  history: createWebHashHistory(process.env.NODE_ENV === 'production' ? '/webbusiness/' : ''),//has模式带#号
+  // history: createWebHashHistory(process.env.NODE_ENV === 'production' ? '/webbusiness/' : ''),//has模式带#号
+  history: createWebHashHistory(),//has模式带#号
   routes: [
     {
       path: '/',

@@ -151,9 +151,9 @@
             :size="32"
             :style="{ marginRight: '8px', cursor: 'pointer' }"
           >
-          <a-tooltip :content="username">
-            <img alt="avatar" :src="avatar" />
-          </a-tooltip>
+            <a-tooltip :content="username">
+              <img alt="avatar" :src="avatar" />
+            </a-tooltip>
           </a-avatar>
           <template #content>
 <!--            <a-doption>-->
@@ -208,7 +208,7 @@
     return userStore.avatar;
   });
   const username = computed(() => {
-    return userStore.name;
+    return userStore.username;
   });
   const theme = computed(() => {
     return appStore.theme;
