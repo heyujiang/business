@@ -54,7 +54,7 @@
           >
             {{ $t('login.form.rememberPassword') }}
           </a-checkbox>
-          <a-link @click="GoToType('forget')">{{ $t('login.form.forgetPassword') }}</a-link>
+<!--          <a-link @click="GoToType('forget')">{{ $t('login.form.forgetPassword') }}</a-link>-->
         </div>
         <a-button type="primary" html-type="submit" long :loading="loading">
           {{ $t('login.form.login') }}

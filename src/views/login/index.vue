@@ -30,9 +30,9 @@ import { ref} from 'vue';
   //获取网站配置-应用名称
   const AppTitle = window?.globalConfig.AppTitle
   const showType=ref("login")
-    const GoToType=(keys:string)=>{
-      showType.value=keys
-   }
+  const GoToType=(keys:string)=>{
+    showType.value=keys
+  }
 </script>
 
 <style lang="less" scoped>

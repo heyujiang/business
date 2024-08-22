@@ -2,18 +2,17 @@
   <a-card
       class="general-card"
       title="项目节点进度"
-      :body-style="{ paddingBottom: '0px' , backgroundColor:'#f8fafa' }"
   >
     <a-grid :cols="projectNodes.length" :colGap="10" :wrap="false">
-     <a-grid-item v-for="(projectNode , index) in projectNodes" style="padding: 10px 0 ;" :key="index">
-         <a-card :bordered="false" :style="{backgroundColor:'#f0f1f3' ,marginBottom: '10px',borderRadius: '3px' , borderTop: `2px solid ${projectNode.state == 1 ? '#0055d1' : (projectNode.state == 2 ? '#f6c200' :  (projectNode.state == 3 ? '#00bb00' : '#0055d1')) }`}" :header-style="{ border:'none' }">
+     <a-grid-item v-for="(projectNode , index) in projectNodes" style="padding: 10px 0 " :key="index">
+         <a-card class="node-card" :style="{ borderTop: `2px solid ${projectNode.state == 1 ? '#0055d1' : (projectNode.state == 2 ? '#f6c200' :  (projectNode.state == 3 ? '#00bb00' : '#0055d1')) }`}" :header-style="{ border:'none' , fontWeight:'bolder'}">
             <template #title>
               {{ projectNode.name }}
             </template>
            <a-progress :percent="projectNode.progress"/>
          </a-card>
 
-         <a-card :bordered="false" class="son-node-card" v-for="(sonNode , sonIndex) in projectNode.children" :key="sonIndex" style="margin-bottom: 10px ; border-radius: 3px ;" :header-style="{ border:'none' }">
+         <a-card  class="son-node-card" v-for="(sonNode , sonIndex) in projectNode.children" :key="sonIndex" :header-style="{ border:'none' }">
            <template #title>
              <a-tag>
                <template #icon>
@@ -41,7 +40,7 @@
      </a-grid-item>
     </a-grid>
   </a-card>
-  <div style="width: 100%;height: 30px;background-color: #fff;margin-bottom: 20px;margin-top: -10px;border-radius: 0 0 4px 4px" ></div>
+<!--  <div style="width: 100%;height: 30px;background-color: #fff;margin-bottom: 20px;margin-top: -10px;border-radius: 0 0 4px 4px" ></div>-->
   <Attached v-model:visible="visible" :search="{projectId:projectId,nodeId:aNodeId}" :showUpload="false"/>
   <Record v-model:visible="recordVisible" :search="{projectId:projectId,nodeId:aNodeId}"/>
 </template>
@@ -94,6 +93,15 @@ const viewRecord = async (nodeId: number) => {
 <style scoped lang="less">
 .general-card {
   padding: 0 20px;
+}
+.node-card{
+  margin-bottom: 10px;
+  border-radius: 3px ;
+  background-color: var(--color-neutral-1);
+}
+.son-node-card{
+  margin-bottom: 10px ;
+  border-radius: 3px ;
 }
 .son-node-card:hover{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
