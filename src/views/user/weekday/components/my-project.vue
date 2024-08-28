@@ -1,18 +1,15 @@
 <template>
   <a-card class="general-card" title="所有项目">
-
     <a-row :gutter="16">
       <a-col
           v-for="(project, index) in projectList"
           :key="index"
           :spn="24"
           class="my-project-item"
+          :id="['project_'+index]"
       >
-        <a-card class="project-card" @click="viewDetail(project.id)">
-          <a-skeleton v-if="loading" :loading="loading" :animation="true">
-            <a-skeleton-line :rows="5"/>
-          </a-skeleton>
-          <a-space v-else direction="vertical" fill>
+        <a-card :class="['project-card', (unref(activeProject) == index) ? 'project-card-active' : '']" @click="checkProject(index)">
+          <a-space direction="vertical" fill>
             <a-typography-title class="project-card-title" style="font-size: 15px;color: #4daaff;font-weight: bold"
                                 :heading="5" :ellipsis="{rows:1}">{{ project.name }}
             </a-typography-title>
@@ -81,6 +78,8 @@
 import {MyProjectRecord, queryMyProjectList} from '@/api/user-center';
 import useRequest from '@/hooks/request';
 import router from "@/router";
+import {ref, unref} from "vue";
+import {string} from "vue-types";
 
 const projectList = Array(6).fill({} as MyProjectRecord);
 // const {loading, response: projectList} = useRequest<MyProjectRecord[]>(
@@ -88,20 +87,20 @@ const projectList = Array(6).fill({} as MyProjectRecord);
 //     defaultValue
 // );
 
-const viewProject = () => {
-  router.push({
-    path: "/project/project"
-  });
+const activeProject = ref<number>(0)
+const checkProject = (index:number) => {
+  activeProject.value = index
+
+  let target = document.getElementById('project_'+index)
+  console.log(target)
+  target?.scrollIntoView(
+      {
+        behavior: 'smooth',
+        block: 'center',
+      }
+  )
 }
 
-const viewDetail = (projectId: number) => {
-  router.push({
-    path: "/project/detail",
-    query: {
-      id: projectId,
-    }
-  });
-}
 </script>
 
 <style scoped lang="less">
@@ -136,6 +135,11 @@ const viewDetail = (projectId: number) => {
 .project-card:hover {
   -webkit-transform: translateY(-8px);
   transform: translateY(-8px);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: 1.5px solid; /* 设置边框宽度和样式 */
+  border-color: #1fbb6a; /* 设置边框颜色为红色 */
+}
+.project-card-active {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border: 1.5px solid; /* 设置边框宽度和样式 */
   border-color: #1fbb6a; /* 设置边框颜色为红色 */
