@@ -142,6 +142,10 @@ export const contactTypeOptions = computed<SelectOptionData[]>(() => [
     label: "政府单位",
     value: 6,
   },
+  {
+    label: "资源方",
+    value: 7,
+  },
 ]);
 
 export const contactTypeMap = new Map([
@@ -151,6 +155,7 @@ export const contactTypeMap = new Map([
   [4, "小E"],
   [5, "劳务"],
   [6, "政府单位"],
+  [7, "资源方"],
 ]);
 
 export const personTypeOptions = computed<SelectOptionData[]>(() => [

@@ -129,6 +129,10 @@
           label: "政府单位",
           value: 6,
         },
+        {
+          label: "资源方",
+          value: 7,
+        },
       ]);
 
       return {

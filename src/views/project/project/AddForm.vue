@@ -4,7 +4,7 @@
       <a-row :gutter="16">
         <a-col :span="24">
           <a-form-item field="name" label="项目名" validate-trigger="input" :rules="[{required:true,message:'请填写项目名'}]" style="margin-bottom:15px;">
-            <a-input  v-model="formData.name" placeholder="请填写项目名" disabled allow-clear/>
+            <a-input  v-model="formData.name" placeholder="请填写项目名"  allow-clear/>
           </a-form-item>
         </a-col>
         <a-col :span="12">

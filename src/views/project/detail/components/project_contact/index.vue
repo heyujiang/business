@@ -14,6 +14,7 @@
           <span v-else-if="record.type == 4">小E</span>
           <span v-else-if="record.type == 5">劳务</span>
           <span v-else-if="record.type == 6">政府单位</span>
+          <span v-else-if="record.type == 7">资源方</span>
         </template>
         <template #operations="{ record }">
           <a-popconfirm content="您确定要删除吗?" @ok="handleDel(record)">

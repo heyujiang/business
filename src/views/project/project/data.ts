@@ -27,18 +27,25 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       width:100,
     },
     {
-      title: '星级',
-      dataIndex: 'star',
-      slotName: 'star',
-      align:"center",
-      width:120,
-    },
-    {
       title: '属性',
       dataIndex: 'attr',
       slotName: 'attr',
       align:"center",
       width:100,
+    },
+    {
+      title: '负责人',
+      dataIndex: 'username',
+      slotName: 'username',
+      align:"center",
+      width:100,
+    },
+    {
+      title: '星级',
+      dataIndex: 'star',
+      slotName: 'star',
+      align:"center",
+      width:120,
     },
     {
       title: '类型',
