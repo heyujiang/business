@@ -48,7 +48,7 @@
           :scroll="{ x: '100%', y: '264px' }"
         >
           <template #columns>
-            <a-table-column width=80 title="ID" data-index="id"></a-table-column>
+            <!-- <a-table-column width=80 title="ID" data-index="id"></a-table-column> -->
             <a-table-column title="项目名称" data-index="name">
               <template #cell="{ record }" >
                 <a-typography-paragraph
@@ -85,6 +85,7 @@
                 </div>
               </template>
             </a-table-column>
+             <a-table-column title="创建时间" data-index="createtime"></a-table-column>
           </template>
         </a-table>
       </a-space>
