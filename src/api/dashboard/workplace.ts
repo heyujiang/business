@@ -80,12 +80,14 @@ export interface LatestDataItem {
     name: string;
     capacity:number;
     username:string;
+    createdAt:string;
 }
 
 export interface PersonCapacityItem {
     userId:number,
     username:string,
     capacity:number,
+    
 }
 
 /**数据类型 */

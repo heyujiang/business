@@ -62,7 +62,7 @@
                 </a-typography-paragraph>
               </template>
             </a-table-column>
-            <a-table-column title="容量大小" data-index="capacity" :sortable="{sortDirections: ['ascend', 'descend'],}">
+            <a-table-column width="100" title="容量" data-index="capacity" :sortable="{sortDirections: ['ascend', 'descend'],}">
               <template #capacity="{ record }">
                  <span v-if="record.type == 1||record.type == 2">
                  {{record.capacity +' MW'}}
@@ -72,7 +72,7 @@
                   </span>
               </template>
             </a-table-column>
-            <a-table-column
+            <a-table-column width="100"
               title="负责人"
               data-index="username"
               :sortable="{
@@ -85,7 +85,8 @@
                 </div>
               </template>
             </a-table-column>
-             <a-table-column title="创建时间" data-index="createtime"></a-table-column>
+             <a-table-column title="创建时间" data-index="createdAt">
+             </a-table-column>
           </template>
         </a-table>
       </a-space>
