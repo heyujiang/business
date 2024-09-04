@@ -87,7 +87,10 @@
         },
         width:'100%',
         height:'100%',
-        left: 0,
+        orient: 'vertical',
+        right: 10,
+        top: 20,
+        bottom: 20,
         type:'scroll',
       },
       tooltip: {
