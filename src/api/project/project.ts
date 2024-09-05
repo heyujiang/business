@@ -2,6 +2,8 @@ import { defHttp } from '@/utils/http';
 
 import md5 from 'md5'
 import dayjs from "dayjs";
+import axios from "axios";
+import {getToken} from "@/utils/auth";
 //类型
 export interface LoginData {
   username: string;
@@ -9,6 +11,7 @@ export interface LoginData {
 }
 enum Api {
     getList = '/api/project',
+    exportProject = '/api/project/export',
     save = '/api/project',
     update = '/api/project/',
     del = '/api/project/',
@@ -34,6 +37,15 @@ export function getList(params: any) {
     }
    return defHttp.get({ url: Api.getList, params:params }, { errorMessageMode: 'message' });
 }
+
+//数据列表
+export function exportProject (params: any) {
+    if (params.createdAt[0] > 100000000){
+        params=Object.assign({},params,{createdAt:[Math.floor(params.createdAt[0] / 1000),Math.floor(params.createdAt[1] / 1000)]})
+    }
+   return  defHttp.get({ url: Api.exportProject, responseType: 'blob',params:params }, { errorMessageMode: 'message' ,isReturnNativeResponse:true})
+}
+
 
 //新增用户
 export function save(params: any) {

@@ -3,7 +3,7 @@
     <Breadcrumb :items="['menu.project', 'menu.project.list']" />
     <a-card class="general-card onelineCard" style="height: calc(100% - 50px);">
       <a-row style="margin-bottom: 10px">
-        <a-col :span="20">
+        <a-col :span="22">
           <a-space wrap>
             <a-input :style="{width:'220px'}"  v-model="formModel.name" placeholder="项目名称" allow-clear />
             <a-select :style="{width:'220px'}"  v-model="formModel.userId" :options="userOptions" placeholder="负责人" allow-clear />
@@ -16,13 +16,19 @@
               </template>
               查询
             </a-button>
+            <a-button type="primary" @click="exportFile">
+              <template #icon>
+                <icon-export />
+              </template>
+              导出
+            </a-button>
             <a-button @click="reset">
               {{ $t('searchTable.form.reset') }}
             </a-button>
           </a-space>
         </a-col>
         <a-col
-          :span="4"
+          :span="2"
            style="text-align: right;"
         >
           <a-space>
@@ -200,7 +206,7 @@
 <script lang="ts" setup>
   import { computed, ref, reactive, watch, nextTick } from 'vue';
   import useLoading from '@/hooks/loading';
-  import { getList,del} from '@/api/project/project';
+  import { getList,del ,exportProject} from '@/api/project/project';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
   import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
   import cloneDeep from 'lodash/cloneDeep';
@@ -218,6 +224,9 @@
   import router from "@/router";
   import {typeOptions , starOptions , statusOptions} from "@/views/project/data"
   import {useRoute} from "vue-router";
+  import {writeFileXLSX} from "xlsx";
+  import {downloadByData} from "@/utils/http/download";
+
 
   const { t } = useI18n();
   const [registerModal, { openModal }] = useModal();
@@ -331,6 +340,20 @@
     size.value = val as SizeProps;
   };
 
+  const exportFile = async () => {
+    setLoading(true);
+    try {
+      await exportProject(formModel.value).then(res=>{
+        downloadByData(res.data , "projects.xlsx")
+      }).catch(err=>{
+        console.log(err)
+      });
+    } catch (err) {
+      // you can report use errorHandler or other
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   watch(
