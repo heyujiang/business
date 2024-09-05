@@ -91,10 +91,10 @@
         </template>
         <template #operations="{ record }">
           <Icon icon="svgfont-bianji1" class="iconbtn" @click="handleEdit(record)" :size="18" color="#0960bd"></Icon>
-          <a-divider direction="vertical" />
-          <a-popconfirm content="您确定要删除吗?" @ok="handleDel(record)">
-            <Icon icon="svgfont-icon7" class="iconbtn" :size="18" color="#ed6f6f"></Icon>
-          </a-popconfirm>
+<!--          <a-divider direction="vertical" />-->
+<!--          <a-popconfirm content="您确定要删除吗?" @ok="handleDel(record)">-->
+<!--            <Icon icon="svgfont-icon7" class="iconbtn" :size="18" color="#ed6f6f"></Icon>-->
+<!--          </a-popconfirm>-->
         </template>
       </a-table>
     </a-card>
