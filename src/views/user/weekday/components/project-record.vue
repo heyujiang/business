@@ -1,13 +1,46 @@
 <template>
   <a-collapse :default-active-key="['1']">
-    <a-collapse-item header="提交的记录" key="1">
-      <div>Beijing Toutiao Technology Co., Ltd.</div>
+    <a-collapse-item  key="1">
+      <template #header>
+        <span style="font-weight: bolder">提交记录</span>
+      </template>
+      <a-table
+          row-key="id"
+          :bordered="{wrapper:false,headerCell:true}"
+          stripe
+          :pagination="false"
+          :columns="ProjectRecordTableColumns"
+          :data="projectRecords">
+      </a-table>
     </a-collapse-item>
   </a-collapse>
 </template>
 <script setup lang="ts">
+import {ProjectRecordTableColumns} from "@/views/user/weekday/data";
 
+const projectRecords = [{
+  name:"附件A",
+  size:233,
+  uploadAt:'',
+},{
+  name:"附件B",
+  size:233,
+  uploadAt:'',
+},{
+  name:"附件C",
+  size:233,
+  uploadAt:'',
+}];
 </script>
-<style scoped lang="less">
 
+<style scoped lang="less">
+  :deep(.arco-collapse-item-content) {
+    background-color: var(--color-bg-2);
+  }
+  :deep(.arco-table-th) {
+    font-weight: bold;
+  }
+  :deep(.arco-table-td) {
+    border: none;
+  }
 </style>

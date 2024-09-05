@@ -1,15 +1,19 @@
 <template>
     <a-card
+        v-if="projectList.length > 0"
         :class="['project-card', (unref(activeProject) == index) ? 'project-card-active' : '']"
         @click="checkProject(index)"
         v-for="(project, index) in projectList"
         :key="index"
         :id="['project_'+index]"
+        :hoverable="false"
     >
-      <a-space direction="vertical" fill>
+      <template #title>
         <a-typography-title class="project-card-title" style="font-size: 15px;color: #4daaff;font-weight: bold"
                             :heading="5" :ellipsis="{rows:1}">{{ project.name }}
         </a-typography-title>
+      </template>
+      <a-space direction="vertical" fill>
         <div class="project-card-state">
           <a-tag>
             <template #icon>
@@ -27,21 +31,28 @@
                 {{ '已完成' }}
            </span>
           </a-tag>
-          <span style="padding-left: 20px;"> <icon-star-fill v-for="i in project.star" :key="i"
-                                                             style="color: #f6c200" size="18"/></span>
+          <span style="padding-left: 20px;">
+            <icon-star-fill
+                v-for="i in project.star"
+                :key="i"
+                style="color: #f6c200"
+                size="18"/>
+          </span>
           <span style="padding-left: 20px; font-size: 12px">
-      <span v-if="project.type == 1"
-            style="background-color: #30a4e4;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
-          {{ '风电' }}
-      </span>
-            <span v-else-if="project.type == 2"
-                  style="background-color: #1fbb6a;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
-          {{ '光伏' }}
-      </span>
-            <span v-else-if="project.type == 3"
-                  style="background-color: #00bbbb;  padding: 2px 10px;  border-radius: 20px;color: #FFFFFF ">
-          {{ '储能' }}
-      </span>
+            <a-space align="center" size="mini">
+              <span v-if="project.type == 1"
+                    style="background-color: #30a4e4;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
+                {{ '风电' }}
+            </span>
+                  <span v-else-if="project.type == 2"
+                        style="background-color: #1fbb6a;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
+                {{ '光伏' }}
+            </span>
+                  <span v-else-if="project.type == 3"
+                        style="background-color: #00bbbb;  padding: 2px 10px;  border-radius: 20px;color: #FFFFFF ">
+                {{ '储能' }}
+            </span>
+            </a-space>
          </span>
         </div>
 
@@ -66,6 +77,11 @@
         </div>
       </a-space>
     </a-card>
+    <a-result v-else status="404">
+      <template #subtitle>
+        暂无项目
+      </template>
+    </a-result>
 </template>
 
 <script lang="ts" setup>
@@ -73,9 +89,16 @@ import {MyProjectRecord, queryMyProjectList} from '@/api/user-center';
 import useRequest from '@/hooks/request';
 import router from "@/router";
 import {ref, unref} from "vue";
-import {string} from "vue-types";
 
-const projectList = Array(6).fill({} as MyProjectRecord);
+const projectList = Array(6).fill({
+  name:"杭州上城区杭州老发电厂光伏改造项目",
+  state:1,
+  star:3,
+  type:2,
+  capacity:899,
+  description:"这是一个测试项目"
+} as MyProjectRecord);
+
 // const {loading, response: projectList} = useRequest<MyProjectRecord[]>(
 //     queryMyProjectList,
 //     defaultValue
