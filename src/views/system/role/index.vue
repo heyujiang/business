@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.system', 'system.role']" />
+    <Breadcrumb :items="['menu.system.manage', 'system.role']" />
     <a-card class="general-card onelineCard" style="height: calc(100% - 50px);">
       <a-row style="margin-bottom: 10px">
         <a-col :span="16">

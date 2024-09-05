@@ -29,8 +29,8 @@
           </a-form-item>
         </a-col>
         <a-col :span="16" >
-          <a-form-item field="overview" label="概况"  style="margin-bottom:15px; height: 60px">
-            <a-textarea  v-model="formData.overview" placeholder="请输入节点记录概况" allow-clear/>
+          <a-form-item field="overview" label="备注"  style="margin-bottom:15px; height: 60px">
+            <a-textarea  v-model="formData.overview" placeholder="请输入节点记录备注" allow-clear/>
           </a-form-item>
         </a-col>
         <a-col :span="10" v-if="!isUpdate">

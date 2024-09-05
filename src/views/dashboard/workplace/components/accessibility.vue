@@ -12,13 +12,15 @@
     <a-row>
       <a-col :span="12">
         <a-link>
-          {{ $t('workplace.accessibility.daily') }}
+          <router-link to="user/weekday" class="custom-router-link">
+            {{ $t('workplace.accessibility.daily') }}
+          </router-link>  
         </a-link>
       </a-col>
       <a-col :span="12">
-        <a-link>
+        <router-link to="user/weekday" class="custom-router-link">
           {{ $t('workplace.accessibility.weekly') }}
-        </a-link>
+          </router-link> 
       </a-col>
       <a-col :span="12">
         <a-link>
@@ -38,5 +40,9 @@
   .arco-card-body .arco-link {
     margin: 10px 0;
     color: rgb(var(--gray-8));
+  }
+  .custom-router-link {
+    color: inherit;
+    text-decoration: none;
   }
 </style>

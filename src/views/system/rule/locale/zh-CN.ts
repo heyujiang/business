@@ -1,5 +1,6 @@
 export default {
-  'menu.system.rule': '',
+  'menu.system.rule': '权限管理',
+  'menu.system.manage': '系统管理',
   'menu.system.node': '节点管理',
   // columns
   'searchTable.columns.index': '#',

@@ -18,13 +18,6 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       minWidth:50,
     },
     {
-      title: '概览',
-      dataIndex: 'overview',
-      slotName: 'overview',
-      align:"left",
-      width:100,
-    },
-    {
       title: '状态',
       dataIndex: 'state',
       slotName: 'state',
@@ -37,6 +30,13 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       slotName: 'username',
       align:"center",
       width:50,
+    },
+    {
+      title: '备注',
+      dataIndex: 'overview',
+      slotName: 'overview',
+      align:"left",
+      width:100,
     },
     {
       title: '创建时间',
