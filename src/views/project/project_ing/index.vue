@@ -108,6 +108,10 @@
           <Icon icon="svgfont-bianji1" class="iconbtn" @click="handleEdit(record)" :size="18" color="#0960bd"></Icon>
           <a-divider direction="vertical" />
           <Icon icon="icon-file" @click="viewAttached(record.id)" :size="18" color="#0960bd"></Icon>
+          <a-divider direction="vertical" />
+          <a-popconfirm content="您确定要删除吗?" @ok="handleDel(record)">
+            <Icon icon="svgfont-icon7" class="iconbtn" :size="18" color="#ed6f6f"></Icon>
+          </a-popconfirm>
         </template>
       </a-table>
     </a-card>
@@ -280,6 +284,19 @@ const handleEdit = async (record: any) => {
   });
 }
 
+  //删除数据
+  const handleDel=async(record:any)=>{
+    try {
+        Message.loading({content:"删除中",id:"upStatus"})
+       const res= await del(record.id);
+       if(res){
+        fetchData();
+         Message.success({content:"删除成功",id:"upStatus"})
+       }
+    }catch (error) {
+      Message.clear("top")
+    }
+  }
 const visible = ref(false)
 const aRecordId = ref<number>(0)
 
@@ -303,19 +320,6 @@ const handlePageSizeChange = (pageSize: any) => {
   fetchData();
 }
 
-//删除数据
-const handleDel = async (record: any) => {
-  try {
-    Message.loading({content: "删除中", id: "upStatus"})
-    const res = await del(record.id);
-    if (res) {
-      await fetchData();
-      Message.success({content: "删除成功", id: "upStatus"})
-    }
-  } catch (error) {
-    Message.clear("top")
-  }
-}
 
 const projectOption = ref([]);
 const projectNodeOption = ref([]);

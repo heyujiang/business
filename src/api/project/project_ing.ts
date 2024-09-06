@@ -9,7 +9,7 @@ enum Api {
     getList = '/api/project/record',
     save = '/api/project/record',
     update = '/api/project/record/',
-    del = '/api/project/record',
+    del = '/api/project/record/',
 }
 
 //数据列表
