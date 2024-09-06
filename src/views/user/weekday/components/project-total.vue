@@ -10,7 +10,7 @@
         </a-avatar>
         <a-statistic
             title="提交的记录数量"
-            :value="viewCount.totalCount"
+            :value="total.record"
             :value-from="0"
             animation
             show-group-separator
@@ -31,9 +31,8 @@
         </a-avatar>
         <a-statistic
             title="上传的文件数量"
-            :value="viewCount.totalCapacity"
+            :value="total.attached"
             :value-from="0"
-            :precision="2"
             :start="true"
             animation
             show-group-separator
@@ -48,22 +47,23 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from "vue";
-import {viewCountItem} from "@/api/dashboard/workplace";
+import {defineProps, ref, withDefaults} from "vue";
 
-const viewCount = ref<viewCountItem>({
-  monthAddCount: 0,
-  threeStartProject: 0,
-  totalCapacity: 0,
-  totalCount: 0
-})
+interface reportTotal {
+  record:number,
+  attached:number,
+}
 
+withDefaults(
+    defineProps<{
+      total: reportTotal
+    }>(),
+    {}
+);
 
 </script>
 
 <style lang="less" scoped>
-.arco-grid.panel {
-}
 .panel-col {
   //padding-left: 43px;
   text-align: center;

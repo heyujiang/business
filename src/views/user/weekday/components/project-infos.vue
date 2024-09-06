@@ -1,45 +1,54 @@
 <template>
-  <a-card class='project-card' v-for="i in 6" :header-style="{border: 'none'}" >
-    <template #title>
-      项目A {{i}}
-    </template>
+  <div class="infos-container">
+    <div>
+      <a-card class='project-card' v-for="(project,i) in projectList" :key="i"  :id="['infos_'+i]" :header-style="{border: 'none'}" >
+        <template #title>
+          <a-typography-title class="project-card-title" style="font-size: 15px;color: #4daaff;font-weight: bold"
+                              :heading="5" :ellipsis="{rows:1}">{{ project.basic.name }}
+          </a-typography-title>
+        </template>
 
-    <a-row :gutter="16" >
-      <a-col :span="24" style="margin-bottom: 20px;">
-          <ProjectTotal/>
-      </a-col>
+        <a-row :gutter="16" >
+          <a-col :span="24" style="margin-bottom: 20px;">
+            <ProjectTotal :total="{record:project.recordTotal,attached:project.attachedTotal}"/>
+          </a-col>
 
-      <a-col :span="24" style="margin-bottom: 20px">
-        <ProjectNodes/>
-      </a-col>
+          <a-col :span="24" style="margin-bottom: 20px">
+            <ProjectNodes :nodes="project.nodes"/>
+          </a-col>
 
-      <a-col :span="24" style="margin-bottom: 20px">
-        <ProjectRecord/>
-      </a-col>
+          <a-col :span="24" style="margin-bottom: 20px">
+            <ProjectRecord :record="project.records"/>
+          </a-col>
 
-      <a-col :span="24" style="margin-bottom: 20px">
-        <ProjectAttached/>
-      </a-col>
-    </a-row>
-  </a-card>
+          <a-col :span="24" style="margin-bottom: 20px">
+            <ProjectAttached :attached="project.attached"/>
+          </a-col>
+        </a-row>
+      </a-card>
+    </div>
+  </div>
+
 </template>
 
 <script lang="ts" setup>
 import {MyProjectRecord, queryMyProjectList} from '@/api/user-center';
 import useRequest from '@/hooks/request';
 import router from "@/router";
-import {ref, unref} from "vue";
+import {defineProps, ref, unref, withDefaults} from "vue";
 import {string} from "vue-types";
 import ProjectNodes from './project-nodes.vue';
 import ProjectRecord from './project-record.vue';
 import ProjectAttached from './project-attached.vue';
 import ProjectTotal from "@/views/user/weekday/components/project-total.vue";
+import {ReportResponseData} from "@/api/report";
 
-const projectList = Array(6).fill({} as MyProjectRecord);
-// const {loading, response: projectList} = useRequest<MyProjectRecord[]>(
-//     queryMyProjectList,
-//     defaultValue
-// );
+withDefaults(
+    defineProps<{
+      projectList: ReportResponseData[];
+    }>(),
+    {}
+);
 
 const activeProject = ref<number>(0)
 const checkProject = (index:number) => {
@@ -61,11 +70,14 @@ const checkProject = (index:number) => {
 :deep(.arco-card-body) {
   min-height: 128px;
   padding: 20px;
+}
 
+.infos-container{
+  padding: 20px;
 }
 
 .project-card {
-  margin: 20px;
+  margin-bottom: 20px;
   padding: 5px;
   border-radius: 10px;
 }

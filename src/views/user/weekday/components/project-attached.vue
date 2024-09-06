@@ -10,27 +10,23 @@
         stripe
         :pagination="false"
         :columns="ProjectAttachedTableColumns"
-        :data="projectAttached">
+        :data="attached">
       </a-table>
     </a-collapse-item>
   </a-collapse>
 </template>
 <script setup lang="ts">
 import {ProjectAttachedTableColumns} from "@/views/user/weekday/data";
+import {defineProps, withDefaults} from "vue";
+import {reportAttached} from "@/api/report";
 
-const projectAttached = [{
-    name:"附件A",
-    size:233,
-    uploadAt:'',
-  },{
-    name:"附件B",
-    size:233,
-    uploadAt:'',
-  },{
-    name:"附件C",
-    size:233,
-    uploadAt:'',
-  }];
+withDefaults(
+    defineProps<{
+      attached: reportAttached[];
+    }>(),
+    {}
+);
+
 </script>
 
 <style scoped lang="less">

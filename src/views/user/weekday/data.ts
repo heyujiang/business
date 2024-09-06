@@ -58,21 +58,14 @@ export const ProjectRecordTableColumns = computed<TableColumnData[]>(() => [
         slotName: 'createdAt',
         align:"center",
         width:80,
-    },
-    {
-        title: '修改时间',
-        dataIndex: 'updatedAt',
-        slotName: 'updatedAt',
-        align:"center",
-        width:80,
-    },
+    }
 ]);
 
 export const ProjectAttachedTableColumns = computed<TableColumnData[]>(() => [
     {
         title: '文件',
-        dataIndex: 'name',
-        slotName: 'name',
+        dataIndex: 'filename',
+        slotName: 'filename',
         align:"center",
     },
     {
@@ -83,8 +76,8 @@ export const ProjectAttachedTableColumns = computed<TableColumnData[]>(() => [
     },
     {
         title: '上传时间',
-        dataIndex: 'uploadAt',
-        slotName: 'uploadAt',
+        dataIndex: 'createdAt',
+        slotName: 'createdAt',
         align:"center"
     }
 ]);

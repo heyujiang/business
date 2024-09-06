@@ -1,26 +1,28 @@
 <template>
   <div class="container">
     <Breadcrumb :items="['menu.user', 'menu.user.info']" />
-<!--    style="height: calc(100% - 50px);"-->
     <a-card class="general-card onelineCard" style="margin-bottom: 10px">
       <a-row>
         <a-col :span="24">
           <a-space>
-            <a-select style="width: 220px" v-model="searchForm.userId"   placeholder="用户" allow-clear/>
+            <a-select style="width: 220px" v-model="searchForm.userId" :options="userOptions"  placeholder="用户" allow-clear/>
             <a-range-picker
                 style="width: 220px;"
+                v-model="searchForm.timeRange"
+                value-format="timestamp"
+                format="YYYY-MM-DD"
                 :shortcuts="[
                     {
                       label: '当日',
-                      value: () => [dayjs().toDate(),dayjs().add(1,'day').toDate()],
+                      value: () => [dayjs().startOf('day').toDate(),dayjs().startOf('day').add(1,'day').toDate()],
                     },
                     {
                       label: '本周',
-                      value: () => [dayjs().startOf('week').add(1, 'day').toDate(), dayjs().add(1,'day').toDate()],
+                      value: () => [dayjs().startOf('week').add(1, 'day').toDate(), dayjs().startOf('day').add(1,'day').toDate()],
                     },
                     {
                       label: '当月',
-                      value: () => [dayjs().set('date',1).toDate(),dayjs().add(1,'day').toDate()],
+                      value: () => [dayjs().startOf('month').toDate(),dayjs().startOf('day').add(1,'day').toDate()],
                     },
                   ]"/>
             <a-button type="primary" @click="search">
@@ -38,12 +40,12 @@
     <div class="scroll-f">
       <div style="width: 380px;">
         <a-scrollbar :style="{height:unref(scrollHeight)}" style="width: 100%;background-color: var(--color-bg-2);overflow: auto;border-radius: 5px">
-          <MyProject/>
+          <MyProject v-model:projectList="reportResp"/>
         </a-scrollbar>
       </div>
       <div style="width: calc(100% - 390px);">
         <a-scrollbar :style="{height:unref(scrollHeight)}" style="width: 100%;background-color: var(--color-bg-2);overflow: auto;border-radius: 5px">
-          <ProjectInfos/>
+          <ProjectInfos v-model:projectList="reportResp"/>
         </a-scrollbar>
       </div>
       </div>
@@ -51,21 +53,21 @@
 </template>
 
 <script lang="ts" setup>
-  import UserInfoHeader from './components/user-info-header.vue';
-  import LatestNotification from './components/latest-notification.vue';
   import MyProject from './components/my-project.vue';
   import ProjectInfos from './components/project-infos.vue';
-  import LatestActivity from './components/latest-activity.vue';
-  import MyTeam from './components/my-team.vue';
-  import ProjectPerson from "@/views/project/detail/components/project_person/index.vue";
-  import ProjectContact from "@/views/project/detail/components/project_contact/index.vue";
-  import {densityList} from "@/types/global";
   import {nextTick, onMounted, ref, unref, watch} from 'vue';
   import dayjs from 'dayjs';
-  import ProjectTotal from "@/views/user/weekday/components/project-total.vue";
+  import { getUserOptions } from '@/api/user';
+  import {Report, ReportResponseData, ReportSearch} from "@/api/report";
 
+
+  const userOptions = ref<any[]>([]);
   const clientHeight = ref<number>(document.documentElement.clientHeight) //浏览器可视区域高度
   const scrollHeight = ref<string>('')
+  const searchForm = ref<ReportSearch>({
+    timeRange:[dayjs().startOf('day').valueOf(),dayjs().startOf('day').add(1,'day').valueOf()]
+  })
+  const reportResp = ref<ReportResponseData[]>([])
 
   onMounted(() => {
     scrollHeight.value = clientHeight.value- 255 + 'px';
@@ -73,7 +75,14 @@
       scrollHeight.value = clientHeight.value- 255 + 'px';
       console.log(scrollHeight.value)
     }
+
+    fetchUserOptions()
+    featUserReport()
   })
+
+  const fetchUserOptions = async ()=>{
+    userOptions.value = await getUserOptions();
+  }
 
   watch(
       ()=>(clientHeight.value),
@@ -84,11 +93,12 @@
       {}
   )
 
-  const searchForm = {
-    userId:''
-  }
   const search = () => {
+    featUserReport()
+  }
 
+  const featUserReport = async () => {
+    reportResp.value = await Report(searchForm.value)
   }
 </script>
 

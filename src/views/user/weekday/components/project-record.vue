@@ -10,27 +10,39 @@
           stripe
           :pagination="false"
           :columns="ProjectRecordTableColumns"
-          :data="projectRecords">
+          :data="record">
+        <template #state="{ record }">
+          <span v-if="record.state == 1"  style="color: #00bb00;">
+            已完成
+          </span>
+          <span v-else-if="record.state == 2"  style="color: #f6c200; ">
+            进行中
+          </span>
+        </template>
+
+        <template #overview="{record}">
+          <a-tooltip :content="record.overview">
+            <a-typography-paragraph spacing="close" :ellipsis="{css:true}">
+              {{ record.overview }}
+            </a-typography-paragraph>
+          </a-tooltip>
+        </template>
       </a-table>
     </a-collapse-item>
   </a-collapse>
 </template>
 <script setup lang="ts">
 import {ProjectRecordTableColumns} from "@/views/user/weekday/data";
+import {defineProps, withDefaults} from "vue";
+import {reportRecord} from "@/api/report";
 
-const projectRecords = [{
-  name:"附件A",
-  size:233,
-  uploadAt:'',
-},{
-  name:"附件B",
-  size:233,
-  uploadAt:'',
-},{
-  name:"附件C",
-  size:233,
-  uploadAt:'',
-}];
+withDefaults(
+    defineProps<{
+      record: reportRecord[];
+    }>(),
+    {}
+);
+
 </script>
 
 <style scoped lang="less">
