@@ -11,11 +11,9 @@
     </template>
     <a-row>
       <a-col :span="12">
-        <a-link>
           <router-link to="user/weekday" class="custom-router-link">
             {{ $t('workplace.accessibility.daily') }}
           </router-link>  
-        </a-link>
       </a-col>
       <a-col :span="12">
         <router-link to="user/weekday" class="custom-router-link">
