@@ -10,12 +10,13 @@
     >
       <template #title>
         <a-typography-title class="project-card-title" style="font-size: 15px;color: #4daaff;font-weight: bold"
-                            :heading="5" :ellipsis="{rows:1}">{{ project.basic.name }}
+                            :heading="5" :ellipsis="{rows:1}"   @click="viewDetail(project.basic.id)">{{ project.basic.name }}
+                          
         </a-typography-title>
       </template>
       <a-space direction="vertical" fill>
         <div class="project-card-state">
-          <a-tag>
+          <!-- <a-tag>
             <template #icon>
               <icon-tag v-if="project.basic.state == 1" size="14" style="color: #0055d1; "/>
               <icon-clock-circle v-else-if="project.basic.state == 2" size="14" style="color: #f6c200;  "/>
@@ -30,15 +31,8 @@
             <span v-else-if="project.basic.state == 3" style="color: #00bb00;">
                 {{ '已完成' }}
            </span>
-          </a-tag>
-          <span style="padding-left: 20px;">
-            <icon-star-fill
-                v-for="i in project.basic.star"
-                :key="i"
-                style="color: #f6c200"
-                size="18"/>
-          </span>
-          <span style="padding-left: 20px; font-size: 12px">
+          </a-tag> -->
+          <span style="padding-left: 10px; font-size: 12px">
             <a-space align="center" size="mini">
               <span v-if="project.basic.type == 1"
                     style="background-color: #30a4e4;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
@@ -54,21 +48,35 @@
             </span>
             </a-space>
          </span>
+         <a-divider direction="vertical" />
+         <span style="color: #8590A6;font-size: 12px;">
+          <a-space align="center" size="mini">
+        <span v-if="project.basic.type == 1||project.basic.type == 2">
+        容量：{{project.basic.capacity +' MW'}}
+        </span>
+        <span v-else-if="project.basic.type == 3">
+          容量： {{project.basic.capacity +' Mwh'}}
+        </span>
+        </a-space>
+        </span>
+        <a-divider direction="vertical" />
+          <span style="padding-left: 20px;">
+            <icon-star-fill
+                v-for="i in project.basic.star"
+                :key="i"
+                style="color: #f6c200"
+                size="18"/>
+          </span>
         </div>
 
-        <span style="color: #8590A6;font-size: 12px;margin-top:20px;">
-
-      <span v-if="project.basic.type == 1||project.basic.type == 2">
-       容量：{{project.basic.capacity +' MW'}}
-      </span>
-      <span v-else-if="project.basic.type == 3">
-        容量： {{project.basic.capacity +' Mwh'}}
-      </span>
-        </span>
-        <div class="project-card-desc">
+        <!-- <div class="project-card-desc">
           <a-typography-text :ellipsis="{rows:2}">
             {{ project.basic.description }}
           </a-typography-text>
+        </div> -->
+        <a-divider dashed/>
+        <div>
+          <ProjectTotal :total="{record:project.recordTotal,attached:project.attachedTotal}"/>
         </div>
         <div class="project-card-createdat">
           <a-typography-text type="secondary">
@@ -87,6 +95,8 @@
 <script lang="ts" setup>
 import {defineProps, ref, unref, withDefaults} from "vue";
 import {ReportResponseData} from "@/api/report";
+import ProjectTotal from "@/views/user/weekday/components/project-total.vue";
+import router from "@/router";
 
 withDefaults(
     defineProps<{
@@ -109,6 +119,14 @@ const checkProject = (index:number) => {
   )
 }
 
+const viewDetail = (projectId: number) => {
+  router.push({
+    path: "/project/detail",
+    query: {
+      id: projectId,
+    }
+  });
+}
 </script>
 
 <style scoped lang="less">

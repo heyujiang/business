@@ -3,15 +3,15 @@
     <div>
       <a-card class='project-card' v-for="(project,i) in projectList" :key="i"  :id="['infos_'+i]" :header-style="{border: 'none'}" >
         <template #title>
-          <a-typography-title class="project-card-title" style="font-size: 15px;color: #4daaff;font-weight: bold"
-                              :heading="5" :ellipsis="{rows:1}">{{ project.basic.name }}
+          <a-typography-title class="project-card-title" style="font-size: 15px; cursor: pointer;color: #4daaff;font-weight: bold"
+                              :heading="5" :ellipsis="{rows:1}"  @click="viewDetail(project.basic.id)">{{ project.basic.name }}
           </a-typography-title>
         </template>
 
         <a-row :gutter="16" >
-          <a-col :span="24" style="margin-bottom: 20px;">
+          <!-- <a-col :span="24" style="margin-bottom: 20px;">
             <ProjectTotal :total="{record:project.recordTotal,attached:project.attachedTotal}"/>
-          </a-col>
+          </a-col> -->
 
           <a-col :span="24" style="margin-bottom: 20px">
             <ProjectNodes :nodes="project.nodes"/>
@@ -62,6 +62,14 @@ const checkProject = (index:number) => {
         block: 'center',
       }
   )
+}
+const viewDetail = (projectId: number) => {
+  router.push({
+    path: "/project/detail",
+    query: {
+      id: projectId,
+    }
+  });
 }
 
 </script>

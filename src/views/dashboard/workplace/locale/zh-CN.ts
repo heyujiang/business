@@ -34,5 +34,4 @@ export default {
   'workplace.popularContent.video': '本月无进展项目',
   'workplace.categoriesPercent': '开发人员项目占比',
   'workplace.pecs': '个',
-  'menu.project.add':'新增項目',
 };

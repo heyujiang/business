@@ -105,7 +105,7 @@
               </a-col>
               <a-col :span="20">
                 <a-form-item  label="电话" :field="`contact.${index}.phoneNumber`"  validate-trigger="input" :rules="[{required:true,message:'请填写联系人电话'}]" :key="index" style="margin-bottom:15px;">
-                  <a-input v-model="contactItem.phoneNumber" placeholder="请填写联系人电话"  allow-clear/>
+                  <a-input-number v-model="contactItem.phoneNumber" placeholder="请填写联系人电话"  oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');" allow-clear/>
                 </a-form-item>
               </a-col>
               <a-col :span="20">

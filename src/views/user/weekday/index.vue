@@ -7,7 +7,7 @@
           <a-space>
             <a-select style="width: 220px" v-model="searchForm.userId" :options="userOptions"  placeholder="用户" allow-clear/>
             <a-range-picker
-                style="width: 220px;"
+                style="width: 250px;"
                 v-model="searchForm.timeRange"
                 value-format="timestamp"
                 format="YYYY-MM-DD"
