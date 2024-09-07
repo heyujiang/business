@@ -40,9 +40,10 @@
                     {{ '已完成' }}
                </span>
               </a-tag>
-              <span style="padding-left: 20px;"> <icon-star-fill v-for="i in project.star" :key="i"
-                                                                 style="color: #f6c200" size="18"/></span>
-              <span style="padding-left: 20px; font-size: 12px">
+              <a-divider direction="vertical" />
+              <span style=""> <icon-star-fill v-for="i in project.star" :key="i" style="color: #f6c200" size="18"/></span>
+              <span style="font-size: 12px">
+              <a-divider direction="vertical" />
           <span v-if="project.type == 1"
                 style="background-color: #30a4e4;  padding: 2px 10px; border-radius: 20px;color: #FFFFFF ">
               {{ '风电' }}
@@ -56,17 +57,16 @@
               {{ '储能' }}
           </span>
              </span>
-            </div>
-
-            <span style="color: #8590A6;font-size: 12px;margin-top:20px;">
-
+             <span style="color: #8590A6;font-size: 12px;margin-top:20px;">
+              <a-divider direction="vertical" />
           <span v-if="project.type == 1||project.type == 2">
-           容量：{{project.capacity +' MW'}}
+          容量：{{project.capacity +' MW'}}
           </span>
           <span v-else-if="project.type == 3">
             容量： {{project.capacity +' Mwh'}}
           </span>
             </span>
+            </div>
             <div class="project-card-desc">
               <a-typography-text :ellipsis="{rows:2}">
                 {{ project.description }}
