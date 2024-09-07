@@ -10,7 +10,7 @@
     >
       <template #title>
         <a-typography-title class="project-card-title" style="font-size: 15px;color: #4daaff;font-weight: bold"
-                            :heading="5" :ellipsis="{rows:1}"   @click="viewDetail(project.basic.id)">{{ project.basic.name }}
+                            :heading="5" :ellipsis="{rows:1}">{{ project.basic.name }}
                           
         </a-typography-title>
       </template>
