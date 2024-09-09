@@ -15,7 +15,7 @@
             class="node-row"
         >
           <a-grid-item class="node-item node-item-first" @click="collapsed[i] = !collapsed[i]">
-              <span class="node-name">{{ node.name }}</span>
+            <div class="text-overflow">{{ node.name }}</div>
           </a-grid-item>
          
           <a-grid-item
