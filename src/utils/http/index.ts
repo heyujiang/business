@@ -17,6 +17,7 @@ import { AxiosRetry } from '@/utils/http/axiosRetry';
 import md5 from 'md5'
 
 import { Message,Modal } from '@arco-design/web-vue';
+import router from "@/router";
 const Root_url = import.meta.env.VITE_APP_ENV=="production"? window?.globalConfig.Root_url: window?.globalConfig.Root_url_dev;//前缀
 type Recordable<T = any> = Record<string, T>;
 /**
@@ -72,6 +73,8 @@ const transform: AxiosTransform = {
           userStore.setTokenData(undefined);
           userStore.logout(true);
         break;
+      case ResultEnum.ProjectNotExist:
+        router.push({ name: 'proNotExist' });
       default:
         if (msg) {
           timeoutMsg = msg;

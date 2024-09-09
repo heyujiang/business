@@ -29,3 +29,10 @@ export const NOT_FOUND_ROUTE: RouteRecordRaw = {
   name: 'notFound',
   component: () => import('@/views/systool/not-found/index.vue'),
 };
+
+export const PRO_NOT_EXIST: RouteRecordRaw = {
+  path: '/:pathMatch(.*)*',
+  name: 'proNotExist',
+  component: () => import('@/views/systool/pro-not-exist/index.vue'),
+};
+

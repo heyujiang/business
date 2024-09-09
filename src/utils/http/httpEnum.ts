@@ -7,6 +7,7 @@ export enum ResultEnum {
   TIMEOUT = 401,//重新登录
   REFRESH=402,//刷新及超时重新登录
   TYPE = 'success',
+  ProjectNotExist = 20001,
 }
 
 /**
