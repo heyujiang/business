@@ -105,7 +105,7 @@
 <script lang="ts" setup>
 import {PropType, ref, watch} from 'vue';
   import { FormInstance } from '@arco-design/web-vue/es/form';
-  import { getUser,saveInfo,BasicInfoModel } from '@/api/user-center';
+  import { saveInfo,BasicInfoModel } from '@/api/user-center';
   import { Message } from '@arco-design/web-vue';
 
   const props = defineProps({
@@ -116,6 +116,7 @@ import {PropType, ref, watch} from 'vue';
   });
 
   const formRef = ref<FormInstance>();
+
   const formData = ref<BasicInfoModel>({
     id: 0,
     nickname: "",
@@ -128,7 +129,6 @@ import {PropType, ref, watch} from 'vue';
     city:  "",
     area:  "",
     address:  "",
-    createtime: "",
     phoneNumber:"",
     createdAt:"",
     introduction:"",

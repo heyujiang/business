@@ -25,3 +25,8 @@ export function userUploadApi(
 export function tableWeigh(params: object) {
   return defHttp.post({ url: `${DOMAIN}/table/weigh`, params:params}, { errorMessageMode: 'message',isRootUrl:false });
 }
+
+export interface OptionItem {
+    value:number
+    label:string
+}

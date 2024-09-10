@@ -6,7 +6,7 @@
         <a-col :span="22">
           <a-space wrap>
             <a-input :style="{width:'220px'}"  v-model="formModel.name" placeholder="项目名称" allow-clear />
-            <a-select :style="{width:'220px'}"  v-model="formModel.userId" :options="userOptions" placeholder="负责人" allow-clear />
+            <a-select :style="{width:'220px'}" v-if="userStore.isSuper || userStore.isSystem"  v-model="formModel.userId" :options="userOptions" placeholder="负责人" allow-clear />
             <a-select :style="{width:'220px'}"  v-model="formModel.star" :options="starOptions" placeholder="星级" allow-clear />
             <a-select :style="{width:'220px'}"  v-model="formModel.type" :options="typeOptions" placeholder="类型" allow-clear />
             <a-range-picker style="width: 240px" value-format="timestamp" v-model="formModel.createdAt" allow-clear/>
@@ -204,7 +204,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, ref, reactive, watch, nextTick } from 'vue';
+import {computed, ref, reactive, watch, nextTick, onMounted, Ref} from 'vue';
   import useLoading from '@/hooks/loading';
   import { getList,del ,exportProject} from '@/api/project/project';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
@@ -226,7 +226,10 @@
   import {useRoute} from "vue-router";
   import {writeFileXLSX} from "xlsx";
   import {downloadByData} from "@/utils/http/download";
+  import {useUserStore} from "@/store";
+import {OptionItem} from "@/api/common";
 
+  const userStore = useUserStore();
 
   const { t } = useI18n();
   const [registerModal, { openModal }] = useModal();
@@ -266,41 +269,51 @@
     },
   ]);
 
+  interface projectSearchI {
+    name?:string
+    userId?:number
+    star?:number
+    type?:number
+    createAt?:number[]
+  }
+
   const route = useRoute()
-  const username = route.query.name
+  const username = ref<any>()
 
-    //查询字段
-  const generateFormModel = () => {
-      return {
-        name:'',
-        userId: '',
-        star:'',
-        type:'',
-        createdAt: [],
-      };
-  };
-  const formModel = ref(generateFormModel());
+  const formModel = ref<projectSearchI>({});
 
-  const userOptions = ref([]);
+  const userOptions = ref<OptionItem[]>([]);
+
+  onMounted(()=>{
+    if(route.query.mine){
+      if(userStore.isSuper) {
+        formModel.value.userId = userStore.userId
+      }
+    }
+
+    username.value = route.query.name
+
+    fetchUserOptions()
+    fetchData()
+  })
+
   const fetchUserOptions = async () => {
     try {
       userOptions.value = await getUserOptions();
-      if(username){
+      if(username.value){
         userOptions.value.forEach((item)=>{
-          if(username && item.label == username ){
+          if(username && item.label == username.value ){
             formModel.value.userId = item.value
             fetchData()
           }
         })
       }
-
     } catch (err) {
       // you can report use errorHandler or other
     } finally {
 
     }
   };
-  fetchUserOptions();
 
   const fetchData = async () => {
     setLoading(true);
@@ -310,6 +323,7 @@
       pagination.current = data.page;
       pagination.total = data.count;
     } catch (err) {
+      console.log(err)
       // you can report use errorHandler or other
     } finally {
       setLoading(false);
@@ -328,11 +342,12 @@
   const search = () => {
     fetchData();
   };
+
   const reset = () => {
-    formModel.value = generateFormModel();
+    formModel.value = {};
     fetchData();
   };
-  fetchData();
+
   const handleSelectDensity = (
       val: string | number | Record<string, any> | undefined,
       e: Event
@@ -367,13 +382,7 @@
     },
     { deep: true, immediate: true }
   );
-  //添加菜单
-  const createRule=()=>{
-    openModal(true, {
-      isUpdate: false,
-      record:null
-    });
-  }
+
   //编辑数据
   const handleEdit=async(record:any)=>{
     openModal(true, {
@@ -383,7 +392,7 @@
   }
   //更新数据
   const handleData=async()=>{
-    fetchData();
+    await fetchData();
   }
   //分页
   const handlePaageChange = (page:any) => {
@@ -402,7 +411,7 @@
         Message.loading({content:"删除中",id:"upStatus"})
        const res= await del(record.id);
        if(res){
-        fetchData();
+         await fetchData();
          Message.success({content:"删除成功",id:"upStatus"})
        }
     }catch (error) {

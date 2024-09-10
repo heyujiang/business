@@ -14,4 +14,6 @@ export interface UserState {
   role?:string;
   dept?:string;
   sessionTimeout?: boolean;
+  isSuper?:number;
+  isSystem?:number;
 }

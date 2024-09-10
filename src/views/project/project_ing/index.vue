@@ -17,7 +17,7 @@
                 }"
                 allow-clear
             ></a-tree-select>
-            <a-select :style="{width:'220px'}" v-model="formModel.userId" :options="userOptions"  placeholder="请选择用户" allow-clear/>
+            <a-select :style="{width:'220px'}" v-if="userStore.isSuper || userStore.isSystem" v-model="formModel.userId" :options="userOptions"  placeholder="请选择用户" allow-clear/>
             <a-button type="primary" @click="search">
               <template #icon>
                 <icon-search/>
@@ -108,10 +108,10 @@
           <Icon icon="svgfont-bianji1" class="iconbtn" @click="handleEdit(record)" :size="18" color="#0960bd"></Icon>
           <a-divider direction="vertical" />
           <Icon icon="icon-file" @click="viewAttached(record.id)" :size="18" color="#0960bd"></Icon>
-          <a-divider direction="vertical" />
-          <a-popconfirm content="您确定要删除吗?" @ok="handleDel(record)">
-            <Icon icon="svgfont-icon7" class="iconbtn" :size="18" color="#ed6f6f"></Icon>
-          </a-popconfirm>
+<!--          <a-divider direction="vertical" />-->
+<!--          <a-popconfirm content="您确定要删除吗?" @ok="handleDel(record)">-->
+<!--            <Icon icon="svgfont-icon7" class="iconbtn" :size="18" color="#ed6f6f"></Icon>-->
+<!--          </a-popconfirm>-->
         </template>
       </a-table>
     </a-card>
@@ -143,7 +143,9 @@ import {getUserOptions} from "@/api/user";
 import router from "@/router";
 import {useRoute} from "vue-router";
 import {useWindowSizeFn} from "@/hooks/event/useWindowSizeFn";
+import {useUserStore} from "@/store";
 
+const userStore = useUserStore();
 const {t} = useI18n();
 const [registerModal, {openModal}] = useModal();
 const densityList = computed(() => [
@@ -164,6 +166,7 @@ const densityList = computed(() => [
     value: 'large',
   },
 ]);
+
 //分页
 const basePagination: Pagination = {
   current: 1,
@@ -174,7 +177,7 @@ const pagination = reactive({
   showTotal: true,
   showPageSize: true,
 });
-const boxheight = document.documentElement.clientHeight;//页面高度
+
 type SizeProps = 'mini' | 'small' | 'medium' | 'large';
 type Column = TableColumnData & { checked?: true };
 const {loading, setLoading} = useLoading(true);
@@ -188,7 +191,6 @@ const username = route.query.name
 const recordId = ref(route.query.id)
 
 
-
 //查询字段
 type formModelI = {
   projectId?:number,
@@ -197,14 +199,6 @@ type formModelI = {
   id?:number,
 }
 
-const generateFormModel = () => {
-  return {
-    projectId: '',
-    nodeId: '',
-    userId: '',
-    id:0,
-  };
-};
 const formModel = ref<formModelI>({});
 
 const userOptions = ref([]);

@@ -25,11 +25,10 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import UserPanel from './components/user-panel.vue';
 import BasicInformation from './components/basic-information.vue';
 import SecuritySettings from './components/security-settings.vue';
-// import Certification from './components/certification.vue';
 import {BasicInfoModel, getUser} from '@/api/user-center';
 import useLoading from '@/hooks/loading';
 
@@ -45,7 +44,6 @@ const formData = ref<BasicInfoModel>({
     city:  "",
     area:  "",
     address:  "",
-    createtime: "",
     phoneNumber:"",
     createdAt:"",
     introduction:"",
@@ -55,15 +53,20 @@ const formData = ref<BasicInfoModel>({
   });
   const { loading, setLoading } = useLoading(true);
   const fetchData = async () => {
+    setLoading(true)
     try {
       formData.value= await getUser();
     } catch (err) {
       // you can report use errorHandler or other
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
   };
-  fetchData();
+
+  onMounted(()=>{
+    fetchData();
+  })
+
 </script>
 
 <script lang="ts">

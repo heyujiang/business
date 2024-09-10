@@ -28,6 +28,8 @@ const useUserStore = defineStore('user', {
     role:'',
     dept:'',
     sessionTimeout: false,//登录是否已过期
+    isSuper:0,
+    isSystem:0,
   }),
 
   getters: {

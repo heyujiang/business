@@ -97,7 +97,10 @@ const {loading, response: projectList} = useRequest<MyProjectRecord[]>(
 
 const viewProject = () => {
   router.push({
-    path: "/project/project"
+    path: "/project/project",
+    query:{
+      mine:1
+    }
   });
 }
 

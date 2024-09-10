@@ -27,24 +27,25 @@ export interface MyProjectRecord {
   }[];
 }
 export interface BasicInfoModel {
-  id: number;
-  nickname: string;
-  email: string;
-  mobile: string;
-  remark: string;
-  company: string;
-  country: string;
-  province: string;
-  city: string;
-  area: string;
-  address: string;
-  createtime: string;
-  phoneNumber:string;
-  createdAt:string;
-  introduction:string;
-  job:string;
-  username:string;
-  role:string;
+  id?: number;
+  nickname?: string;
+  email?: string;
+  mobile?: string;
+  remark?: string;
+  company?: string;
+  country?: string;
+  province?: string;
+  city?: string;
+  area?: string;
+  address?: string;
+  phoneNumber?:string;
+  createdAt?:string;
+  introduction?:string;
+  job?:string;
+  username?:string;
+  role?:string;
+  isSuper?:number;
+  isSystem?:number;
 }
 export interface MyTeamRecord {
   id: number;
