@@ -6,7 +6,7 @@
       <a-row>
         <a-col :span="24">
           <a-space>
-            <a-select style="width: 220px" v-model="searchForm.userId" :options="userOptions"  placeholder="用户" allow-clear/>
+            <a-select style="width: 220px" v-if="userStore.isSystem || userStore.isSuper" :default-value="userStore.userId" v-model="searchForm.userId" :options="userOptions"  placeholder="用户" allow-clear/>
             <a-range-picker
                 style="width: 250px;"
                 v-model="searchForm.timeRange"
@@ -18,12 +18,12 @@
                       value: () => [dayjs().startOf('day').toDate(),dayjs().startOf('day').add(1,'day').toDate()],
                     },
                     {
-                      label: '本周',
-                      value: () => [dayjs().startOf('week').add(1, 'day').toDate(), dayjs().startOf('day').add(1,'day').toDate()],
+                      label: '近7天',
+                      value: () => [dayjs().startOf('day').add(-6, 'day').toDate(), dayjs().startOf('day').add(1,'day').toDate()],
                     },
                     {
-                      label: '当月',
-                      value: () => [dayjs().startOf('month').toDate(),dayjs().startOf('day').add(1,'day').toDate()],
+                      label: '近30天',
+                      value: () => [dayjs().startOf('day').add(-29, 'day').toDate(),dayjs().startOf('day').add(1,'day').toDate()],
                     },
                   ]"/>
             <a-button type="primary" @click="search">
@@ -60,14 +60,18 @@
   import dayjs from 'dayjs';
   import { getUserOptions } from '@/api/user';
   import {Report, ReportResponseData, ReportSearch} from "@/api/report";
+  import {useUserStore} from "@/store";
+  import {Message} from "@arco-design/web-vue";
+  import {del} from "@/api/system/node";
 
+  const userStore = useUserStore();
 
   document.title="周报日报"
   const userOptions = ref<any[]>([]);
   const clientHeight = ref<number>(document.documentElement.clientHeight) //浏览器可视区域高度
   const scrollHeight = ref<string>('')
   const searchForm = ref<ReportSearch>({
-    timeRange:[dayjs().startOf('day').valueOf(),dayjs().startOf('day').add(1,'day').valueOf()]
+    timeRange:[dayjs().startOf('day').add(-6, 'day').valueOf(),dayjs().startOf('day').add(1,'day').valueOf()]
   })
   const reportResp = ref<ReportResponseData[]>([])
 
@@ -100,7 +104,14 @@
   }
 
   const featUserReport = async () => {
-    reportResp.value = await Report(searchForm.value)
+    try {
+      Message.loading({content:"加载中",id:"upStatus"})
+      reportResp.value = await Report(searchForm.value)
+      Message.clear("top")
+    }catch (error){
+      console.log(error)
+    }
+
   }
 </script>
 

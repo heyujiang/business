@@ -9,10 +9,6 @@
         </template>
 
         <a-row :gutter="16" >
-          <!-- <a-col :span="24" style="margin-bottom: 20px;">
-            <ProjectTotal :total="{record:project.recordTotal,attached:project.attachedTotal}"/>
-          </a-col> -->
-
           <a-col :span="24" style="margin-bottom: 20px">
             <ProjectNodes :nodes="project.nodes"/>
           </a-col>

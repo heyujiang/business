@@ -3,13 +3,6 @@
       <a-collapse-item key="1">
         <template #header>
             <span style="font-weight: bolder">项目节点</span>
-          <span style="margin-left: 900px;">   
-            <a-space size="large">
-            <a-badge status="success" text="已完成" />
-            <a-badge status="processing" text="当前完成" />
-            <a-badge status="normal" text="未完成" />
-            </a-space>
-          </span>
         </template>
         <a-grid
             :cols="nodeColNum"
@@ -21,20 +14,30 @@
             class="node-row"
         >
           <a-grid-item class="node-item node-item-first" @click="collapsed[i] = !collapsed[i]">
-            <div class="text-overflow">{{ node.name }}</div>
+            <a-tooltip :content="node.name" >
+              <div class="text-overflow">{{ node.name }}</div>
+            </a-tooltip>
           </a-grid-item>
          
           <a-grid-item
-              :class="[' node-item' , 'node-item-child', child.state == 1 ? 'node-item-progress' : (child.state == 2 ? 'node-item-finish' : '')]"
+              :class="[' node-item' , 'node-item-child', child.state == 2 ? 'node-item-progress' : (child.state == 3 ? 'node-item-finish' : (child.state == 99 ? 'node-item-range-finish' : 'node-item-wait'))]"
               v-for="(child,cIndex) in node.children"
               :key="cIndex"
               :offset="cIndex != 0 && cIndex % (nodeColNum - 1) == 0  ? 1 : 0"
           >
-          <a-tooltip :content="child.name" background-color="#1d1d1d">
-           <div class="text-overflow">{{ child.name }}</div> 
-          </a-tooltip>
+            <a-tooltip :content="child.name" background-color="#1d1d1d">
+             <div class="text-overflow">{{ child.name }}</div>
+            </a-tooltip>
           </a-grid-item>
         </a-grid>
+        <template #extra>
+            <a-space size="large">
+              <a-badge status="processing" text="进行中" />
+              <a-badge status="success" text="已完成" />
+              <a-badge status="danger" text="当前完成" />
+              <a-badge status="normal" text="未完成" />
+            </a-space>
+        </template>
       </a-collapse-item>
     </a-collapse>
 </template>
@@ -87,14 +90,24 @@ const colors = [
   }
   .node-item-child{
     text-align: center;
-    border: 1px solid var(--color-primary-light-4);
-    border-radius: 8%;
+    //border: 1px solid var(--color-primary-light-4);
+    border-radius: 5px;
+  }
+  .node-item-wait{
+    background-color: #c8ccd3;
+    color: var(--color-white);
   }
   .node-item-progress{
-    background-color: #87d387;
+    background-color: #165dfd;
+    color: var(--color-white);
   }
   .node-item-finish{
-    color: #f6c200;
+    background-color: #00b32a;
+    color: var(--color-white);
+  }
+  .node-item-range-finish{
+    background-color: #f33f3f;
+    color: var(--color-white);
   }
 
   
