@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div >
     <a-card
         class="general-card"
         title="联系人"
         :header-style="{ paddingBottom: '18px' }"
         :body-style="{ paddingBottom: '12px' }"
     >
-      <a-table :columns="columns" :data="renderData" :pagination="false">
+      <a-table :columns="columns" :data="renderData" :pagination="false" v-if="userStore.isSuper || userStore.isSystem || userStore.userId == userId">
         <template #type="{ record }">
           <span v-if="record.type == 1">同行公司</span>
           <span v-else-if="record.type == 2">分包方</span>
@@ -22,8 +22,14 @@
           </a-popconfirm>
         </template>
       </a-table>
+      <a-result v-else status="403">
+        <template #subtitle>
+          没有权限
+        </template>
+      </a-result>
+
       <template #extra>
-        <IconPlusCircle :size="20" @click="viewAddPerson"/>
+        <IconPlusCircle :size="20" @click="viewAddPerson" v-if="userStore.isSuper || userStore.isSystem || userStore.userId == userId"/>
       </template>
     </a-card>
     <AddForm @register="registerModal"  @success="handleData"/>
@@ -46,9 +52,10 @@ import { Message } from '@arco-design/web-vue';
 import { getUserOptions } from '@/api/user';
 import AddForm from "./AddForm.vue";
 import {useModal} from "@/components/Modal";
+import {useUserStore} from "@/store";
 const [registerModal, { openModal }] = useModal();
 
-
+const userStore = useUserStore();
 
 const props = defineProps({
   projectId: {
@@ -57,6 +64,12 @@ const props = defineProps({
       return 0;
     },
   },
+  userId: {
+    type: Number,
+    default() {
+      return 0;
+    },
+  }
 });
 
 const data = [{
@@ -70,6 +83,10 @@ const data = [{
 const projectId = computed(() => {
   return props.projectId
 });
+
+const userId = computed(()=>{
+  return props.userId
+})
 
 type SizeProps = 'mini' | 'small' | 'medium' | 'large';
 type Column = TableColumnData & { checked?: true };

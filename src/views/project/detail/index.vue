@@ -8,7 +8,7 @@
         <ProjectPerson :projectId="projectId"/>
       </a-grid-item>
       <a-grid-item :span="16">
-        <ProjectContact :projectId="projectId"/>
+        <ProjectContact :projectId="projectId" :userId="projectDetail.id"/>
       </a-grid-item>
     </a-grid>
     <ProjectNode :projectId="projectId"/>
