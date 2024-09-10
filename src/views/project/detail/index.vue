@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-  import {ref , computed} from "vue";
+import {ref, computed, onMounted} from "vue";
   import {getProjectInfo} from '@/api/project/project';
   import ProjectProcess from './components/project-progress.vue';
   import ProjectBase from './components/project-base.vue';
@@ -28,8 +28,6 @@
   import { Message } from '@arco-design/web-vue';
 
   const { loading, setLoading } = useLoading(true);
-
-
 
   interface baseDetail {
     id?:number,
@@ -43,7 +41,9 @@
   const route = useRoute()
   const projectId = parseInt(<string>route.query.id)
 
-  console.log(projectId)
+  onMounted(()=>{
+    fetchData();
+  })
 
   const fetchData = async () => {
     Message.loading({content:"加载中...",id:"upDetail",duration:2000})
@@ -53,10 +53,10 @@
     } catch (err) {
       // you can report use errorHandler or other
     } finally {
-      Message.clear("top");
+      // Message.clear("top");
     }
   };
-  fetchData();
+
 
 
 </script>

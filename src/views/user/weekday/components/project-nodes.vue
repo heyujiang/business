@@ -15,10 +15,7 @@
             class="node-row"
         >
           <a-grid-item class="node-item node-item-first" @click="collapsed[i] = !collapsed[i]">
-            <a-space>
-              <icon-caret-down v-if="collapsed[i]" size="8"/><icon-caret-up v-else size="8"/>
-              <span class="node-name">{{ node.name }}</span>
-            </a-space>
+            <div class="text-overflow">{{ node.name }}</div>
           </a-grid-item>
          
           <a-grid-item

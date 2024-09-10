@@ -1,6 +1,6 @@
 <template>
   <div class="infos-container">
-    <div>
+    <div v-if="projectList.length > 0">
       <a-card class='project-card' v-for="(project,i) in projectList" :key="i"  :id="['infos_'+i]" :header-style="{border: 'none'}" >
         <template #title>
           <a-typography-title class="project-card-title" style="font-size: 15px; cursor: pointer;color: #4daaff;font-weight: bold"
@@ -27,6 +27,11 @@
         </a-row>
       </a-card>
     </div>
+    <a-result v-else status="404">
+      <template #subtitle>
+        暂无项目进展
+      </template>
+    </a-result>
   </div>
 
 </template>
