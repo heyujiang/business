@@ -104,7 +104,14 @@
                 </a-form-item>
               </a-col>
               <a-col :span="20">
-                <a-form-item  label="电话" :field="`contact.${index}.phoneNumber`"  validate-trigger="input" :rules="[{required:true,message:'请填写联系人电话'}]" :key="index" style="margin-bottom:15px;">
+                <a-form-item  label="电话" :field="`contact.${index}.phoneNumber`"  validate-trigger="input" :rules="[{validator: (value, cb) => {
+                  let ver = /^1[0-9]{10}$/;  //以1开头
+                  if(!ver.test(value)){
+                     cb('请填写正确的手机号')
+                  } else {
+                    cb()
+                  }
+                }}]" :key="index" style="margin-bottom:15px;">
                   <a-input v-model="contactItem.phoneNumber" placeholder="请填写联系人电话"  allow-clear/>
                 </a-form-item>
               </a-col>
