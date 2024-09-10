@@ -39,7 +39,7 @@
 import {defineProps, ref, withDefaults} from "vue";
 import {reportNode} from "@/api/report";
 const collapsed = ref<boolean[]>([]);
-const nodeColNum = ref<number>(10)
+const nodeColNum = ref<number>(11)
 
 withDefaults(
     defineProps<{
