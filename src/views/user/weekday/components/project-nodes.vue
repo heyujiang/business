@@ -2,9 +2,15 @@
     <a-collapse class="general-collapse" :default-active-key="['1']">
       <a-collapse-item key="1">
         <template #header>
-          <span style="font-weight: bolder">项目节点</span>
+            <span style="font-weight: bolder">项目节点</span>
+          <span style="margin-left: 900px;">   
+            <a-space size="large">
+            <a-badge status="success" text="已完成" />
+            <a-badge status="processing" text="当前完成" />
+            <a-badge status="normal" text="未完成" />
+            </a-space>
+          </span>
         </template>
-
         <a-grid
             :cols="nodeColNum"
             :colGap="12"
@@ -44,6 +50,22 @@ withDefaults(
     }>(),
     {}
 );
+
+const colors = [
+      'orangered',
+      'orange',
+      'gold',
+      'lime',
+      'green',
+      'cyan',
+      'blue',
+      'arcoblue',
+      'purple',
+      'pinkpurple',
+      'magenta',
+      'gray'
+    ];
+
 </script>
 
 <style scoped lang="less">
@@ -69,7 +91,7 @@ withDefaults(
     border-radius: 8%;
   }
   .node-item-progress{
-    color: #00bb00;
+    background-color: #87d387;
   }
   .node-item-finish{
     color: #f6c200;

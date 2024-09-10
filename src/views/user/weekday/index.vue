@@ -1,4 +1,5 @@
 <template>
+  <title>周报日报</title>
   <div class="container">
     <Breadcrumb :items="['menu.user', 'menu.user.info']" />
     <a-card class="general-card onelineCard" style="margin-bottom: 10px">
@@ -61,6 +62,7 @@
   import {Report, ReportResponseData, ReportSearch} from "@/api/report";
 
 
+  document.title="周报日报"
   const userOptions = ref<any[]>([]);
   const clientHeight = ref<number>(document.documentElement.clientHeight) //浏览器可视区域高度
   const scrollHeight = ref<string>('')
