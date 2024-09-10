@@ -75,7 +75,7 @@
           }
         } catch (error) {
           setLoading(false);
-          Message.clear("top")
+          console.log(error)
         }
       };
 

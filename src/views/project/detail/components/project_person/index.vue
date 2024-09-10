@@ -13,7 +13,7 @@
           <span v-else-if="record.type == 3">项目成员</span>
         </template>
         <template #operations="{ record }">
-          <a-popconfirm v-if="record.type != 1" content="您确定要删除吗?" @ok="handleDel(record)">
+          <a-popconfirm content="您确定要删除吗?" @ok="handleDel(record)">
             <Icon icon="svgfont-icon7" class="iconbtn" :size="18" color="#ed6f6f"></Icon>
           </a-popconfirm>
         </template>
