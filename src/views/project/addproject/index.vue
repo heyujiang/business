@@ -104,7 +104,7 @@
                 </a-form-item>
               </a-col>
               <a-col :span="20">
-                <a-form-item  label="电话" :field="`contact.${index}.phoneNumber`"  validate-trigger="input" :rules="[{validator: (value, cb) => {
+                <a-form-item  label="电话" :field="`contact.${index}.phoneNumber`"  validate-trigger="input" :rules="[{required:true,validator: (value, cb) => {
                   let ver = /^1[0-9]{10}$/;  //以1开头
                   if(!ver.test(value)){
                      cb('请填写正确的手机号')
