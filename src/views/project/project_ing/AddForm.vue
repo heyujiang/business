@@ -128,7 +128,6 @@ export default defineComponent({
         }
       } catch (error) {
         setLoading(false);
-        Message.clear("top")
       }
     };
 
