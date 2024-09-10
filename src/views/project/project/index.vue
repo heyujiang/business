@@ -415,7 +415,7 @@ import {OptionItem} from "@/api/common";
          Message.success({content:"删除成功",id:"upStatus"})
        }
     }catch (error) {
-      Message.clear("top")
+      console.log(error)
     }
   }
 </script>

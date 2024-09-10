@@ -106,7 +106,7 @@ const handleDel=async(record:any)=>{
       Message.success({content:"删除成功",id:"upStatus"})
     }
   }catch (error) {
-    Message.clear("top")
+    console.log(error)
   }
 }
 

@@ -281,14 +281,14 @@ const handleEdit = async (record: any) => {
   //删除数据
   const handleDel=async(record:any)=>{
     try {
-        Message.loading({content:"删除中",id:"upStatus"})
+       Message.loading({content:"删除中",id:"upStatus"})
        const res= await del(record.id);
        if(res){
-        fetchData();
+         fetchData();
          Message.success({content:"删除成功",id:"upStatus"})
        }
     }catch (error) {
-      Message.clear("top")
+      console.log(error)
     }
   }
 const visible = ref(false)

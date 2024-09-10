@@ -186,7 +186,7 @@
          Message.success({content:"更新状态成功",id:"upStatus"})
        }
     }catch (error) {
-      Message.clear("top")
+      console.log(error)
     }
   }
   //删除数据
@@ -199,7 +199,7 @@
          Message.success({content:"删除成功",id:"upStatus"})
        }
     }catch (error) {
-      Message.clear("top")
+      console.log(error)
     }
   }
     //排序
@@ -263,7 +263,7 @@
           Message.success({content:"更新排序成功",id:"tableWeigh"})
         }
       }catch (error) {
-        Message.clear("top")
+        console.log(error)
       }
     }
   //初始化排序
