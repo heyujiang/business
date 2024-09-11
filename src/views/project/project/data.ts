@@ -26,7 +26,8 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       align:"center",
       width:100,
       sortable: {
-        sortDirections: ['descend']
+        sortDirections: ['descend'],
+        sorter:false
       }
     },
     {

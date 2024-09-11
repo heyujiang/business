@@ -277,7 +277,7 @@ import {string} from "vue-types";
     star?:number
     type?:number
     createAt?:number[]
-    sortFiled?:string
+    sortField?:string
   }
 
   const route = useRoute()
@@ -429,7 +429,7 @@ import {string} from "vue-types";
 
     let arr = new Array()
 
-    formModel.value.sortFiled = ""
+    formModel.value.sortField = ""
     sortMap.forEach((value,key)=>{
       if(value == "descend") {
         arr.push(key+"_desc")
@@ -438,7 +438,7 @@ import {string} from "vue-types";
       }
     })
 
-    formModel.value.sortFiled = arr.join(",")
+    formModel.value.sortField = arr.join(",")
 
     fetchData()
   }
