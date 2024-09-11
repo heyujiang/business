@@ -1,4 +1,5 @@
 <template>
+  <div>
     <a-card
         v-if="projectList.length > 0"
         :class="['project-card', (unref(activeProject) == index) ? 'project-card-active' : '']"
@@ -48,8 +49,8 @@
             </span>
             </a-space>
          </span>
-         <a-divider direction="vertical" />
-         <span style="color: #8590A6;font-size: 12px;">
+          <a-divider direction="vertical" />
+          <span style="color: #8590A6;font-size: 12px;">
           <a-space align="center" size="mini">
         <span v-if="project.basic.type == 1||project.basic.type == 2">
         容量：{{project.basic.capacity +' MW'}}
@@ -59,7 +60,7 @@
         </span>
         </a-space>
         </span>
-        <a-divider direction="vertical" />
+          <a-divider direction="vertical" />
           <span style="padding-left: 20px;">
             <icon-star-fill
                 v-for="i in project.basic.star"
@@ -90,6 +91,7 @@
         暂无项目
       </template>
     </a-result>
+  </div>
 </template>
 
 <script lang="ts" setup>
