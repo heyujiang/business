@@ -11,9 +11,10 @@
   "menuWidth": 200,
   "globalSettings": false,
   "device": "desktop",
-  "tabBar": false,
+  "tabBar": true,
   "menuFromServer": true,
   "serverMenu": [],
   "serverRoute": [],
   "isDynamicAddedRoute": false
 }
+
