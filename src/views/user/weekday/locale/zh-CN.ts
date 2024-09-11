@@ -1,5 +1,6 @@
 export default {
-  'menu.user.info': '用户信息',
+  'menu.user.info': '用户中心',
+  'menu.user.weekday': '周报日报',
   'userInfo.editUserInfo': '编辑信息',
   'userInfo.tab.title.overview': '总览',
   'userInfo.tab.title.project': '项目',

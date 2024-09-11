@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.user', 'menu.user.setting']" />
+    <Breadcrumb :items="['menu.user.info', 'menu.user.setting']" />
     <a-row style="margin-bottom: 16px">
       <a-col :span="24">
         <UserPanel :formData="formData"/>

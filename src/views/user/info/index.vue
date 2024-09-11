@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.project', 'menu.project.detail']" />
+    <Breadcrumb :items="['menu.user.info', 'userInfo.title.myProject']" />
     <UserInfoHeader />
     <div class="content">
       <div class="content-left">
