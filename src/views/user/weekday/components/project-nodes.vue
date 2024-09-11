@@ -94,8 +94,8 @@ const colors = [
     border-radius: 5px;
   }
   .node-item-wait{
-    background-color: #c8ccd3;
-    color: var(--color-white);
+    background-color: hsl(220, 7%, 92%);
+    color: var(--color-black);
   }
   .node-item-progress{
     background-color: #165dfd;
