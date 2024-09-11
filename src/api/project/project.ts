@@ -37,9 +37,6 @@ export function getList(params: any) {
 
 //数据列表
 export function exportProject (params: any) {
-    if (params.createdAt[0] > 100000000){
-        params=Object.assign({},params,{createdAt:[Math.floor(params.createdAt[0] / 1000),Math.floor(params.createdAt[1] / 1000)]})
-    }
    return  defHttp.get({ url: Api.exportProject, responseType: 'blob',params:params }, { errorMessageMode: 'message' ,isReturnNativeResponse:true})
 }
 
