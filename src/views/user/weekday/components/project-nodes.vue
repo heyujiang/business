@@ -98,15 +98,15 @@ const colors = [
     color: var(--color-black);
   }
   .node-item-progress{
-    background-color: #165dfd;
+    background-color: #477af1;
     color: var(--color-white);
   }
   .node-item-finish{
-    background-color: #00b32a;
+    background-color: #1fbb6a;
     color: var(--color-white);
   }
   .node-item-range-finish{
-    background-color: #f33f3f;
+    background-color: #f15353;
     color: var(--color-white);
   }
 
