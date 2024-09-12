@@ -1,5 +1,5 @@
 <template>
-    <a-collapse class="general-collapse" :default-active-key="['1']">
+    <a-collapse class="general-collapse" :default-active-key="['1']" @change="change">
       <a-collapse-item key="1">
         <template #header>
             <span style="font-weight: bolder">项目节点</span>
@@ -42,7 +42,7 @@
     </a-collapse>
 </template>
 <script setup lang="ts">
-import {defineProps, ref, withDefaults} from "vue";
+import {defineEmits, defineProps, ref, withDefaults} from "vue";
 import {reportNode} from "@/api/report";
 const collapsed = ref<boolean[]>([]);
 const nodeColNum = ref<number>(11)
@@ -54,21 +54,15 @@ withDefaults(
     {}
 );
 
-const colors = [
-      'orangered',
-      'orange',
-      'gold',
-      'lime',
-      'green',
-      'cyan',
-      'blue',
-      'arcoblue',
-      'purple',
-      'pinkpurple',
-      'magenta',
-      'gray'
-    ];
+const emits = defineEmits<{
+  (e: 'gen'): void;
+}>();
 
+const change = ()=>{
+  setTimeout(()=>{
+    emits('gen')
+  },500)
+}
 </script>
 
 <style scoped lang="less">
