@@ -66,8 +66,12 @@ export function getLatestProjectByType(params:LatestType) {
     return defHttp.get({ url: Api.getLatestProjectByType , params:params}, { errorMessageMode: 'message' });
 }
 
-export function getUserData() {
-    return defHttp.get({ url: Api.getUserData }, { errorMessageMode: 'message' });
+export function getUserData(params:any) {
+    return defHttp.get({ url: Api.getUserData ,params:params}, { errorMessageMode: 'message' });
+}
+
+export interface UserDataParams {
+    timeRange?: number[];
 }
 
 export interface LatestType {
