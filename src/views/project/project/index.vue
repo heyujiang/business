@@ -58,19 +58,20 @@
         </a-col>
       </a-row>
       <a-table
-         row-key="id"
-        :loading="loading"
-        :pagination="pagination"
-        :columns="(cloneColumns as TableColumnData[])"
-        :data="renderData"
-        :bordered="{wrapper:true,cell:true}"
-        :size="size"
-         ellipsis="true"
-        :default-expand-all-rows="true"
-         :scroll="{ x: 2400 }"
-        ref="artable"
-        @page-change="handlePaageChange"
-        @page-size-change="handlePaageSizeChange"
+          row-key="id"
+          :loading="loading"
+          :pagination="pagination"
+          :columns="(cloneColumns as TableColumnData[])"
+          :data="renderData"
+          :bordered="{wrapper:true,cell:true}"
+          :size="size"
+          ellipsis="true"
+          :default-expand-all-rows="true"
+          :scroll="{ x: 2400 }"
+          ref="artable"
+          @page-change="handlePaageChange"
+          @page-size-change="handlePaageSizeChange"
+          @sorter-change="sorterChange"
       >
         <template #name="{ record }">
           <a-link :hoverable="false" @click="detail(record.id)">
@@ -228,6 +229,7 @@ import {computed, ref, reactive, watch, nextTick, onMounted, Ref} from 'vue';
   import {downloadByData} from "@/utils/http/download";
   import {useUserStore} from "@/store";
 import {OptionItem} from "@/api/common";
+import {string} from "vue-types";
 
   const userStore = useUserStore();
 
@@ -275,6 +277,7 @@ import {OptionItem} from "@/api/common";
     star?:number
     type?:number
     createAt?:number[]
+    sortField?:string
   }
 
   const route = useRoute()
@@ -418,6 +421,28 @@ import {OptionItem} from "@/api/common";
       console.log(error)
     }
   }
+
+  const sortMap:Map<string,string> = new Map();
+
+  const sorterChange = (dataIndex: string, direction: string) => {
+    sortMap.set(dataIndex,direction)
+
+    let arr = new Array()
+
+    formModel.value.sortField = ""
+    sortMap.forEach((value,key)=>{
+      if(value == "descend") {
+        arr.push(key+"_desc")
+      }else if (value == "ascend") {
+        arr.push(key+"_asc")
+      }
+    })
+
+    formModel.value.sortField = arr.join(",")
+
+    fetchData()
+  }
+
 </script>
 
 <script lang="ts">

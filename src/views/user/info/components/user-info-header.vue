@@ -27,7 +27,6 @@
   import { useUserStore } from '@/store';
 
   const userInfo = useUserStore();
-  console.log(userInfo.username)
 </script>
 
 <style scoped lang="less">

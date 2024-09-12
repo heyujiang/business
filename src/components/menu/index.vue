@@ -92,7 +92,7 @@
       const renderSubMenu = () => {
         function travel(_route: RouteRecordRaw[], nodes = []) {
           if (_route) {
-            console.log("router : " , _route)
+            // console.log("router : " , _route)
             _route.forEach((element) => {
               // This is demo, modify nodes as needed
               const icon = element?.meta?.icon

@@ -1,5 +1,4 @@
 <template>
-  <title>周报日报</title>
   <div class="container">
     <Breadcrumb :items="['menu.user.info', 'menu.user.weekday']" />
     <a-card class="general-card onelineCard" style="margin-bottom: 10px">

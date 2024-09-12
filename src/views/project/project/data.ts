@@ -25,6 +25,10 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       slotName: 'schedule',
       align:"center",
       width:100,
+      sortable: {
+        sortDirections: ['descend'],
+        sorter:false
+      }
     },
     {
       title: '属性',
