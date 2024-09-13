@@ -79,7 +79,7 @@
   const reportResp = ref<ReportResponseData[]>([])
 
   onMounted(() => {
-    scrollHeight.value = clientHeight.value- 255 + 'px';
+    scrollHeight.value = clientHeight.value- 275 + 'px';
     window.onresize = function (){
       clientHeight.value = document.documentElement.clientHeight
     }
@@ -95,7 +95,7 @@
   watch(
       ()=>(clientHeight.value),
       (v) => {
-        scrollHeight.value = clientHeight.value - 255 + 'px';
+        scrollHeight.value = clientHeight.value - 275 + 'px';
       },
       {}
   )
@@ -127,8 +127,6 @@
     for (let i = 0 ; i< cardNum ; i++) {
       pInfoCardHeights.value.push(pInfoCardHeights.value[i] + (document.getElementById("p-infos-"+i)?.clientHeight || 0))
     }
-    console.log(pInfoCardHeights)
-    console.log(document.getElementById("pro-card-container")?.clientHeight)
   }
 
   const pInfoScrollTop = ref<number>(0)
@@ -136,7 +134,6 @@
 
   const infoScroll = ()=> {
       pInfoScrollTop.value = document.getElementById("p-infos")?.scrollTop || 0
-      console.log(pInfoScrollTop.value)
   }
 
   const currProjectIndex = ref<number>(0)
@@ -158,7 +155,7 @@
 
 <style scoped lang="less">
   .container {
-    padding: 0 20px 20px 20px;
+    padding: 0 20px;
     height: 100%;
   }
   :deep(.general-card > .arco-card-header){

@@ -110,7 +110,6 @@ const emits = defineEmits<{
 
 
 watch(() => (props.currIndex), (val) => {
-  console.log(val)
   checkProject(val.valueOf())
 })
 
@@ -126,7 +125,6 @@ const checkProject = (index:number) => {
       }
   )
   if(index != props.currIndex){
-    console.log("index : " , index)
     let targetInfos = document.getElementById('p-infos-'+index)
     targetInfos?.scrollIntoView(
         {
