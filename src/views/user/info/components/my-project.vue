@@ -39,6 +39,9 @@
                 <span v-else-if="project.state == 3" style="color: #00bb00;">
                     {{ '已完成' }}
                </span>
+               <span v-else-if="project.state == 3" style="color: #ff0000;">
+                    {{ '终止' }}
+               </span>
               </a-tag>
               <a-divider direction="vertical" />
               <span style=""> <icon-star-fill v-for="i in project.star" :key="i" style="color: #f6c200" size="18"/></span>
