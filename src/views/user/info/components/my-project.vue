@@ -39,7 +39,7 @@
                 <span v-else-if="project.state == 3" style="color: #00bb00;">
                     {{ '已完成' }}
                </span>
-               <span v-else-if="project.state == 3" style="color: #ff0000;">
+               <span v-else-if="project.state == 4" style="color: #ff0000;">
                     {{ '终止' }}
                </span>
               </a-tag>
