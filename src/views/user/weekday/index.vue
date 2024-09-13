@@ -40,28 +40,32 @@
     <div class="scroll-f">
       <div style="width: 380px;">
         <a-scrollbar :style="{height:unref(scrollHeight)}" style="width: 100%;background-color: var(--color-bg-2);overflow: auto;border-radius: 5px">
-          <MyProject v-model:projectList="reportResp"/>
+          <MyProject v-model:projectList="reportResp" v-model:currIndex="currProjectIndex" v-model:can-scroll="pInfoCanScroll"/>
         </a-scrollbar>
       </div>
       <div style="width: calc(100% - 390px);">
-        <a-scrollbar :style="{height:unref(scrollHeight)}" style="width: 100%;background-color: var(--color-bg-2);overflow: auto;border-radius: 5px">
-          <ProjectInfos v-model:projectList="reportResp"/>
+        <a-scrollbar
+            :style="{height:unref(scrollHeight)}"
+            style="width: 100%;background-color: var(--color-bg-2);overflow: auto;border-radius: 5px"
+            @scrollend="infoScroll"
+            id="p-infos"
+        >
+          <ProjectInfos v-model:projectList="reportResp" @gen="genHeight"/>
         </a-scrollbar>
       </div>
-      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
   import MyProject from './components/my-project.vue';
   import ProjectInfos from './components/project-infos.vue';
-  import {nextTick, onMounted, ref, unref, watch} from 'vue';
+  import {computed, nextTick, onMounted, ref, unref, watch} from 'vue';
   import dayjs from 'dayjs';
   import { getUserOptions } from '@/api/user';
   import {Report, ReportResponseData, ReportSearch} from "@/api/report";
   import {useUserStore} from "@/store";
   import {Message} from "@arco-design/web-vue";
-  import {del} from "@/api/system/node";
 
   const userStore = useUserStore();
 
@@ -75,10 +79,9 @@
   const reportResp = ref<ReportResponseData[]>([])
 
   onMounted(() => {
-    scrollHeight.value = clientHeight.value- 255 + 'px';
+    scrollHeight.value = clientHeight.value- 275 + 'px';
     window.onresize = function (){
-      scrollHeight.value = clientHeight.value- 255 + 'px';
-      console.log(scrollHeight.value)
+      clientHeight.value = document.documentElement.clientHeight
     }
 
     fetchUserOptions()
@@ -92,8 +95,7 @@
   watch(
       ()=>(clientHeight.value),
       (v) => {
-        console.log(scrollHeight.value)
-        scrollHeight.value = v - 480 + 'px';
+        scrollHeight.value = clientHeight.value - 275 + 'px';
       },
       {}
   )
@@ -110,13 +112,50 @@
     }catch (error){
       console.log(error)
     }
-
   }
+
+  watch(()=>reportResp.value,
+      ()=>{
+        nextTick(()=>{genHeight()})
+        pInfoScrollTop.value = 0
+      })
+
+  const pInfoCardHeights = ref<number[]>([0])
+  const genHeight = () => {
+    pInfoCardHeights.value = [0]
+    let cardNum = document.getElementById("pro-card-container")?.childElementCount || 0
+    for (let i = 0 ; i< cardNum ; i++) {
+      pInfoCardHeights.value.push(pInfoCardHeights.value[i] + (document.getElementById("p-infos-"+i)?.clientHeight || 0))
+    }
+  }
+
+  const pInfoScrollTop = ref<number>(0)
+  const pInfoCanScroll = ref<boolean>(true)
+
+  const infoScroll = ()=> {
+      pInfoScrollTop.value = document.getElementById("p-infos")?.scrollTop || 0
+  }
+
+  const currProjectIndex = ref<number>(0)
+  watch(
+      ()=>pInfoScrollTop.value,
+      (val)=>{
+        for(let i = 0 ; i < pInfoCardHeights.value.length ; i++ ){
+          if(val < pInfoCardHeights.value[i]) {
+            let idx = i > 0 ? i-1 : i
+            if (currProjectIndex.value != idx) {
+              currProjectIndex.value = idx
+            }
+            return
+          }
+        }
+      })
+
 </script>
 
 <style scoped lang="less">
   .container {
-    padding: 0 20px 20px 20px;
+    padding: 0 20px;
     height: 100%;
   }
   :deep(.general-card > .arco-card-header){

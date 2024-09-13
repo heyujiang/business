@@ -6,7 +6,7 @@
         @click="checkProject(index)"
         v-for="(project, index) in projectList"
         :key="index"
-        :id="['project_'+index]"
+        :id="['pro-'+index]"
         :hoverable="false"
     >
       <template #title>
@@ -70,11 +70,6 @@
           </span>
         </div>
 
-        <!-- <div class="project-card-desc">
-          <a-typography-text :ellipsis="{rows:2}">
-            {{ project.basic.description }}
-          </a-typography-text>
-        </div> -->
         <a-divider dashed/>
         <div>
           <ProjectTotal :total="{record:project.recordTotal,attached:project.attachedTotal}"/>
@@ -95,40 +90,51 @@
 </template>
 
 <script lang="ts" setup>
-import {defineProps, ref, unref, withDefaults} from "vue";
+import {defineEmits, defineProps, ref, unref, watch, withDefaults} from "vue";
 import {ReportResponseData} from "@/api/report";
 import ProjectTotal from "@/views/user/weekday/components/project-total.vue";
-import router from "@/router";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
       projectList: ReportResponseData[];
+      currIndex:Number,
+      canScroll:Boolean,
     }>(),
     {}
 );
 
+const emits = defineEmits<{
+  (e: 'update:canScroll', val: boolean): void;
+  (e: 'update:currIndex', val: number): void;
+}>();
+
+
+watch(() => (props.currIndex), (val) => {
+  checkProject(val.valueOf())
+})
+
 const activeProject = ref<number>(0)
+
 const checkProject = (index:number) => {
   activeProject.value = index
-
-  let targetInfos = document.getElementById('infos_'+index)
-  console.log(targetInfos)
-  targetInfos?.scrollIntoView(
+  let targetPro = document.getElementById('pro-'+index)
+  targetPro?.scrollIntoView(
       {
         behavior: 'smooth',
-        block: 'start',
+        block: 'center',
       }
   )
+  if(index != props.currIndex){
+    let targetInfos = document.getElementById('p-infos-'+index)
+    targetInfos?.scrollIntoView(
+        {
+          behavior: 'smooth',
+          block: 'start',
+        }
+    )
+  }
 }
 
-const viewDetail = (projectId: number) => {
-  router.push({
-    path: "/project/detail",
-    query: {
-      id: projectId,
-    }
-  });
-}
 </script>
 
 <style scoped lang="less">

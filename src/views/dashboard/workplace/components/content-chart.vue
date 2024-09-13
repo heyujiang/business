@@ -8,45 +8,53 @@
       }"
       title="员工数据"
     >
-<!--      <template #extra>-->
-<!--        <a-link>{{ $t('workplace.viewMore') }}</a-link>-->
-<!--      </template>-->
-      <Chart height="289px" :option="chartOption" @click="clickChart"/>
+      <template #extra>
+        <a-range-picker
+            style="width: 250px;"
+            v-model="searchForm.timeRange"
+            value-format="timestamp"
+            format="YYYY-MM-DD"
+            @change="dateChange"
+            :shortcuts="[
+                    {
+                      label: '当日',
+                      value: () => [dayjs().startOf('day').toDate(),dayjs().startOf('day').add(1,'day').toDate()],
+                    },
+                    {
+                      label: '近7天',
+                      value: () => [dayjs().startOf('day').add(-6, 'day').toDate(), dayjs().startOf('day').add(1,'day').toDate()],
+                    },
+                    {
+                      label: '近30天',
+                      value: () => [dayjs().startOf('day').add(-29, 'day').toDate(),dayjs().startOf('day').add(1,'day').toDate()],
+                    },
+                  ]"/>
+      </template>
+      <div v-if="loading" style="height: 289px;width: 100%;text-align: center;line-height: 289px"><a-spin></a-spin></div>
+      <Chart v-else height="289px" :option="chartOption" @click="clickChart"/>
     </a-card>
   </a-spin>
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
-  import { graphic } from 'echarts';
+  import {onMounted, ref} from 'vue';
   import useLoading from '@/hooks/loading';
-  import { queryContentData, ContentDataRecord } from '@/api/dashboard';
   import useChartOption from '@/hooks/chart-option';
-  import { ToolTipFormatterParams } from '@/types/echarts';
-  import { AnyObject } from '@/types/global';
-  import {getUserData} from "@/api/dashboard/workplace";
+  import {getUserData, UserDataParams} from "@/api/dashboard/workplace";
   import router from "@/router";
+  import dayjs from "dayjs";
+  import {CalendarValue} from "@arco-design/web-vue/es/date-picker/interface";
 
-  function graphicFactory(side: AnyObject) {
-    return {
-      type: 'text',
-      bottom: '8',
-      ...side,
-      style: {
-        text: '',
-        textAlign: 'center',
-        fill: '#4E5969',
-        fontSize: 12,
-      },
-    };
-  }
+  const searchForm = ref<UserDataParams>({
+    timeRange:[dayjs().startOf('day').add(-6, 'day').valueOf(),dayjs().startOf('day').add(1,'day').valueOf()]
+  })
+
+
   const { loading, setLoading } = useLoading(true);
   const xAxis = ref<string[]>([]);
   const seriesProject = ref<number[]>([]);
   const seriesRecord = ref<number[]>([]);
   const seriesAttached = ref<number[]>([]);
-
-  const chartRef = ref();
 
   const { chartOption } = useChartOption(() => {
     return {
@@ -104,22 +112,23 @@
   const fetchData = async () => {
     setLoading(true);
     try {
-      const data = await getUserData();
+      const data = await getUserData(searchForm.value);
       xAxis.value  = data.usernames
       seriesProject.value = data.projectCounts
       seriesRecord.value = data.recordCounts
       seriesAttached.value =data.attachedCounts
-
     } catch (err) {
-      // you can report use errorHandler or other
+      console.log(err)
     } finally {
       setLoading(false);
     }
   };
-  fetchData();
+
+  onMounted(()=>{
+    fetchData();
+  })
 
   const clickChart = (params:any)=>{
-    console.log(params)
     if(params.seriesName == '项目'){
       router.push({
         path:'/project/project',
@@ -136,6 +145,11 @@
       })
     }
 
+  }
+
+  const dateChange = (value: (CalendarValue | undefined)[] | undefined, date: (Date | undefined)[] | undefined, dateString: (string | undefined)[] | undefined) => {
+    searchForm.value.timeRange = value?.map(Number)
+    fetchData()
   }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <a-collapse :default-active-key="['1']">
+  <a-collapse :default-active-key="['1']" @change="change">
     <a-collapse-item  key="1">
       <template #header>
         <span style="font-weight: bolder">提交记录</span>
@@ -33,7 +33,7 @@
 </template>
 <script setup lang="ts">
 import {ProjectRecordTableColumns} from "@/views/user/weekday/data";
-import {defineProps, withDefaults} from "vue";
+import {defineEmits, defineProps, withDefaults} from "vue";
 import {reportRecord} from "@/api/report";
 
 withDefaults(
@@ -42,6 +42,16 @@ withDefaults(
     }>(),
     {}
 );
+
+const emits = defineEmits<{
+  (e: 'gen'): void;
+}>();
+
+const change = ()=>{
+  setTimeout(()=>{
+    emits('gen')
+  },500)
+}
 
 </script>
 
