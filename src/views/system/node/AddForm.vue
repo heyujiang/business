@@ -13,6 +13,21 @@
             </a-select>
           </a-form-item>
         </a-col>
+
+        <a-col :span="24" v-show="!isUpdate">
+          <a-form-item label="同步所有项目" field="syncAll" style="margin-bottom:15px;">
+            <a-radio-group type="button" v-model="formData.syncAll">
+              <a-radio :value="1">是</a-radio>
+              <a-radio :value="0">否</a-radio>
+            </a-radio-group>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24" v-show="!isUpdate && formData.syncAll == 0">
+          <a-form-item label="同步项目" field="projectIds" style="margin-bottom:15px;">
+            <a-select placeholder="选择需要同步的项目" :options="projectList" allow-clear allow-search v-model="formData.projectIds" multiple>
+            </a-select>
+          </a-form-item>
+        </a-col>
         <a-col :span="12">
           <a-form-item label="排序" field="sort" style="margin-bottom:15px;">
             <a-input-number v-model="formData.sort" placeholder="请填排序" />
@@ -30,9 +45,10 @@
   import { useI18n } from 'vue-i18n';
   import { cloneDeep } from 'lodash-es';
   //api
-  import { getParent, save,update,NodeOption,NodeSaveItem } from '@/api/system/node';
+  import { getParent, save, getSyncProjectOptions ,update,NodeOption,NodeSaveItem ,NodeUpdateItem} from '@/api/system/node';
   import { IconPicker ,Icon} from '@/components/Icon';
   import { Message } from '@arco-design/web-vue';
+
   export default defineComponent({
     name: 'AddBook',
     components: { BasicModal,IconPicker,Icon },
@@ -41,12 +57,13 @@
       const { t } = useI18n();
       const isUpdate = ref(false);
       const parentList = ref<NodeOption[]>([]);
+      const projectList = ref<NodeOption[]>([]);
       //表单
       const formRef = ref<FormInstance>();
       //表单字段
       const recordId = ref(0)
 
-      const formData = ref<NodeSaveItem>({})
+      const formData = ref<NodeSaveItem | NodeUpdateItem>({syncAll:1})
 
       const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
           formRef.value?.resetFields()
@@ -63,7 +80,11 @@
 
           if (unref(isUpdate)) {
             recordId.value = data.record.id
-            formData.value=cloneDeep(data.record)
+            formData.value.name = data.record.name
+            formData.value.pid = data.record.pid
+            formData.value.sort = data.record.sort
+          }else {
+            projectList.value = await getSyncProjectOptions()
           }
       });
       const getTitle = computed(() => (!unref(isUpdate) ? '新增节点' : '编辑节点'));
@@ -98,6 +119,8 @@
         loading,
         formData,
         parentList,
+        projectList,
+        isUpdate,
         t,
         OYoptions:[
           { label: '否', value: 0 },

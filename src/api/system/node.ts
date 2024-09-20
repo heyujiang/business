@@ -11,7 +11,8 @@ enum Api {
     update = '/api/node/',
     upStatus = '/system/rule/upStatus',
     del = '/api/node/',
-    nodeOptions = '/api/node/options'
+    nodeOptions = '/api/node/options',
+    syncProjectOptions = '/api/node/projectOptions'
 }
 
 //菜单选择菜单
@@ -23,11 +24,11 @@ export function getParent() {
   return defHttp.get({ url: Api.getParent }, { errorMessageMode: 'none' });
 }
 //提交菜单
-export function save(params: object) {
+export function save(params: NodeSaveItem) {
     return defHttp.post({ url: Api.save, params:params}, { errorMessageMode: 'message' });
 }
 
-export function update(id: number,params: object) {
+export function update(id: number,params: NodeUpdateItem) {
     return defHttp.post({ url: Api.update + id, params:params}, { errorMessageMode: 'message' });
 }
 
@@ -45,6 +46,11 @@ export function getNodeOptions() {
     return defHttp.get({ url: Api.nodeOptions}, { errorMessageMode: 'none' });
 }
 
+//获取可以永不新增节点的羡慕
+export function getSyncProjectOptions() {
+    return defHttp.get({ url: Api.syncProjectOptions}, { errorMessageMode: 'none' });
+}
+
 /**数据类型 */
 export interface NodeOption {
     value:number,
@@ -52,7 +58,17 @@ export interface NodeOption {
 }
 
 export interface NodeSaveItem {
-    name:string,
-    pid:number,
-    sort:number,
+    name?:string,
+    pid?:number,
+    sort?:number,
+    syncAll?:number,
+    projectIds?:number[]
 }
+
+export interface NodeUpdateItem {
+    name?:string,
+    pid?:number,
+    sort?:number,
+}
+
+
