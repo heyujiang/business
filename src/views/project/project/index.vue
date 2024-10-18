@@ -10,6 +10,7 @@
             <a-select :style="{width:'220px'}"  v-model="formModel.star" :options="starOptions" placeholder="星级" allow-clear />
             <a-select :style="{width:'220px'}"  v-model="formModel.type" :options="typeOptions" placeholder="类型" allow-clear />
             <a-range-picker style="width: 240px" value-format="timestamp" v-model="formModel.createdAt" allow-clear/>
+            <a-switch></a-switch>
             <a-button type="primary" @click="search">
               <template #icon>
                 <icon-search />
@@ -77,6 +78,9 @@
           <a-link :hoverable="false" @click="detail(record.id)">
             {{ record.name}}
           </a-link>
+        </template>
+        <template #isAudit="{ record }">
+          <a-switch :default-checked="record.isAudit == 1" disabled></a-switch>
         </template>
         <template #star="{ record }">
           <icon-star-fill v-for="i in record.star" :key="i" style="color: #f6c200" size="18"/>
@@ -196,6 +200,10 @@
           <a-popconfirm content="您确定要删除吗?" @ok="handleDel(record)">
             <Icon icon="svgfont-icon7" class="iconbtn" :size="18" color="#ed6f6f"></Icon>
           </a-popconfirm>
+          <a-divider direction="vertical" v-if="record.isAudit != 0"/>
+          <a-popconfirm content="您确定要通过审核吗?" @ok="handleAudit(record)" v-if="record.isAudit != 0">
+            <Icon icon="icon-stamp" class="iconbtn" :size="18" color="red"></Icon>
+          </a-popconfirm>
         </template>
       </a-table>
     </a-card>
@@ -207,7 +215,7 @@
 <script lang="ts" setup>
 import {computed, ref, reactive, watch, nextTick, onMounted, Ref} from 'vue';
   import useLoading from '@/hooks/loading';
-  import { getList,del ,exportProject} from '@/api/project/project';
+import {getList, del, exportProject, audit} from '@/api/project/project';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
   import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
   import cloneDeep from 'lodash/cloneDeep';
@@ -276,7 +284,7 @@ import {string} from "vue-types";
     userId?:number
     star?:number
     type?:number
-    createAt?:number[]
+    createdAt?:number[]
     sortField?:string
   }
 
@@ -421,6 +429,22 @@ import {string} from "vue-types";
       console.log(error)
     }
   }
+
+  const handleAudit = async (record:any)=>{
+    try {
+      Message.warning({content:"正在开发中，敬请期待......",id:"upStatus"})
+       // Message.loading({content:"提交中",id:"upStatus"})
+       // const res= await audit(record.id);
+       // if(res){
+       //   Message.success({content:"提交成功",id:"upStatus"})
+       //   record.isAudit = 1
+       // }
+    }catch (error) {
+      console.log(error)
+    }
+  }
+
+
 
   const sortMap:Map<string,string> = new Map();
 

@@ -20,6 +20,14 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
       minWidth: 100,
     },
     {
+      title: '审核',
+      dataIndex: 'isAudit',
+      slotName: 'isAudit',
+      align:"center",
+      width: 200,
+      minWidth: 100,
+    },
+    {
       title: '进度',
       dataIndex: 'schedule',
       slotName: 'schedule',

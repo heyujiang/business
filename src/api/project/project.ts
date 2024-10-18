@@ -15,6 +15,7 @@ enum Api {
     save = '/api/project',
     update = '/api/project/',
     del = '/api/project/',
+    audit = '/api/project/audit/',
     getProjectInfo = '/api/project/',
     getProjectNodes = '/api/project/nodes/',
     getProjectContacts = '/api/project/contact/',
@@ -62,6 +63,10 @@ export function update(id:number,params: any) {
 //删除数据
 export function del(id: number) {
     return defHttp.delete({ url: Api.del + id}, { errorMessageMode: 'message' });
+}
+
+export function audit(id: number) {
+    return defHttp.post({ url: Api.audit + id}, { errorMessageMode: 'message' });
 }
 
 export function getProjectInfo(id: number) {
