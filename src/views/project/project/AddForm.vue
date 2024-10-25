@@ -108,24 +108,25 @@
       const formRef = ref<FormInstance>();
       //ID
       const projectId = ref(0);
-      //表单字段
-      const basedata={
-        name: '',
-        description: '',
-        attr: '',
-        type: '',
-        state: '',
-        capacity: 0,
-        properties: '',
-        area:0,
-        address:'',
-        connect:'',
-        star:1,
-        investmentAgreement:'',
-        businessCondition:'',
-        beginTime:0,
+
+      interface projectAddDataI {
+        name?:string
+        description?:string
+        attr?:string
+        type?:string
+        state?:string
+        capacity?:number | undefined
+        properties?:string
+        area?:number | undefined
+        address?:string
+        connect?:string
+        star?:number
+        investmentAgreement?:string
+        businessCondition?:string
+        beginTime?:number | undefined
       }
-      const formData = ref(basedata)
+
+      const formData = ref<projectAddDataI>({star:1})
       const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
           formRef.value?.resetFields()
           setModalProps({ confirmLoading: false });
@@ -133,8 +134,6 @@
           if (unref(isUpdate)) {
             projectId.value = data.record.id
             formData.value=cloneDeep(data.record)
-          }else{
-            formData.value=basedata
           }
       });
       const getTitle = computed(() => (!unref(isUpdate) ? '新增项目' : '编辑项目'));

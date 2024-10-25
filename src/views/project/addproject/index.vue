@@ -41,12 +41,12 @@
                 </a-form-item>
               </a-col>
               <a-col :span="12">
-                <a-form-item field="capacity" label="容量：MW" validate-trigger="input" :rules="[{required:true,message:'请填写容量大小'}]" style="margin-bottom:15px;">
+                <a-form-item field="capacity" label="容量：MW" validate-trigger="blur" :rules="[{required:true,message:'请填写容量大小'}]" style="margin-bottom:15px;">
                   <a-input-number v-model="formData.capacity" :step="10.00" placeholder="请填写容量大小:单位MW"  allow-clear/>
                 </a-form-item>
               </a-col>
               <a-col :span="12">
-                <a-form-item field="area" label="土地:亩" validate-trigger="input" :rules="[{required:true,message:'请填写土地面积'}]" style="margin-bottom:15px;">
+                <a-form-item field="area" label="土地:亩" validate-trigger="blur" :rules="[{required:true,message:'请填写土地面积'}]" style="margin-bottom:15px;">
                   <a-input-number v-model="formData.area" :step="10.00" placeholder="请填写土地面积:单位亩"  allow-clear/>
                 </a-form-item>
               </a-col>
@@ -226,14 +226,14 @@ const baseData={
   attr: '',
   type: '',
   state: '',
-  capacity: 0,
+  capacity: '',
   properties: '',
-  area:0,
+  area:'',
   address:'',
   connect:'',
   investmentAgreement:'',
   businessCondition:'',
-  beginTime:0,
+  beginTime:'',
   star:1,
   contact:[{}],
   person:[{}],
@@ -335,6 +335,7 @@ const addPerson = () => {
 
 const keepCreate = () => {
   formData.value =  ref(baseData)
+  formData.value.star = 1
   current.value = 1
 }
 

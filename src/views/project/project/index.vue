@@ -9,8 +9,9 @@
             <a-select :style="{width:'220px'}" v-if="userStore.isSuper || userStore.isSystem"  v-model="formModel.userId" :options="userOptions" placeholder="负责人" allow-clear />
             <a-select :style="{width:'220px'}"  v-model="formModel.star" :options="starOptions" placeholder="星级" allow-clear />
             <a-select :style="{width:'220px'}"  v-model="formModel.type" :options="typeOptions" placeholder="类型" allow-clear />
+            <a-select :style="{width:'220px'}"  v-model="formModel.state" :options="stateOptions" placeholder="状态" allow-clear />
             <a-range-picker style="width: 240px" value-format="timestamp" v-model="formModel.createdAt" allow-clear/>
-            <a-switch></a-switch>
+            <a-switch v-model="formModel.isAudit" :checked-value="1" :unchecked-value="0"></a-switch>
             <a-button type="primary" @click="search">
               <template #icon>
                 <icon-search />
@@ -80,7 +81,7 @@
           </a-link>
         </template>
         <template #isAudit="{ record }">
-          <a-switch :default-checked="record.isAudit == 1" disabled></a-switch>
+          <a-switch v-model:model-value="record.isAudit" :checked-value="1" :unchecked-value="0" disabled></a-switch>
         </template>
         <template #star="{ record }">
           <icon-star-fill v-for="i in record.star" :key="i" style="color: #f6c200" size="18"/>
@@ -200,8 +201,8 @@
           <a-popconfirm content="您确定要删除吗?" @ok="handleDel(record)">
             <Icon icon="svgfont-icon7" class="iconbtn" :size="18" color="#ed6f6f"></Icon>
           </a-popconfirm>
-          <a-divider direction="vertical" v-if="record.isAudit != 0"/>
-          <a-popconfirm content="您确定要通过审核吗?" @ok="handleAudit(record)" v-if="record.isAudit != 0">
+          <a-divider direction="vertical" v-if="record.isAudit == 0"/>
+          <a-popconfirm content="您确定要通过审核吗?" @ok="handleAudit(record)" v-if="record.isAudit == 0">
             <Icon icon="icon-stamp" class="iconbtn" :size="18" color="red"></Icon>
           </a-popconfirm>
         </template>
@@ -231,7 +232,7 @@ import {getList, del, exportProject, audit} from '@/api/project/project';
   import { Pagination } from '@/types/global';
   import { getUserOptions } from '@/api/user';
   import router from "@/router";
-  import {typeOptions , starOptions , statusOptions} from "@/views/project/data"
+import {typeOptions, starOptions, statusOptions, stateOptions} from "@/views/project/data"
   import {useRoute} from "vue-router";
   import {writeFileXLSX} from "xlsx";
   import {downloadByData} from "@/utils/http/download";
@@ -286,6 +287,8 @@ import {string} from "vue-types";
     type?:number
     createdAt?:number[]
     sortField?:string
+    state?:number
+    isAudit?:number
   }
 
   const route = useRoute()
@@ -432,13 +435,12 @@ import {string} from "vue-types";
 
   const handleAudit = async (record:any)=>{
     try {
-      Message.warning({content:"正在开发中，敬请期待......",id:"upStatus"})
-       // Message.loading({content:"提交中",id:"upStatus"})
-       // const res= await audit(record.id);
-       // if(res){
-       //   Message.success({content:"提交成功",id:"upStatus"})
-       //   record.isAudit = 1
-       // }
+       Message.loading({content:"提交中",id:"upStatus"})
+       const res= await audit(record.id);
+       if(res){
+         Message.success({content:"提交成功",id:"upStatus"})
+         record.isAudit = 1
+       }
     }catch (error) {
       console.log(error)
     }
