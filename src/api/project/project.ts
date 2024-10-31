@@ -65,8 +65,8 @@ export function del(id: number) {
     return defHttp.delete({ url: Api.del + id}, { errorMessageMode: 'message' });
 }
 
-export function audit(id: number) {
-    return defHttp.post({ url: Api.audit + id}, { errorMessageMode: 'message' });
+export function audit(id: number , params:any) {
+    return defHttp.post({ url: Api.audit + id , params:params}, { errorMessageMode: 'message' });
 }
 
 export function getProjectInfo(id: number) {

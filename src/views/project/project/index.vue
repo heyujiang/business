@@ -11,7 +11,7 @@
             <a-select :style="{width:'220px'}"  v-model="formModel.type" :options="typeOptions" placeholder="类型" allow-clear />
             <a-select :style="{width:'220px'}"  v-model="formModel.state" :options="stateOptions" placeholder="状态" allow-clear />
             <a-range-picker style="width: 240px" value-format="timestamp" v-model="formModel.createdAt" allow-clear/>
-            <a-switch v-model="formModel.isAudit" :checked-value="1" :unchecked-value="0"></a-switch>
+            <a-switch v-model="formModel.isAudit" :checked-value="1" :unchecked-value="0" @change="handleAuditSearch"></a-switch>
             <a-button type="primary" @click="search">
               <template #icon>
                 <icon-search />
@@ -81,7 +81,7 @@
           </a-link>
         </template>
         <template #isAudit="{ record }">
-          <a-switch v-model:model-value="record.isAudit" :checked-value="1" :unchecked-value="0" disabled></a-switch>
+          <a-switch v-model:model-value="record.isAudit" :checked-value="1" :unchecked-value="0" @change="handleAudit($event,record.id)"></a-switch>
         </template>
         <template #star="{ record }">
           <icon-star-fill v-for="i in record.star" :key="i" style="color: #f6c200" size="18"/>
@@ -200,10 +200,6 @@
           <a-divider direction="vertical" />
           <a-popconfirm content="您确定要删除吗?" @ok="handleDel(record)">
             <Icon icon="svgfont-icon7" class="iconbtn" :size="18" color="#ed6f6f"></Icon>
-          </a-popconfirm>
-          <a-divider direction="vertical" v-if="record.isAudit == 0"/>
-          <a-popconfirm content="您确定要通过审核吗?" @ok="handleAudit(record)" v-if="record.isAudit == 0">
-            <Icon icon="icon-stamp" class="iconbtn" :size="18" color="red"></Icon>
           </a-popconfirm>
         </template>
       </a-table>
@@ -433,18 +429,21 @@ import {string} from "vue-types";
     }
   }
 
-  const handleAudit = async (record:any)=>{
+  const handleAudit = async (isAudit:number, id:number)=>{
     try {
        Message.loading({content:"提交中",id:"upStatus"})
-       const res= await audit(record.id);
+       const res= await audit(id , {isAudit:isAudit});
        if(res){
          Message.success({content:"提交成功",id:"upStatus"})
-         record.isAudit = 1
        }
     }catch (error) {
       console.log(error)
     }
   }
+
+const handleAuditSearch = async ()=>{
+  fetchData();
+}
 
 
 
