@@ -33,6 +33,7 @@
            </template>
           <p style="font-weight: bold">{{ sonNode.name }}</p>
            <template #actions>
+             <span class="icon-hover" @click="createRecord(sonNode.nodeId)"> <icon-robot-add />  </span>
              <span class="icon-hover" @click="viewRecord(sonNode.nodeId)"> <icon-computer /> {{ sonNode.recordTotal }} </span>
              <span class="icon-hover" @click="viewAttached(sonNode.nodeId)"> <icon-file /> {{ sonNode.attachedTotal }} </span>
            </template>
@@ -43,6 +44,7 @@
 <!--  <div style="width: 100%;height: 30px;background-color: #fff;margin-bottom: 20px;margin-top: -10px;border-radius: 0 0 4px 4px" ></div>-->
   <Attached v-model:visible="visible" :search="{projectId:projectId,nodeId:aNodeId}" :showUpload="false"/>
   <Record v-model:visible="recordVisible" :search="{projectId:projectId,nodeId:aNodeId}"/>
+  <AddForm @register="registerModal" @success="handleData"/>
 </template>
 
 <script lang="ts" setup>
@@ -50,7 +52,10 @@ import {computed, ref , unref} from "vue"
 import {getProjectNodes} from '@/api/project/project';
 import Attached from '../../../components/Attached.vue'
 import Record from '../../../components/Record.vue';
+import AddForm from '../../../project_ing/AddForm.vue';
+import {useModal} from "@/components/Modal";
 
+const [registerModal, {openModal}] = useModal();
 
 const props = defineProps({
   projectId: {
@@ -87,6 +92,17 @@ const viewAttached = async (nodeId: number) => {
 const viewRecord = async (nodeId: number) => {
   recordVisible.value = true
   aNodeId.value = nodeId
+}
+
+//添加菜单
+const createRecord = (nodeId) => {
+  openModal(true, {
+    isUpdate: false,
+    record: {
+      projectId:projectId,
+      nodeId:nodeId,
+    }
+  });
 }
 
 </script>

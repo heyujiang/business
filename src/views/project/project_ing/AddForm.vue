@@ -34,8 +34,8 @@
           </a-form-item>
         </a-col>
         <a-col :span="10" v-if="!isUpdate">
-          <a-form-item field="properties" label="添加附件" validate-trigger="input" style="margin-bottom:15px;">
-            <a-upload  :custom-request="customRequest"  placeholder="点击添加附件" :file-list="defaultFileList"  allow-clear/>
+          <a-form-item field="file" label="添加附件" validate-trigger="input"  :rules="[{required:true,message:'请上传文件'}]" style="margin-bottom:15px;">
+            <a-upload  :custom-request="customRequest" @before-remove="removeFile" placeholder="点击添加附件" :file-list="defaultFileList"  allow-clear/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -99,6 +99,13 @@ export default defineComponent({
         projectChange(data.record.projectId)
       }else{
         formData.value=basedata
+
+        formData.value.projectId = data.record.projectId
+        formData.value.nodeId = data.record.nodeId
+        if(data.record.projectId > 0){
+          projectChange(data.record.projectId)
+        }
+
         defaultFileList.value = []
       }
     });
@@ -151,6 +158,17 @@ export default defineComponent({
     const onChange=(fileList:any)=>{
       console.log("fileList",fileList)
     }
+
+    const removeFile=(file:any)=>{
+      console.log(file)
+      console.log("remove file")
+
+      return new Promise((resolve, reject) => {
+        formData.value.file = undefined
+        resolve(true)
+      });
+    }
+
     //上传附件
     const customRequest = (options: RequestOption) => {
       // docs: https://axios-http.com/docs/cancellation
@@ -183,6 +201,7 @@ export default defineComponent({
               formData.value.file = uploadRes.data
             }
           }
+          formRef.value?.validateField("file")
         } catch (error) {
           onError(error);
         }
@@ -212,6 +231,7 @@ export default defineComponent({
       onChange,
       customRequest,
       defaultFileList,
+      removeFile,
     };
   },
 });
