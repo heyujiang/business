@@ -31,7 +31,7 @@
                </span>
              </a-tag>
            </template>
-          <p style="font-weight: bold">{{ sonNode.name }}</p>
+           <p style="font-weight: bold ; margin: 2px;">{{ sonNode.name }}</p>
            <template #actions>
              <span class="icon-hover" @click="createRecord(sonNode.nodeId)"> <icon-robot-add />  </span>
              <span class="icon-hover" @click="viewRecord(sonNode.nodeId)"> <icon-computer /> {{ sonNode.recordTotal }} </span>
@@ -44,7 +44,7 @@
 <!--  <div style="width: 100%;height: 30px;background-color: #fff;margin-bottom: 20px;margin-top: -10px;border-radius: 0 0 4px 4px" ></div>-->
   <Attached v-model:visible="visible" :search="{projectId:projectId,nodeId:aNodeId}" :showUpload="false"/>
   <Record v-model:visible="recordVisible" :search="{projectId:projectId,nodeId:aNodeId}"/>
-  <AddForm @register="registerModal" @success="handleData"/>
+  <AddForm @register="registerModal" @success="fetchNodes"/>
 </template>
 
 <script lang="ts" setup>
@@ -95,7 +95,7 @@ const viewRecord = async (nodeId: number) => {
 }
 
 //添加菜单
-const createRecord = (nodeId) => {
+const createRecord = (nodeId:number) => {
   openModal(true, {
     isUpdate: false,
     record: {
@@ -122,4 +122,15 @@ const createRecord = (nodeId) => {
 .son-node-card:hover{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+:deep(.arco-card-header) {
+  padding: 0 5px;
+}
+:deep(.arco-card-body) {
+  padding: 0 5px 10px 5px;
+}
+:deep(.arco-card-actions ) {
+  margin-top:  5px;
+}
+
 </style>
