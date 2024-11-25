@@ -33,7 +33,7 @@
            </template>
            <p style="font-weight: bold ; margin: 2px;">{{ sonNode.name }}</p>
            <template #actions>
-             <span class="icon-hover" @click="createRecord(sonNode.nodeId)"> <icon-robot-add />  </span>
+             <span class="icon-hover" @click="createRecord(sonNode.nodeId)"> <a-tooltip content="新增记录" mini><icon-robot-add /> </a-tooltip>   </span>
              <span class="icon-hover" @click="viewRecord(sonNode.nodeId)"> <icon-computer /> {{ sonNode.recordTotal }} </span>
              <span class="icon-hover" @click="viewAttached(sonNode.nodeId)"> <icon-file /> {{ sonNode.attachedTotal }} </span>
            </template>
