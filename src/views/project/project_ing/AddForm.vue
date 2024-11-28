@@ -140,6 +140,7 @@ export default defineComponent({
 
     const handleClose = () => {
       formData.value=basedata
+      defaultFileList.value = []
     }
 
     const projectOption = ref([]);
